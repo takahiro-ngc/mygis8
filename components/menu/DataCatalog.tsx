@@ -93,6 +93,7 @@ export default function DataCatalog({
       style={{
         overflow: "auto",
         padding: "0px 8px 0px 16px",
+        // height: "fit-content%",
         height: "100%",
       }}
     >

@@ -53,7 +53,7 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
           style={{
             zIndex: 1,
             width: 380,
-            height: "100%",
+            height: "calc(100vh - 48px)", //48=headerheight
             display: "flex",
             flexDirection: "column",
           }}
@@ -68,7 +68,8 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
           />
           <Resizable
             defaultSize={{
-              width: "100%",
+              // width: "100%",
+              width: "calc(100vh - 48px)",
               height: 200,
             }}
             minHeight={48}
