@@ -50,7 +50,7 @@ export default function FeatureInfo({ feature, setFeature }) {
                   {ReactHtmlParser(row[1])}
                   {isImage(row[1]) && (
                     <div>
-                      <a href={`${row[1]}`} target="_blank">
+                      <a href={`${row[1]}`} target="_blank" rel="noreferrer">
                         <img
                           src={`${row[1]}`}
                           width={200}

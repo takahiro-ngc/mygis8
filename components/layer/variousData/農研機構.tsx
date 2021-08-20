@@ -7,7 +7,7 @@ const html = (
     迅速測図（じんそくそくず）とは、日本において明治時代初期から中期にかけて大日本帝国陸軍参謀本部陸地測量部によって作成された簡易地図です。
     <br />
     出典：
-    <a href={srcUrl} target="_blank">
+    <a href={srcUrl} target="_blank" rel="noreferrer">
       農研機構
     </a>
   </div>
