@@ -54,7 +54,7 @@ const LayerInfo = ({ node }) => {
       {node.legendUrl && (
         <>
           <b>凡例</b>
-          <a href={node.legendUrl} target="_blank" rel="noopener noreferrer">
+          <a href={node.legendUrl} target="_blank" rel="noreferrer">
             {node.legendUrl}
           </a>
         </>
