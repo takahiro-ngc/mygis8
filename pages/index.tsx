@@ -49,7 +49,6 @@ export default function Home() {
           .flex {
             display: flex;
             flex-direction: column;
-            height: 100vh;
           }
         `}
       </style>

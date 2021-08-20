@@ -33,79 +33,80 @@ export default function DataCatalog({
     }));
 
   const renderIdList = layers.map((elm) => elm.id);
+  const toggleLayer = (node) =>
+    renderIdList.includes(node.id) ? deleteLayer(node.id) : addLayer(node.id);
 
-  const renderTree = (nodes, parentIndex = "") =>
-    nodes.map((node, index) => (
-      <TreeItem
-        key={parentIndex + index}
-        nodeId={parentIndex + index}
-        onLabelClick={() =>
-          node.type === "LayerGroup"
-            ? null
-            : renderIdList.includes(node.id)
-            ? deleteLayer(node.id)
-            : addLayer(node.id)
-        }
-        label={
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              // minHeight: "30px", //アイコンの有無で高さが異なるのを防ぐ
-            }}
-          >
-            <div style={{ marginRight: "auto" }}>
-              {node.title}
-              {node.fileType && (
-                <Chip label={node.fileType} variant="outlined" size="small" />
+  const renderTree = (nodes, parentIndex = 0) =>
+    nodes.map((node, index) => {
+      const newIndex = parentIndex + "_" + index;
+      return (
+        <TreeItem
+          key={newIndex}
+          nodeId={newIndex}
+          onLabelClick={() => (node.layerType ? toggleLayer(node) : null)}
+          label={
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                // minHeight: "30px", //アイコンの有無で高さが異なるのを防ぐ
+              }}
+            >
+              <div style={{ marginRight: "auto" }}>
+                {node.title}
+                {node.fileType && (
+                  <Chip label={node.fileType} variant="outlined" size="small" />
+                )}
+                {node.isTile && (
+                  <Chip label="タイル" variant="outlined" size="small" />
+                )}
+                {node.minZoom && (
+                  <Chip label={node.minZoom} variant="outlined" size="small" />
+                )}
+              </div>
+              {node.area && (
+                <Chip
+                  label="移動"
+                  variant="outlined"
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addLayer(node.id);
+                    jump(node.area.lng, node.area.lat, node.area.zoom);
+                  }}
+                />
               )}
-              {node.isTile && (
-                <Chip label="タイル" variant="outlined" size="small" />
-              )}
-              {node.minZoom && (
-                <Chip label={node.minZoom} variant="outlined" size="small" />
-              )}
+              <PopoverButton icon={<InfoOutlinedIcon />}>
+                <LayerInfo node={node}></LayerInfo>
+              </PopoverButton>
             </div>
-            {node.area && (
-              <Chip
-                label="移動"
-                variant="outlined"
-                size="small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addLayer(node.id);
-                  jump(node.area.lng, node.area.lat, node.area.zoom);
-                }}
-              />
-            )}
-            <PopoverButton icon={<InfoOutlinedIcon />}>
-              <LayerInfo node={node}></LayerInfo>
-            </PopoverButton>
-          </div>
-        }
-      >
-        {node.entries && renderTree(node.entries, parentIndex + "_")}
-      </TreeItem>
-    ));
+          }
+        >
+          {node.entries && renderTree(node.entries, newIndex)}
+        </TreeItem>
+      );
+    });
 
   return (
     <div
       style={{
         overflow: "auto",
-        padding: "0px 8px 0px 16px",
-        // height: "fit-content%",
+        padding: 8,
         height: "100%",
       }}
     >
-      <div style={{ padding: 8 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Typography variant="h6" component="h2" display="inline">
           地図の種類
         </Typography>
-        <div style={{ float: "right" }}>
-          <IconButton size="small" onClick={() => setIsMenuVisible(false)}>
-            <ArrowBackIcon />
-          </IconButton>
-        </div>
+        <IconButton size="small" onClick={() => setIsMenuVisible(false)}>
+          <ArrowBackIcon />
+        </IconButton>
       </div>
 
       <TreeView

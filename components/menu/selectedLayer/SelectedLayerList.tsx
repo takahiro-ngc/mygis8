@@ -18,7 +18,6 @@ export default function SelectedLayerList({
       style={{
         overflow: "auto",
         height: "100%",
-        border: "red 5px solid",
       }}
     >
       <Title />
