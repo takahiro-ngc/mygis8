@@ -49,16 +49,7 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
         appear={false} //初期ロード時のtransitionを防ぐ
         onExited={() => setIsButtonVisible(true)}
       >
-        <div
-          style={{
-            zIndex: 1,
-            width: 380,
-            height: "calc(100vh - 48px)", //48=headerheight
-            display: "flex",
-            flexDirection: "column",
-          }}
-          className="acrylic-color"
-        >
+        <div className="acrylic-color menu">
           <DataCatalog
             addLayer={addLayer}
             deleteLayer={deleteLayer}
@@ -68,8 +59,7 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
           />
           <Resizable
             defaultSize={{
-              // width: "100%",
-              width: "calc(100vh - 48px)",
+              width: "100%",
               height: 200,
             }}
             minHeight={48}
@@ -91,6 +81,27 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
           </Resizable>
         </div>
       </Slide>
+
+      <style jsx>
+        {`
+          .menu {
+            z-index: 1;
+            width: 40vw;
+            max-width: 42;
+            min-width: 35;
+            height: calc(100vh - 48px); //48=headerheight
+            display: flex;
+            flex-direction: column;
+          }
+          @media screen and (max-width: 700px) {
+            .menu {
+              width: 100vw;
+              height: 800;
+              max-height: 50vh;
+            }
+          }
+        `}
+      </style>
     </>
   );
 }

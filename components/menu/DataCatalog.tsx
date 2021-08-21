@@ -2,7 +2,6 @@ import { layerList } from "../layer/layerList";
 import PopoverButton from "./PopoverButton";
 import LayerInfo from "./LayerInfo";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -54,15 +53,9 @@ export default function DataCatalog({
             >
               <div style={{ marginRight: "auto" }}>
                 {node.title}
-                {node.fileType && (
-                  <Chip label={node.fileType} variant="outlined" size="small" />
-                )}
-                {node.isTile && (
-                  <Chip label="タイル" variant="outlined" size="small" />
-                )}
-                {node.minZoom && (
-                  <Chip label={node.minZoom} variant="outlined" size="small" />
-                )}
+                {node.fileType && <Chip label={node.fileType} size="small" />}
+                {node.isTile && <Chip label="タイル" size="small" />}
+                {node.minZoom && <Chip label={node.minZoom} size="small" />}
               </div>
               {node.area && (
                 <Chip
