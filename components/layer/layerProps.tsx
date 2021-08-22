@@ -118,6 +118,23 @@ export const setLayerProps = (
     isTile(url) && isGeojson && tileGeojsonProps(minZoom, maxNativeZoom),
     !isTile(url) && isGeojson && geojsonProps,
     isKml && kmlProps,
-    isGsi && (isGeojson || isKml) && iconLayerProps(iconUrl)
+    isGsi && (isGeojson || isKml) && iconLayerProps(iconUrl),
+
+    {
+      pickable: true,
+      autoHighlight: true,
+      stroked: true,
+      filled: true, //falseでないと下層レイヤーが透過しない
+      opacity: 1,
+      getFillColor: () => [
+        Math.random() * 255,
+        Math.random() * 255,
+        Math.random() * 255,
+      ],
+      getLineColor: [0, 0, 0, 255],
+      getLineWidth: 10,
+      lineWidthScale: 0.1,
+      lineWidthUnits: "pixels",
+    }
   );
 };

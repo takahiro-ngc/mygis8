@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import { setLayerProps } from "../layer/layerProps";
 import Typography from "@material-ui/core/Typography";
+import ImportFile from "./ImportFile";
 
 export default function Import({ setLayers }) {
   const [url, setUrl] = useState("");
@@ -40,7 +41,7 @@ export default function Import({ setLayers }) {
             target="_blank"
             rel="noreferrer"
           >
-            国土地理院の地理院タイル一覧
+            国土地理院（地理院タイル一覧）
           </a>
           や
           <a
@@ -48,7 +49,7 @@ export default function Import({ setLayers }) {
             target="_blank"
             rel="noreferrer"
           >
-            G空間情報センターでの検索結果
+            G空間情報センター（XYZフォーマット）
           </a>
           等で見つけられます。
           <br />
@@ -88,6 +89,8 @@ export default function Import({ setLayers }) {
           </Button>
         </div>
       </div>
+      <hr style={{ margin: "16px 0px" }} />
+      <ImportFile setLayers={setLayers} />
     </>
   );
 }
