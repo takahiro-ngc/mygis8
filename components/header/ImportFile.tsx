@@ -11,26 +11,20 @@ import { setLayerProps } from "../layer/layerProps";
 import Typography from "@material-ui/core/Typography";
 
 export default function ImportFile({ setLayers }) {
-  const [file, setFile] = useState({ file: "", fileUrl: "test" });
-
-  const handleFileChange = (e) => {
+  const importFile = (e) => {
     const fileObject = e.target.files[0];
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        resolve(event.target.result);
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      const newLayer = {
+        ...setLayerProps(dataUrl),
+        id: fileObject.name,
+        title: fileObject.name,
       };
-      reader.readAsDataURL(fileObject);
-    }).then((result) => {
-      setLayers((prev) => [
-        {
-          ...setLayerProps(result),
-          id: fileObject.name,
-          title: fileObject.name,
-        },
-        ...prev,
-      ]);
-    });
+      setLayers((prev) => [newLayer, ...prev]);
+    };
+    reader.readAsDataURL(fileObject);
   };
   //   const reader = new FileReader();
   //   const targetFile = e.target.files[0];
@@ -77,7 +71,7 @@ export default function ImportFile({ setLayers }) {
           color="primary"
         >
           ファイルを選択
-          <input type="file" hidden onChange={handleFileChange} />
+          <input type="file" hidden onChange={importFile} />
           {/* <input type="file" hidden onChange={onFileInputChange} /> */}
         </Button>
       </div>
