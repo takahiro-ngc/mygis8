@@ -89,7 +89,7 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
             width: 40vw;
             max-width: 42;
             min-width: 35;
-            height: calc(100vh - 48px); //48=headerheight
+            height: calc(100vh - 48px); //48=headerHeight
             display: flex;
             flex-direction: column;
           }

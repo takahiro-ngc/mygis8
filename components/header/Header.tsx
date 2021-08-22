@@ -1,7 +1,10 @@
 import { Typography } from "@material-ui/core";
 import { Button } from "@material-ui/core/";
+import PopoverButton from "../menu/PopoverButton";
+import Faq from "./Faq";
+import Import from "./Import";
 
-export default function Header() {
+export default function Header({ setLayers }) {
   const buttonProps = { variant: "outlined" };
   return (
     <div
@@ -20,14 +23,15 @@ export default function Header() {
       </Typography>
       <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
         <Button variant="outlined" size="small">
-          共有URL
+          共有
         </Button>
-        <Button variant="outlined" size="small">
-          インポート
-        </Button>
-        <Button variant="outlined" size="small">
-          ボタン３
-        </Button>
+        <PopoverButton buttonLabel="インポート" style={{ width: 800 }}>
+          <Import setLayers={setLayers} />
+        </PopoverButton>
+
+        <PopoverButton buttonLabel="FAQ" style={{ width: 800 }}>
+          <Faq />
+        </PopoverButton>
       </div>
     </div>
   );

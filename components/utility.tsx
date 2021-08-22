@@ -80,8 +80,10 @@ export const isValidUrl = (url) => {
   return res !== null;
 };
 
-export const isTile = (url) => url.includes("{x}");
-
+export const isTile = (url) => {
+  const d = url.toLowerCase();
+  return d.includes("{x}") && d.includes("{y}") && d.includes("{z}");
+};
 // 説明 正規化関数
 // 参考 https://zukucode.com/2017/04/javascript-object-max.html
 // 参考 https://qiita.com/ndj/items/82e9c5a4518fe16e539f

@@ -4,7 +4,7 @@ import Fade from "@material-ui/core/Fade";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 
-export default function Popover({ anchorEl, children, handleClose }) {
+export default function Popover({ anchorEl, children, handleClose, style }) {
   const open = Boolean(anchorEl);
 
   return (
@@ -30,12 +30,13 @@ export default function Popover({ anchorEl, children, handleClose }) {
           <div
             style={{
               padding: 16,
-              width: 400,
-              maxWidth: "100vw",
+              width: 420,
+              maxWidth: "95vw",
               maxHeight: "calc(100vh - 16px)",
               overflow: "auto",
               wordBreak: "break-all",
               borderRadius: 4,
+              ...style,
             }}
             className="acrylic-color-dark"
           >

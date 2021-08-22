@@ -17,17 +17,17 @@ export const initialViewState = {
 };
 
 const defaultLayerId = "pale";
-const defaultLayer = findLayer(defaultLayerId);
+export const defaultLayer = findLayer(defaultLayerId);
 
 export default function Home() {
   const [layers, setLayers] = useState([defaultLayer]);
   const [viewState, setViewState] = useState(initialViewState);
   const [feature, setFeature] = useState(null);
-  console.log("vygbuhn");
+
   return (
     <>
       <div className="flex">
-        <Header />
+        <Header setLayers={setLayers} />
 
         <MainMenu
           layers={layers}

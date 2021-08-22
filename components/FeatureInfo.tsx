@@ -76,7 +76,7 @@ export default function FeatureInfo({ feature, setFeature }) {
             max-width: min(100vw, 400px);
             max-height: calc(100% - 48px); //headerHeight
             overflow: auto;
-            z-index: 2;
+            z-index: 1;
           }
         `}
       </style>
