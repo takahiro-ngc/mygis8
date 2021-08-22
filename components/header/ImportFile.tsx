@@ -14,28 +14,45 @@ export default function ImportFile({ setLayers }) {
   const [file, setFile] = useState({ file: "", fileUrl: "test" });
 
   const handleFileChange = (e) => {
-    e.preventDefault();
-    const reader = new FileReader();
-    const targetFile = e.target.files[0];
-    reader.onload = (event) => {
-      setFile({
-        file: targetFile,
-        fileUrl: reader.result,
-      });
-      console.log(e.target);
+    const fileObject = e.target.files[0];
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+      reader.readAsDataURL(fileObject);
+    }).then((result) => {
       setLayers((prev) => [
         {
-          ...setLayerProps(file.fileUrl),
-          id: file.file.name,
-          title: file.file.name,
+          ...setLayerProps(result),
+          id: fileObject.name,
+          title: fileObject.name,
         },
         ...prev,
       ]);
-    };
-
-    reader.readAsDataURL(targetFile);
-    console.log(file);
+    });
   };
+  //   const reader = new FileReader();
+  //   const targetFile = e.target.files[0];
+  //   reader.onload = (event) => {
+  //     setFile({
+  //       file: targetFile,
+  //       fileUrl: reader.result,
+  //     });
+  //     console.log(e.target);
+  //     setLayers((prev) => [
+  //       {
+  //         ...setLayerProps(file.fileUrl),
+  //         id: file.file.name,
+  //         title: file.file.name,
+  //       },
+  //       ...prev,
+  //     ]);
+  //   };
+
+  //   reader.readAsDataURL(targetFile);
+  //   console.log(file);
+  // };
 
   // const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   // const file = e.target.files;
