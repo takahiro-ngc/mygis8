@@ -45,10 +45,19 @@ const LayerInfo = ({ node }) => {
       {specList}
 
       {node.html && (
-        <div style={{ border: "1px lightgray solid", padding: 8 }}>
-          <b>説明（国土地理院より引用）</b>
-          {isString(node.html) ? ReactHtmlParser(node.html) : node.html}
-        </div>
+        <>
+          <div style={{ border: "1px lightgray solid", padding: 8 }}>
+            <b>説明（国土地理院より引用）</b>
+            {isString(node.html) ? ReactHtmlParser(node.html) : node.html}
+          </div>
+          <div>
+            ※本サイトでは，国土地理院のサイト（地理院地図）の地図のうち，主な地図のみ掲載しています。
+            また，一部データは，正常に動作・表示しないものがあります（クリックして特別な挙動をするもの等）。
+            <br />
+            本来の動作・表示は，地理院地図で確認できます。
+            <br />
+          </div>
+        </>
       )}
 
       {node.legendUrl && (

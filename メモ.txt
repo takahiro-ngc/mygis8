@@ -39,6 +39,7 @@ position absoluteのため，親に次を設定すればよい
 ・useCallback
 ・importのデフォルトprops，様々な拡張子
 ・mvtレイヤでfeatureがisImagのバグ
+・日本の典型地形等でfeatureのアイコン画像が食い違い
 
 〇優先度中
 ・gsiベクターを一種類ずつ掲載

@@ -46,8 +46,6 @@ export default function FeatureInfo({ feature, setFeature }) {
             {infoArray?.map((row) => (
               <TableRow key={row[0]}>
                 <TableCell>{ReactHtmlParser(row[0])}</TableCell>
-                {console.log(row[0])}
-                {console.log(row[1])}
                 <TableCell>
                   {ReactHtmlParser(row[1])}
                   {isImage(row[1]) && (

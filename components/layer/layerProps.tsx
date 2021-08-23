@@ -50,38 +50,40 @@ const geojsonProps = {
   lineWidthUnits: "pixels",
   getRadius: 10,
   getLineWidth: (d) => Number(d.properties?.lineWidth) || 3,
-  getLineColor: (d) => [
-    ...hex2rgb(d.properties?._color || d.properties?.lineColor || "#000000"),
-    d.properties?._opacity * 255 || 255,
-  ],
-  getFillColor: (d) => [
-    ...hex2rgb(
-      d.properties?._fillColor || d.properties?.polyColor || "#00ff00"
-    ),
-    d.properties?._fillOpacity * 255 || 255,
-  ],
+  getLineColor: (d) => {
+    const hex =
+      d.properties?._color ||
+      d.properties?.lineColor ||
+      d.properties?.stroke ||
+      "#000000";
+    const opacity = d.properties?._opacity || 1;
+    return [...hex2rgb(hex), opacity * 255];
+  },
+  getFillColor: (d) => {
+    const hex =
+      d.properties?._fillColor || d.properties?.polyColor || "#0033ff";
+    const opacity = d.properties?._fillOpacity || d.properties?._opacity || 1;
+    return [...hex2rgb(hex), opacity * 255];
+  },
 };
 
-// https://deck.gl/docs/api-reference/core/composite-layer#_sublayerprops
-// ToDo アイコンの設定が無いときは，IconLayerにしない
-const iconLayerProps = (iconUrl) => ({
-  _subLayerProps: {
-    points: {
-      type: IconLayer,
-      getIcon: (d) => {
-        const src = d.__source?.object?.properties;
-        return {
-          url: src?._iconUrl || src?.icon || iconUrl || "/img/test3.png", //ToDoデフォルトアイコン
-          width: src?._iconSize?.[0] ?? 20,
-          height: src?._iconSize?.[1] ?? 20,
-          anchorX: src?._iconAnchor?.[0] ?? 10,
-          anchorY: src?._iconAnchor?.[1] ?? 10,
-        };
-      },
-      getSize: (d) => 32, //必須
+const iconLayerProps = (iconUrl) => {
+  const pointType = iconUrl ? "icon" : "circle+icon";
+  return {
+    pointType: pointType,
+    getIcon: (d) => {
+      const src = d.properties;
+      return {
+        url: src?._iconUrl || src?.icon || iconUrl,
+        width: src?._iconSize?.[0] ?? 20,
+        height: src?._iconSize?.[1] ?? 20,
+        anchorX: src?._iconAnchor?.[0] ?? 10,
+        anchorY: src?._iconAnchor?.[1] ?? 10,
+      };
     },
-  },
-});
+    getIconSize: 24, //必須
+  };
+};
 
 const tileGeojsonProps = (minZoom, maxNativeZoom) => ({
   // 電子国土基本図更新情報等はzoomの設定がない。デフォルトは2とされているよう。
@@ -217,17 +219,17 @@ export const setLayerProps = (
 // ) => {
 //   const mainProps = {
 //     getLineWidth: (d) => Number(d.properties?.lineWidth) || 3,
-//     getLineColor: (d) => [
-//       ...hex2rgb(d.properties?._color || d.properties?.lineColor || "#000000"),
-//       d.properties?._opacity * 255 || 255,
-//     ],
-//     getFillColor: (d) => [
-//       ...hex2rgb(
-//         d.properties?._fillColor || d.properties?.polyColor || "#00ff00"
-//       ),
-//       d.properties?._fillOpacity * 255 || 255,
-//     ],
-//   };
+// getLineColor: (d) => {
+//   const hex = d.properties?._color || d.properties?.lineColor || "#000000";
+//   const opacity = d.properties?._opacity || 1;
+//   return [...hex2rgb(hex), opacity * 255];
+// },
+// getFillColor: (d) => {
+//   const hex =
+//     d.properties?._fillColor || d.properties?.polyColor || "#0033ff";
+//   const opacity = d.properties?._fillOpacity || d.properties?._opacity || 1;
+//   return [...hex2rgb(hex), opacity * 255];
+// },
 
 //   const bitmapTileProps = {
 //     minZoom: minZoom,
