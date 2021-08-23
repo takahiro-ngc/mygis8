@@ -87,8 +87,8 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
           .menu {
             z-index: 1;
             width: 40vw;
-            max-width: 42;
-            min-width: 35;
+            max-width: 420px;
+            min-width: 350px;
             height: calc(100vh - 48px); //48=headerHeight
             display: flex;
             flex-direction: column;
@@ -96,6 +96,8 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
           @media screen and (max-width: 700px) {
             .menu {
               width: 100vw;
+              max-width: 100vw;
+
               height: 800;
               max-height: 50vh;
             }

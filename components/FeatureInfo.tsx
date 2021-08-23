@@ -39,13 +39,15 @@ export default function FeatureInfo({ feature, setFeature }) {
             {feature?.layer && (
               <TableRow key={"@@レイヤ"}>
                 <TableCell>レイヤー名</TableCell>
-                <TableCell>{feature.layer?.props.title}</TableCell>
+                <TableCell>{feature.layer?.props?.title}</TableCell>
               </TableRow>
             )}
 
             {infoArray?.map((row) => (
               <TableRow key={row[0]}>
                 <TableCell>{ReactHtmlParser(row[0])}</TableCell>
+                {console.log(row[0])}
+                {console.log(row[1])}
                 <TableCell>
                   {ReactHtmlParser(row[1])}
                   {isImage(row[1]) && (

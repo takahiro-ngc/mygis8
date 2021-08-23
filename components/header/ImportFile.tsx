@@ -10,51 +10,34 @@ import SearchIcon from "@material-ui/icons/Search";
 import { setLayerProps } from "../layer/layerProps";
 import Typography from "@material-ui/core/Typography";
 
+const getFileType = (fileName) => {
+  const pos = fileName.lastIndexOf(".");
+  return fileName.slice(pos + 1).toLowerCase();
+};
+
 export default function ImportFile({ setLayers }) {
   const importFile = (e) => {
     const fileObject = e.target.files[0];
-
+    const fileName = fileObject.name;
+    const fileType = getFileType(fileName);
     const reader = new FileReader();
+    console.log("fileType", fileType);
+
     reader.onload = (e) => {
       const dataUrl = e.target.result;
+
       const newLayer = {
         ...setLayerProps(dataUrl),
         id: fileObject.name,
         title: fileObject.name,
       };
       setLayers((prev) => [newLayer, ...prev]);
+
+      console.log("dataUrl", dataUrl);
     };
     reader.readAsDataURL(fileObject);
   };
-  //   const reader = new FileReader();
-  //   const targetFile = e.target.files[0];
-  //   reader.onload = (event) => {
-  //     setFile({
-  //       file: targetFile,
-  //       fileUrl: reader.result,
-  //     });
-  //     console.log(e.target);
-  //     setLayers((prev) => [
-  //       {
-  //         ...setLayerProps(file.fileUrl),
-  //         id: file.file.name,
-  //         title: file.file.name,
-  //       },
-  //       ...prev,
-  //     ]);
-  //   };
 
-  //   reader.readAsDataURL(targetFile);
-  //   console.log(file);
-  // };
-
-  // const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  // const file = e.target.files;
-  // // const fileName = file[0].name;
-  // console.log(file);
-  // console.log(file.path);
-
-  // };
   return (
     <>
       <div style={{ marginBottom: 8 }}>
@@ -64,16 +47,17 @@ export default function ImportFile({ setLayers }) {
         <Typography variant="body1" component="p">
           読込できるファイル形式：shp，json，geojson，kml
         </Typography>
-        <Button
-          variant="contained"
-          component="label"
-          size="small"
-          color="primary"
-        >
-          ファイルを選択
-          <input type="file" hidden onChange={importFile} />
-          {/* <input type="file" hidden onChange={onFileInputChange} /> */}
-        </Button>
+        <div style={{ float: "right" }}>
+          <Button
+            variant="contained"
+            component="label"
+            size="small"
+            color="primary"
+          >
+            ファイルを選択
+            <input type="file" hidden onChange={importFile} />
+          </Button>
+        </div>
       </div>
     </>
   );

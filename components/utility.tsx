@@ -59,8 +59,10 @@ export const imgFileType = [
 ];
 export const allowFileTypeList = [...imgFileType, "geojson"];
 
-export const getUrlFileType = (url) =>
-  url.split(/[#?]/)[0].split(".").pop().trim().toLowerCase();
+export const getUrlFileType = (value) => {
+  const string = value?.toString() || ""; //数値のことがあるため
+  return string?.split(/[#?]/)[0].split(".").pop().trim().toLowerCase();
+};
 export const isImage = (url) => imgFileType.includes(getUrlFileType(url));
 
 export const getFileTypeCategory = (url) =>

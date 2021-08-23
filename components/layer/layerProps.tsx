@@ -1,5 +1,7 @@
 import { BitmapLayer, IconLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
+import { common } from "@material-ui/core/colors";
+import { HeadsetMicOutlined } from "@material-ui/icons";
 import { hex2rgb } from "../hex2rgb";
 import { isTile, getFileTypeCategory } from "../utility";
 
@@ -118,23 +120,150 @@ export const setLayerProps = (
     isTile(url) && isGeojson && tileGeojsonProps(minZoom, maxNativeZoom),
     !isTile(url) && isGeojson && geojsonProps,
     isKml && kmlProps,
-    isGsi && (isGeojson || isKml) && iconLayerProps(iconUrl),
+    isGsi && (isGeojson || isKml) && iconLayerProps(iconUrl)
 
-    {
-      pickable: true,
-      autoHighlight: true,
-      stroked: true,
-      filled: true, //falseでないと下層レイヤーが透過しない
-      opacity: 1,
-      getFillColor: () => [
-        Math.random() * 255,
-        Math.random() * 255,
-        Math.random() * 255,
-      ],
-      getLineColor: [0, 0, 0, 255],
-      getLineWidth: 10,
-      lineWidthScale: 0.1,
-      lineWidthUnits: "pixels",
-    }
+    // {
+    //   pickable: true,
+    //   autoHighlight: true,
+    //   stroked: true,
+    //   filled: true, //falseでないと下層レイヤーが透過しない
+    //   opacity: 1,
+    //   getFillColor: () => [
+    //     Math.random() * 255,
+    //     Math.random() * 255,
+    //     Math.random() * 255,
+    //   ],
+    //   getLineColor: [0, 0, 0, 255],
+    //   getLineWidth: 10,
+    //   lineWidthScale: 0.1,
+    //   lineWidthUnits: "pixels",
+    //   // lineJointRounded: true,
+    // }
   );
 };
+
+//ここから
+// export const setProps = (url, fileType) => {
+//   fileType = fileType || getFileType(url); //確認済み
+
+//   const mainProps = {
+//     // 独自プロパティ（必須）
+//     title: url, //表示名
+//     layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類
+//     fileType: fileType, //デバッグ用
+
+//     // 基本
+//     ID: url + Math.random(), //同一URLが複数登録されることがある
+//     data: url,
+//     pickable: true,
+//     autoHighlight: false,
+//     parameters: {
+//       depthTest: false, //傾けたときチラつくのを防ぐ。ただし高さ無効？
+//     },
+
+//     // ライン・ポリゴン関係
+//     filled: false,
+//     getFillColor: [0, 0, 255, 128],
+//     getLineWidth: 5,
+//     lineWidthUnits: "pixels",
+
+//     // 点関係
+//     getPointRadius: 5,
+//     pointRadiusUnits: "pixels",
+//     pointRadiusScale: 5,
+//   };
+
+//   const tileProps = {
+//     tileSize: 256,
+//     pickable: false,
+//   };
+
+//   const bitmapTileProps = {
+//     renderSubLayers: (props) => {
+//       const {
+//         bbox: { west, south, east, north },
+//       } = props.tile;
+//       return new BitmapLayer({
+//         ...props,
+//         data: null,
+//         image: props.data,
+//         bounds: [west, south, east, north],
+//       });
+//     },
+//   };
+
+//   const kmlProps = {
+//     loaders: [KMLLoader],
+//     loadOptions: {
+//       gis: { format: "geojson" },
+//     },
+//   };
+
+//   const isBitmapTile = isTile && fileType === "bitmapTile";
+//   return Object.assign(
+//     {},
+//     mainProps,
+//     isTile && tileProps,
+//     fileType === "bitmapTile" && bitmapTileProps,
+//     fileType === "kml" && kmlProps
+//   );
+// };
+
+// export const setPropsForGsi = (
+//   minZoom = 0,
+//   maxZoom = null,
+//   maxNativeZoom = null,
+//   iconUrl = null
+// ) => {
+//   const mainProps = {
+//     getLineWidth: (d) => Number(d.properties?.lineWidth) || 3,
+//     getLineColor: (d) => [
+//       ...hex2rgb(d.properties?._color || d.properties?.lineColor || "#000000"),
+//       d.properties?._opacity * 255 || 255,
+//     ],
+//     getFillColor: (d) => [
+//       ...hex2rgb(
+//         d.properties?._fillColor || d.properties?.polyColor || "#00ff00"
+//       ),
+//       d.properties?._fillOpacity * 255 || 255,
+//     ],
+//   };
+
+//   const bitmapTileProps = {
+//     minZoom: minZoom,
+//     maxZoom: maxNativeZoom ?? maxZoom,
+//   };
+
+//   const geojsonTileProps = {
+//     minZoom: minZoom ?? 2, // 電子国土基本図更新情報等はzoomの設定がない。デフォルトは2とされているよう。
+//     maxZoom: maxNativeZoom ?? minZoom ?? 2, //湖沼図緒元情報等のポリゴン系はmaxZoomでは表示されないが，minZoomにすると表示される。
+//   };
+
+//   // https://deck.gl/docs/api-reference/core/composite-layer#_sublayerprops
+//   // ToDo アイコンの設定が無いときは，IconLayerにしない　circle+iconでgeticonをnullでok?
+//   const iconLayerProps = {
+//     _subLayerProps: {
+//       points: {
+//         type: IconLayer,
+//         getIcon: (d) => {
+//           const src = d.__source?.object?.properties;
+//           return {
+//             url: src?._iconUrl || src?.icon || iconUrl || "/img/test3.png", //ToDoデフォルトアイコン
+//             width: src?._iconSize?.[0] ?? 20,
+//             height: src?._iconSize?.[1] ?? 20,
+//             anchorX: src?._iconAnchor?.[0] ?? 10,
+//             anchorY: src?._iconAnchor?.[1] ?? 10,
+//           };
+//         },
+//         getSize: (d) => 32, //必須
+//       },
+//     },
+//   };
+//   return Object.assign(
+//     {},
+//     mainProps,
+//     bitmapTileProps,
+//     geojsonTileProps,
+//     iconLayerProps
+//   );
+// };

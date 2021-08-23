@@ -71,10 +71,24 @@ export const otherLayers = [
           return [0, 255, 0];
         case "railway":
           return [255, 255, 0];
+        case "boundary":
+          return [255, 0, 255];
         default:
           return [0, 0, 0];
       }
     },
+    getFillColor: (f) => {
+      switch (f.properties.layerName) {
+        case "symbol":
+          return [255, 0, 0];
+
+        default:
+          return [0, 255, 0];
+      }
+    },
+    pointRadiusMinPixels: 5,
+    filled: true,
+    // dataTransform: (d) => console.log("d", d),
   },
   {
     layerType: "GeoJsonLayer",
