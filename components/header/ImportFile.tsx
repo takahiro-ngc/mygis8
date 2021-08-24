@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import { isValidUrl, isTile } from "../utility";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import { setLayerProps } from "../layer/layerProps";
+import { setLayerProps, setProps } from "../layer/layerProps";
 import Typography from "@material-ui/core/Typography";
 
 const getFileType = (fileName) => {
@@ -27,13 +27,12 @@ export default function ImportFile({ setLayers }) {
       const dataUrl = e.target.result;
 
       const newLayer = {
-        ...setLayerProps(dataUrl),
+        ...setProps(dataUrl, fileType),
+        // ...setLayerProps(dataUrl),
         id: fileObject.name,
         title: fileObject.name,
       };
       setLayers((prev) => [newLayer, ...prev]);
-
-      console.log("dataUrl", dataUrl);
     };
     reader.readAsDataURL(fileObject);
   };

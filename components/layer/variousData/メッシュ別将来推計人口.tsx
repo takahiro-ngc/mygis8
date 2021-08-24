@@ -1,4 +1,4 @@
-import { setLayerProps } from "../layerProps";
+import { setProps } from "../layerProps";
 
 const srcUrl = "https://www.geospatial.jp/ckan/dataset/ksj-cohort";
 
@@ -34,10 +34,10 @@ const data = [
 ];
 
 const layerList = data.map((item) => ({
+  ...setProps(item.url),
   id: item.id,
   title: item.id,
   html: srcUrl,
-  ...setLayerProps(item.url),
 }));
 
 export const meshPopulationLayers = [

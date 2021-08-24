@@ -1,4 +1,4 @@
-import { setLayerProps } from "../layerProps";
+import { setProps } from "../layerProps";
 
 const srcUrl = "https://aginfo.cgk.affrc.go.jp/tmc/layers.html.ja";
 
@@ -48,11 +48,11 @@ const data = [
 ];
 
 const layerList = data.map((item) => ({
+  ...setProps(item.url),
   id: item.id,
   title: item.id,
   html: html,
-  minZoom: item.minZoom,
-  ...setLayerProps(item.url),
+  // minZoom: item.minZoom,
 }));
 
 export const noukenLayers = [

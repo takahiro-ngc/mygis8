@@ -1,4 +1,4 @@
-import { setLayerProps } from "../layerProps";
+import { setProps } from "../layerProps";
 
 // https://qiita.com/nyampire/items/fbe359a2c9ccf0116787
 // https://ujicya.jp/blog-mapping/xyz-tiles-url/
@@ -44,9 +44,9 @@ const data = [
 ];
 
 const layerList = data.map((item) => ({
+  ...setProps(item.url),
   id: item.id,
   title: item.id,
-  ...setLayerProps(item.url),
 }));
 
 export const OSMLayers = [

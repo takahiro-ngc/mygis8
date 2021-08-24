@@ -1,4 +1,4 @@
-import { setLayerProps } from "../layerProps";
+import { setLayerProps, setProps, setPropsForGsi } from "../layerProps";
 
 import layers0 from "./layers0.json";
 import layers1 from "./layers1.json";
@@ -33,13 +33,21 @@ const addProps = (data) =>
     d.type === "Layer"
       ? {
           ...d,
-          ...setLayerProps(
+          ...setProps(d.url),
+          ...setPropsForGsi(
             d.url,
             d.minZoom,
             d.maxZoom,
             d.maxNativeZoom,
             d.iconUrl
           ),
+          // ...setLayerProps(
+          //   d.url,
+          //   d.minZoom,
+          //   d.maxZoom,
+          //   d.maxNativeZoom,
+          //   d.iconUrl
+          // ),
         }
       : d.entries
       ? { ...d, entries: addProps(d.entries) }
