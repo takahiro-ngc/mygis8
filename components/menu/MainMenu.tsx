@@ -60,7 +60,7 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
           <Resizable
             defaultSize={{
               width: "100%",
-              height: 200,
+              height: 180,
             }}
             minHeight={48}
             enable={{
@@ -99,7 +99,7 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
               max-width: 100vw;
 
               height: 800;
-              max-height: 50vh;
+              max-height: 60vh;
             }
           }
         `}

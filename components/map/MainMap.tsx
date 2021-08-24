@@ -88,8 +88,9 @@ export default function MainMap({
     }
   });
 
-  const onClick = (info) => {
+  const onClick = (info, event) => {
     setFeature(info);
+    event.preventDefault();
     console.log(info);
   };
 

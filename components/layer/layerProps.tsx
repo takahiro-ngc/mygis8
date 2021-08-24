@@ -8,7 +8,7 @@ export const setProps = (url, fileType) => {
 
   const mainProps = {
     // deck.glにない独自プロパティ
-    title: url, //表示名。基本的には上書きされることを想定。
+    // title: url, //表示名。個別設定を想定。
     layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
     fileType: fileType, //デバッグ用
     isTile: isTile(url), //デバッグ用
