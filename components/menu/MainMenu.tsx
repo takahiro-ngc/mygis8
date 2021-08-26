@@ -29,24 +29,28 @@ export default function MainMenu({
     <>
       {/* メニューボタン */}
       <Fade in={isButtonVisible} unmountOnExit exit={false}>
-        <div style={{ margin: 8 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              setIsButtonVisible(false);
-              setIsMenuVisible(true);
-            }}
-          >
-            <MenuIcon />
-          </Button>
-        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            setIsButtonVisible(false);
+            setIsMenuVisible(true);
+          }}
+          style={{
+            position: "absolute",
+            top: 8,
+            left: isMainView && 8,
+            right: !isMainView && 8,
+          }}
+        >
+          <MenuIcon />
+        </Button>
       </Fade>
 
       {/* メニュー */}
       <Slide
         in={isMenuVisible}
-        direction="right"
+        direction={isMainView ? "right" : "left"}
         appear={false} //初期ロード時のtransitionを防ぐ
         onExited={() => setIsButtonVisible(true)}
       >

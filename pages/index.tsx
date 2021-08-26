@@ -43,8 +43,8 @@ export default function Home() {
             setViewState={setViewState}
             setFeature={setFeature}
           />
-          {/* 後要素が上に描画される */}
-          <MainMenu
+
+          <MainMenu //後の要素が上に描画される
             layers={layers}
             setLayers={setLayers}
             setViewState={setViewState}
@@ -84,7 +84,6 @@ export default function Home() {
             flex-direction: column;
             width: 100vw;
             height: 100vh;
-            border: 10px red solid;
           }
           .main {
             width: 100%;
@@ -95,9 +94,7 @@ export default function Home() {
           .side {
             position: relative;
             height: 100%; //子要素に継承させるため必須
-            width: 100%; //仮
             flex-grow: 1;
-            overflow: hidden; //仮
           }
         `}
       </style>

@@ -15,10 +15,21 @@ export default function Popover({
 
   return (
     <Popper
+      className="acrylic-color-dark"
       open={open}
       anchorEl={anchorEl}
       placement="right"
-      style={{ zIndex: 1 }}
+      style={{
+        zIndex: 1,
+        padding: 16,
+        width: 420,
+        maxWidth: "95vw",
+        maxHeight: "calc(100vh - 16px)",
+        overflow: "auto",
+        wordBreak: "break-all",
+        borderRadius: 8,
+        ...style,
+      }}
       transition
       onClick={(e) => e.stopPropagation()}
       modifiers={{
@@ -34,19 +45,7 @@ export default function Popover({
     >
       {({ TransitionProps }) => (
         <Fade {...TransitionProps} timeout={150}>
-          <div
-            style={{
-              padding: 16,
-              width: 420,
-              maxWidth: "95vw",
-              maxHeight: "calc(100vh - 16px)",
-              overflow: "auto",
-              wordBreak: "break-all",
-              borderRadius: 4,
-              ...style,
-            }}
-            className="acrylic-color-dark"
-          >
+          <div>
             {children}
             <IconButton
               size="small"
