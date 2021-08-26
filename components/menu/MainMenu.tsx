@@ -9,7 +9,13 @@ import Slide from "@material-ui/core/Slide";
 import DataCatalog from "./DataCatalog";
 import SelectedLayerList from "./selectedLayer/SelectedLayerList";
 
-export default function MainMenu({ layers, setLayers, setViewState }) {
+export default function MainMenu({
+  layers,
+  setLayers,
+  setViewState,
+  isMainView,
+  isDoubleView,
+}) {
   const addLayer = (id) => {
     setLayers([findLayer(id), ...layers]);
     // setHistry((prev) => unique([id, ...prev]));
@@ -23,12 +29,7 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
     <>
       {/* メニューボタン */}
       <Fade in={isButtonVisible} unmountOnExit exit={false}>
-        <div
-          style={{
-            zIndex: 1,
-            margin: 8,
-          }}
-        >
+        <div style={{ margin: 8 }}>
           <Button
             variant="contained"
             color="primary"
@@ -85,18 +86,18 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
       <style jsx>
         {`
           .menu {
-            z-index: 10 !important;
-            width: 35vw;
-            max-width: 400px;
+            width: ${isDoubleView ? "25%" : "35%"};
+            max-width: 420px;
             min-width: 350px;
             height: 100%;
             display: flex;
             flex-direction: column;
+            margin-left: ${!isMainView && "auto"};
           }
           @media screen and (max-width: 700px) {
             .menu {
-              width: 100vw;
-              max-width: 100vw;
+              width: 100%;
+              max-width: 100%;
 
               height: 800;
               max-height: 60vh;

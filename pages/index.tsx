@@ -48,24 +48,32 @@ export default function Home() {
             layers={layers}
             setLayers={setLayers}
             setViewState={setViewState}
+            isMainView={true}
+            isDoubleView={isDoubleView}
           />
         </div>
-        {isDoubleView && (
-          <div className="side">
-            <MainMap
-              layers={layersForSub}
-              viewState={viewStateForSub}
-              setViewState={setViewStateForSub}
-              setFeature={setFeature}
-            />
-            <MainMenu
-              layers={layersForSub}
-              setLayers={setLayersForSub}
-              setViewState={setViewStateForSub}
-            />
-          </div>
-        )}
+
+        <div
+          className="side"
+          style={{ borderLeft: "1px black solid" }}
+          hidden={!isDoubleView}
+        >
+          <MainMap
+            layers={layersForSub}
+            viewState={viewStateForSub}
+            setViewState={setViewStateForSub}
+            setFeature={setFeature}
+          />
+          <MainMenu
+            layers={layersForSub}
+            setLayers={setLayersForSub}
+            setViewState={setViewStateForSub}
+            isMainView={false}
+            isDoubleView={isDoubleView}
+          />
+        </div>
       </div>
+
       <FeatureInfo feature={feature} setFeature={setFeature} />
       <BottomInfo viewState={viewState} />
 
@@ -76,6 +84,7 @@ export default function Home() {
             flex-direction: column;
             width: 100vw;
             height: 100vh;
+            border: 10px red solid;
           }
           .main {
             width: 100%;
@@ -86,7 +95,9 @@ export default function Home() {
           .side {
             position: relative;
             height: 100%; //子要素に継承させるため必須
+            width: 100%; //仮
             flex-grow: 1;
+            overflow: hidden; //仮
           }
         `}
       </style>

@@ -48,7 +48,7 @@ export default function Header({ setLayers, setIsDoubleView }) {
   return (
     <div
       style={{
-        width: "100vw",
+        width: "100%",
         zIndex: 1,
         padding: 8,
         display: "flex",

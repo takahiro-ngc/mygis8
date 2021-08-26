@@ -84,7 +84,7 @@ export default function DataCatalog({
     <div
       style={{
         overflowY: "scroll", //常にスクロールバーの幅が確保されることで，バーの有無でwidthが変わるのを防ぐ
-        padding: "8px 0px 8px 8px",
+        padding: "8px 8px 8px 8px",
         height: "100%",
       }}
     >
