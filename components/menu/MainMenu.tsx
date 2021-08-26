@@ -85,11 +85,11 @@ export default function MainMenu({ layers, setLayers, setViewState }) {
       <style jsx>
         {`
           .menu {
-            z-index: 1;
-            width: 40vw;
-            max-width: 420px;
+            z-index: 10 !important;
+            width: 35vw;
+            max-width: 400px;
             min-width: 350px;
-            height: calc(100vh - 48px); //48=headerHeight
+            height: 100%;
             display: flex;
             flex-direction: column;
           }

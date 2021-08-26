@@ -23,49 +23,73 @@ export default function Home() {
   // メインマップ用
   const [layers, setLayers] = useState([defaultLayer]);
   const [viewState, setViewState] = useState(initialViewState);
-  const [feature, setFeature] = useState(null);
 
   // サブマップ用
   const [layersForSub, setLayersForSub] = useState([defaultLayer]);
   const [viewStateForSub, setViewStateForSub] = useState(initialViewState);
-  const [featureForSub, setFeatureForSub] = useState(null);
+
+  // 共通
+  const [feature, setFeature] = useState(null);
+  const [isDoubleView, setIsDoubleView] = useState(true);
 
   return (
-    <>
-      <div className="flex">
-        <Header setLayers={setLayers} />
-
-        <MainMenu
-          layers={layers}
-          setLayers={setLayers}
-          setViewState={setViewState}
-        />
+    <div className="wrapper">
+      <Header setLayers={setLayers} setIsDoubleView={setIsDoubleView} />
+      <div className="main">
+        <div className="side">
+          <MainMap
+            layers={layers}
+            viewState={viewState}
+            setViewState={setViewState}
+            setFeature={setFeature}
+          />
+          {/* 後要素が上に描画される */}
+          <MainMenu
+            layers={layers}
+            setLayers={setLayers}
+            setViewState={setViewState}
+          />
+        </div>
+        {isDoubleView && (
+          <div className="side">
+            <MainMap
+              layers={layersForSub}
+              viewState={viewStateForSub}
+              setViewState={setViewStateForSub}
+              setFeature={setFeature}
+            />
+            <MainMenu
+              layers={layersForSub}
+              setLayers={setLayersForSub}
+              setViewState={setViewStateForSub}
+            />
+          </div>
+        )}
       </div>
       <FeatureInfo feature={feature} setFeature={setFeature} />
       <BottomInfo viewState={viewState} />
-      <MainMap
-        layers={layers}
-        viewState={viewState}
-        setViewState={setViewState}
-        setFeature={setFeature}
-        position={{ left: "25vw", width: "50vw" }}
-      />
-      <MainMap
-        layers={layers}
-        viewState={viewState}
-        setViewState={setViewState}
-        setFeature={setFeature}
-        position={{ top: "25vh", width: "50vw" }}
-      />
-      <script> </script>
+
       <style jsx>
         {`
-          .flex {
+          .wrapper {
             display: flex;
             flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+          }
+          .main {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; //カクつくことがあるのを防ぐ
+            display: flex;
+          }
+          .side {
+            position: relative;
+            height: 100%; //子要素に継承させるため必須
+            flex-grow: 1;
           }
         `}
       </style>
-    </>
+    </div>
   );
 }

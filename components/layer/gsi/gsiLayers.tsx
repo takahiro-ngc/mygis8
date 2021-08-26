@@ -41,13 +41,6 @@ const addProps = (data) =>
             d.maxNativeZoom,
             d.iconUrl
           ),
-          // ...setLayerProps(
-          //   d.url,
-          //   d.minZoom,
-          //   d.maxZoom,
-          //   d.maxNativeZoom,
-          //   d.iconUrl
-          // ),
         }
       : d.entries
       ? { ...d, entries: addProps(d.entries) }

@@ -16,7 +16,7 @@ export default function SelectedLayerList({
   return (
     <div
       style={{
-        overflow: "auto",
+        overflowY: "scroll", //常にスクロールバーの幅が確保されることで，バーの有無でwidthが変わるのを防ぐ
         height: "100%",
       }}
     >

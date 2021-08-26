@@ -8,8 +8,9 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const PopoverButton = ({
   icon = null,
-  buttonLabel = null,
   style,
+  popoverStyle,
+  buttonStyle,
   children,
 }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -28,13 +29,21 @@ const PopoverButton = ({
           </IconButton>
         ) : null}
 
-        {buttonLabel ? (
-          <Button variant="outlined" size="small" onClick={onClick}>
-            {buttonLabel}
-          </Button>
+        {buttonStyle ? (
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={onClick}
+            {...buttonStyle}
+          />
         ) : null}
 
-        <Popover anchorEl={anchorEl} handleClose={handleClose} style={style}>
+        <Popover
+          anchorEl={anchorEl}
+          handleClose={handleClose}
+          style={style}
+          popoverStyle={popoverStyle}
+        >
           {children}
         </Popover>
       </div>

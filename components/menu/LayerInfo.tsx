@@ -1,5 +1,6 @@
 import React from "react";
 import ReactHtmlParser from "react-html-parser";
+import Typography from "@material-ui/core/Typography";
 
 const isString = (data) => typeof data === "string";
 // ToDO layerSettingsTableを使わずに
@@ -25,6 +26,10 @@ const LayerInfo = ({ node }) => {
     "html",
   ];
 
+  // attribution
+  // minzoom
+  // maxzoom
+
   const specList = layerTxtSpec.map(
     (d) =>
       node[d] && (
@@ -39,11 +44,15 @@ const LayerInfo = ({ node }) => {
       )
   );
 
+  const category = (list) => list.map((d) => <span>{d} &gt; </span>);
   return (
     <div>
-      <div>{node.title}</div>
-      {specList}
+      <Typography variant="caption">{category(node.category)}</Typography>
+      <Typography variant="h5" component="h1" style={{ marginBottom: 8 }}>
+        {node.title}
+      </Typography>
 
+      {specList}
       {node.html && (
         <>
           <div style={{ border: "1px lightgray solid", padding: 8 }}>

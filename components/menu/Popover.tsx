@@ -4,7 +4,13 @@ import Fade from "@material-ui/core/Fade";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 
-export default function Popover({ anchorEl, children, handleClose, style }) {
+export default function Popover({
+  anchorEl,
+  children,
+  handleClose,
+  style,
+  popoverStyle,
+}) {
   const open = Boolean(anchorEl);
 
   return (
@@ -24,6 +30,7 @@ export default function Popover({ anchorEl, children, handleClose, style }) {
           boundariesElement: "viewport",
         },
       }}
+      {...popoverStyle}
     >
       {({ TransitionProps }) => (
         <Fade {...TransitionProps} timeout={150}>
