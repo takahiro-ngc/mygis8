@@ -20,9 +20,15 @@ const defaultLayerId = "pale";
 export const defaultLayer = findLayer(defaultLayerId);
 
 export default function Home() {
+  // メインマップ用
   const [layers, setLayers] = useState([defaultLayer]);
   const [viewState, setViewState] = useState(initialViewState);
   const [feature, setFeature] = useState(null);
+
+  // サブマップ用
+  const [layersForSub, setLayersForSub] = useState([defaultLayer]);
+  const [viewStateForSub, setViewStateForSub] = useState(initialViewState);
+  const [featureForSub, setFeatureForSub] = useState(null);
 
   return (
     <>
@@ -42,6 +48,14 @@ export default function Home() {
         viewState={viewState}
         setViewState={setViewState}
         setFeature={setFeature}
+        position={{ left: "25vw", width: "50vw" }}
+      />
+      <MainMap
+        layers={layers}
+        viewState={viewState}
+        setViewState={setViewState}
+        setFeature={setFeature}
+        position={{ top: "25vh", width: "50vw" }}
       />
       <script> </script>
       <style jsx>
