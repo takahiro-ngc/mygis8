@@ -45,7 +45,7 @@ export default function Popover({
     >
       {({ TransitionProps }) => (
         <Fade {...TransitionProps} timeout={150}>
-          <div>
+          <div style={{ zIndex: 100 }}>
             {children}
             <IconButton
               size="small"

@@ -4,6 +4,8 @@ body {
   padding: 0px;
   /* 特定の画面サイズ時やツールチップが画面外の時に，スクロールバーがオンオフを繰り返すのを回避 */
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 /* support iOS */
@@ -16,6 +18,11 @@ body {
   min-height: -webkit-fill-available;
 }
 
+/* 国土地理院レイヤーのhtmlでpが使用されており，レイアウト崩れを起こすのを防ぐ */
+p {
+  margin: 0;
+}
+
 a {
   filter: invert(100%);
 }
@@ -25,9 +32,9 @@ a {
   backdrop-filter: blur(4px);
 }
 
+/* ackdrop-filter:blurはPopoverとの相性が悪いようで，文字がにじむ */
 .acrylic-color-dark {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  background: rgba(30, 30, 30, 0.96);
 }
 
 /* スクロールバーをgooglemap風に */

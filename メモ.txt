@@ -40,6 +40,7 @@ position absoluteのため，親に次を設定すればよい
 ・importのヘルパーテキスト
 ・kml用プロパティがgsiプロパティと混在
 ・minZoom14の説明でも13以上なら描画できる
+・popoverstyleの削除
 
 〇優先度中
 ・gsiベクターを一種類ずつ掲載

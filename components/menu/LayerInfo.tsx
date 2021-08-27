@@ -29,49 +29,44 @@ const LayerInfo = ({ node }) => {
   // attribution
   // minzoom
   // maxzoom
-
-  const specList = layerTxtSpec.map(
-    (d) =>
-      node[d] && (
-        <div
-          style={{
-            display: "flex",
-          }}
-        >
-          <span style={{ width: "30%" }}>{`${d}`}</span>
-          <span style={{ width: "70%" }}>{`${node[d]}`}</span>
-        </div>
-      )
-  );
+  // area
+  // html
 
   const category = (list) => list.map((d) => <span>{d} &gt; </span>);
   return (
     <div>
       <Typography variant="caption">{category(node.category)}</Typography>
-      <Typography variant="h5" component="h1" style={{ marginBottom: 8 }}>
+      <Typography variant="h5" component="h1">
         {node.title}
       </Typography>
 
-      {specList}
       {node.html && (
         <>
-          <div style={{ border: "1px lightgray solid", padding: 8 }}>
-            <b>説明（国土地理院より引用）</b>
+          <Typography variant="h6" component="h2">
+            説明
+          </Typography>
+          <Typography variant="body1" component="p">
             {isString(node.html) ? ReactHtmlParser(node.html) : node.html}
+          </Typography>
+
+          {/* <div style={{ border: "1px lightgray solid", padding: 8 }}>
+            <b>説明（国土地理院より引用）</b>
           </div>
           <div>
             ※本サイトでは，国土地理院のサイト（地理院地図）の地図のうち，主な地図のみ掲載しています。
-            また，一部データは，正常に動作・表示しないものがあります（クリックして特別な挙動をするもの等）。
+            また，一部データは，正常に動作しないものや説明と異なる表示になる地図があります（クリックして特別な挙動をするもの等）。
             <br />
             本来の動作・表示は，地理院地図で確認できます。
             <br />
-          </div>
+          </div> */}
         </>
       )}
 
       {node.legendUrl && (
         <>
-          <b>凡例</b>
+          <Typography variant="h6" component="h2">
+            凡例
+          </Typography>
           <a href={node.legendUrl} target="_blank" rel="noreferrer">
             {node.legendUrl}
           </a>
