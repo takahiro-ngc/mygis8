@@ -28,7 +28,6 @@ position absoluteのため，親に次を設定すればよい
 ・テキストのアウトライン
 
 〇優先度高
-・findCategory
 ・demデータの利用
 ・履歴
 ・タイプスクリプト
@@ -41,6 +40,10 @@ position absoluteのため，親に次を設定すればよい
 ・kml用プロパティがgsiプロパティと混在
 ・minZoom14の説明でも13以上なら描画できる
 ・popoverstyleの削除
+・bitmapタイルのズームレベル 
+・赤色立体地図の権利処理
+・showBitmap
+・地理院のクリックしても無反応データ
 
 〇優先度中
 ・gsiベクターを一種類ずつ掲載

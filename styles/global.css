@@ -24,7 +24,12 @@ p {
 }
 
 a {
-  filter: invert(100%);
+  color: #4fb0ff !important;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .acrylic-color {

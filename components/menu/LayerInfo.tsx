@@ -1,78 +1,75 @@
 import React from "react";
 import ReactHtmlParser from "react-html-parser";
 import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+import { isImage } from "../utility";
 
 const isString = (data) => typeof data === "string";
 // ToDO layerSettingsTableを使わずに
-const LayerInfo = ({ node }) => {
+export default function LayerInfo({ node }) {
   // https://github.com/gsi-cyberjapan/layers-dot-txt-spec/blob/master/specifications.md
-  const layerTxtSpec = [
-    "type",
-    "id",
-    "title",
-    "url",
-    "subdomains",
-    "attribution",
-    // "cocotile",
-    "minZoom",
-    "maxZoom",
-    "maxNativeZoom",
-    // "iconUrl",
-    "legendUrl",
-    "styleurl",
-    "errorTileUrl",
-    "bounds",
-    "area",
-    "html",
-  ];
 
-  // attribution
-  // minzoom
-  // maxzoom
-  // area
-  // html
+  const category = node.category.map((d) => `${d} > `);
 
-  const category = (list) => list.map((d) => <span>{d} &gt; </span>);
+  const description = isString(node.html)
+    ? ReactHtmlParser(node.html)
+    : node.html;
+
+  const legend = (
+    <>
+      {isImage(node.legendUrl) ? (
+        <img src={node.legendUrl} alt="凡例画像" />
+      ) : (
+        <Link href={node.legendUrl} target="_blank" rel="noreferrer">
+          {node.legendUrl}
+        </Link>
+      )}
+    </>
+  );
+
+  const attribution = (
+    <Link href={node.attributionUrl} target="_blank" rel="noreferrer">
+      {node.attributionName}
+    </Link>
+  );
+
+  const notes = (
+    <div style={{ border: "1px lightgray solid", padding: 8 }}>
+      ・上の説明は，出典からの引用です。
+      <br />
+      ・特別な設定のある一部データは，本サイト上では，正常に動作しない機能や説明と異なる表示があります。
+    </div>
+  );
+
   return (
     <div>
-      <Typography variant="caption">{category(node.category)}</Typography>
+      <Typography variant="caption">{category}</Typography>
+
       <Typography variant="h5" component="h1">
         {node.title}
       </Typography>
 
-      {node.html && (
-        <>
-          <Typography variant="h6" component="h2">
-            説明
-          </Typography>
-          <Typography variant="body1" component="p">
-            {isString(node.html) ? ReactHtmlParser(node.html) : node.html}
-          </Typography>
-
-          {/* <div style={{ border: "1px lightgray solid", padding: 8 }}>
-            <b>説明（国土地理院より引用）</b>
-          </div>
-          <div>
-            ※本サイトでは，国土地理院のサイト（地理院地図）の地図のうち，主な地図のみ掲載しています。
-            また，一部データは，正常に動作しないものや説明と異なる表示になる地図があります（クリックして特別な挙動をするもの等）。
-            <br />
-            本来の動作・表示は，地理院地図で確認できます。
-            <br />
-          </div> */}
-        </>
-      )}
+      <Typography variant="body1" style={{ paddingTop: 8 }}>
+        出典：{attribution}
+      </Typography>
 
       {node.legendUrl && (
-        <>
-          <Typography variant="h6" component="h2">
-            凡例
-          </Typography>
-          <a href={node.legendUrl} target="_blank" rel="noreferrer">
-            {node.legendUrl}
-          </a>
-        </>
+        <Typography variant="body1" style={{ paddingTop: 8 }}>
+          凡例：{legend}
+        </Typography>
+      )}
+
+      {node.html && (
+        <Typography variant="body1" style={{ paddingTop: 8 }}>
+          説明：{description}
+        </Typography>
+      )}
+
+      {node.notes && (
+        <Typography variant="body1" style={{ paddingTop: 8 }}>
+          補足：{node.notes}
+        </Typography>
       )}
     </div>
   );
-};
-export default LayerInfo;
+}

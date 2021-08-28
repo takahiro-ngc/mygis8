@@ -1,17 +1,12 @@
 import { setProps } from "../layerProps";
 
-const srcUrl = "https://aginfo.cgk.affrc.go.jp/tmc/layers.html.ja";
+const html =
+  "迅速測図（じんそくそくず）とは、日本において明治時代初期から中期にかけて大日本帝国陸軍参謀本部陸地測量部によって作成された簡易地図です。";
 
-const html = (
-  <div>
-    迅速測図（じんそくそくず）とは、日本において明治時代初期から中期にかけて大日本帝国陸軍参謀本部陸地測量部によって作成された簡易地図です。
-    <br />
-    出典：
-    <a href={srcUrl} target="_blank" rel="noreferrer">
-      農研機構
-    </a>
-  </div>
-);
+const attribution = {
+  attributionName: "農研機構",
+  attributionUrl: "https://aginfo.cgk.affrc.go.jp/tmc/layers.html.ja",
+};
 
 const data = [
   // {
@@ -48,10 +43,11 @@ const data = [
 ];
 
 const layerList = data.map((item) => ({
+  ...item,
   ...setProps(item.url),
-  id: item.id,
   title: item.id,
   html: html,
+  ...attribution,
   // minZoom: item.minZoom,
 }));
 
@@ -60,5 +56,7 @@ export const noukenLayers = [
     type: "LayerGroup",
     title: "農研機構",
     entries: layerList,
+    html: html,
+    ...attribution,
   },
 ];
