@@ -11,19 +11,24 @@ export default function useLocalStorage(key, initialValue) {
     item && setStoredValue(JSON.parse(item));
   }, [key]);
 
-  const setValue = (value) => {
-    try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
+  useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(initialValue));
+  }, [key, initialValue]);
 
-      useEffect(() => {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
-      }, [key, valueToStore]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // const setValue = (value) => {
+  //   try {
+  //     const valueToStore =
+  //       value instanceof Function ? value(storedValue) : value;
+  //     setStoredValue(valueToStore);
 
-  return [storedValue, setValue];
+  //     useEffect(() => {
+  //       window.localStorage.setItem(key, JSON.stringify(valueToStore));
+  //     }, [key, valueToStore]);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  return [storedValue, setStoredValue];
+  // return [storedValue, setValue];
 }

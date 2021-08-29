@@ -12,7 +12,7 @@ export default function Histry({ layers, addLayer, storedHistry, setHistry }) {
     const layer = findLayer(id);
     const category = layer?.category.map((d) => `${d} >`);
     return (
-      <ListItem button onClick={() => addLayer(id)}>
+      <ListItem button onClick={() => addLayer(id)} key={id}>
         <ListItemText>
           <Typography variant="caption" component="p" color="textSecondary">
             {category}
