@@ -61,7 +61,9 @@ export default function MainMenu({
             layers={layers}
             setViewState={setViewState}
             setIsMenuVisible={setIsMenuVisible}
+            isMainView={isMainView}
           />
+
           <Resizable
             defaultSize={{
               width: "100%",

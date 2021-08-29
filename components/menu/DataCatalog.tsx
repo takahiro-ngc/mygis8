@@ -11,6 +11,8 @@ import Chip from "@material-ui/core/Chip";
 import { Typography } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 
 export default function DataCatalog({
   addLayer,
@@ -18,6 +20,7 @@ export default function DataCatalog({
   layers,
   setViewState,
   setIsMenuVisible,
+  isMainView,
 }) {
   const jump = (lng, lat, zoom) =>
     setViewState((prev) => ({
@@ -48,26 +51,26 @@ export default function DataCatalog({
               style={{
                 display: "flex",
                 alignItems: "center",
-                // minHeight: "30px", //アイコンの有無で高さが異なるのを防ぐ
               }}
             >
-              <div style={{ marginRight: "auto" }}>
-                {node.title}
-                {node.fileType && <Chip label={node.fileType} size="small" />}
+              {/* <div style={{ marginRight: "auto" }}> */}
+              {node.title}
+              {/* {node.fileType && <Chip label={node.fileType} size="small" />}
                 {node.isTile && <Chip label="タイル" size="small" />}
-                {node.minZoom && <Chip label={node.minZoom} size="small" />}
-              </div>
+                {node.minZoom && <Chip label={node.minZoom} size="small" />} */}
+              {/* </div> */}
+
               {node.area && (
-                <Chip
-                  label="移動"
-                  variant="outlined"
+                <IconButton
                   size="small"
                   onClick={(e) => {
                     e.stopPropagation();
                     addLayer(node.id);
                     jump(node.area.lng, node.area.lat, node.area.zoom);
                   }}
-                />
+                >
+                  {<FlightTakeoffIcon />}
+                </IconButton>
               )}
               <PopoverButton icon={<InfoOutlinedIcon />}>
                 <LayerInfo node={node}></LayerInfo>
@@ -98,7 +101,7 @@ export default function DataCatalog({
           地図の種類
         </Typography>
         <IconButton size="small" onClick={() => setIsMenuVisible(false)}>
-          <ArrowBackIcon />
+          {isMainView ? <ArrowBackIcon /> : <ArrowForwardIcon />}
         </IconButton>
       </div>
 

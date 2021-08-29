@@ -13,15 +13,13 @@ export default function LayerInfo({ node }) {
     : node.html;
 
   const legend = (
-    <>
+    <Link href={node.legendUrl} target="_blank" rel="noreferrer">
       {isImage(node.legendUrl) ? (
-        <img src={node.legendUrl} alt="凡例画像" />
+        <img src={node.legendUrl} alt="凡例画像" width="100%" />
       ) : (
-        <Link href={node.legendUrl} target="_blank" rel="noreferrer">
-          {node.legendUrl}
-        </Link>
+        node.legendUrl
       )}
-    </>
+    </Link>
   );
 
   const attribution = (
@@ -40,6 +38,10 @@ export default function LayerInfo({ node }) {
       ・このデータは，対象のエリアで，ズームレベルを〇以上に拡大すると表示されます。
     </div>
   );
+
+  // 地理院データはminZoomが実態と１ずれるよう
+  const minZoom =
+    node.category[0] === "国土地理院" ? node.minZoom - 1 : node.minZoom;
 
   return (
     <div>
@@ -75,7 +77,7 @@ export default function LayerInfo({ node }) {
                 "このカテゴリー内の全てのデータを選択すると，本来の表示に近くなります。"}
               {isImage(node.fileType) &&
                 node.minZoom > 0 &&
-                `対象のエリアにおいて，ズームレベルが${node.minZoom}以上で表示されます。`}
+                `対象のエリアにおいて，ズームレベルが${minZoom}以上で表示されます。`}
             </dd>
           </div>
         </dl>

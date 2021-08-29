@@ -8,6 +8,7 @@ const attribution = {
   attributionUrl: "https://aginfo.cgk.affrc.go.jp/tmc/layers.html.ja",
 };
 
+// ToDO 小数点の必要なしminZoom
 const data = [
   // {
   //   id: "基盤地図情報 25000（等高線以外）",

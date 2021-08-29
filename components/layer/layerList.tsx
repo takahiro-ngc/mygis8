@@ -20,7 +20,6 @@ const setCategory = (list, category = []) =>
   }));
 
 export const layerList = setCategory(layers);
-console.log(layerList);
 const flattenTree = (tree) =>
   tree.flatMap((d) => (d.entries ? flattenTree(d.entries) : d));
 
