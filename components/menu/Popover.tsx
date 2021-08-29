@@ -22,7 +22,7 @@ export default function Popover({
       style={{
         zIndex: 1,
         padding: 16,
-        width: 420,
+        width: 440,
         maxWidth: "95vw",
         maxHeight: "calc(100vh - 16px)",
         overflow: "auto",

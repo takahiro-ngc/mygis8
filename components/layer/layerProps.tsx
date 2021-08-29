@@ -10,8 +10,8 @@ export const setProps = (url, fileType) => {
     // deck.glにない独自プロパティ
     // title: url, //表示名。個別設定を想定。
     layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
-    fileType: fileType, //デバッグ用
-    isTile: isTile(url), //デバッグ用
+    fileType: fileType,
+    isTile: isTile(url), //デバッグ用　不要？
 
     // 基本
     ID: url + Math.random(), //同一URLが複数登録されているため，urlだけでは不可
@@ -94,7 +94,7 @@ export const setPropsForGsi = (
   };
 
   // 「deck.glのmaxZoom = 地理院のmaxNativeZoom」である模様。
-  // ただし，「deck.glのmaxZoom = 地理院のminZoom」との誤用？や（湖沼図諸元情報），記載漏れ（電子国土基本図更新情報）もある。
+  // ただし，minZoomとの誤用？や（湖沼図諸元情報），記載漏れ（電子国土基本図更新情報）もある。
   // とりあえず，次のように設定するとうまくいくよう。
   const tileProps = {
     minZoom: minZoom,

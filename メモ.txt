@@ -47,6 +47,7 @@ position absoluteのため，親に次を設定すればよい
 ・blurの再検討，閉じるボタンを耳化
 ・geojsonbufの利用
 
+
 〇優先度中
 ・gsiベクターを一種類ずつ掲載
 ・ラベルドgeojson

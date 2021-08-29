@@ -4,13 +4,10 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import { isImage } from "../utility";
 
-const isString = (data) => typeof data === "string";
-// ToDO layerSettingsTableを使わずに
 export default function LayerInfo({ node }) {
-  // https://github.com/gsi-cyberjapan/layers-dot-txt-spec/blob/master/specifications.md
-
   const category = node.category.map((d) => `${d} > `);
 
+  const isString = (data) => typeof data === "string";
   const description = isString(node.html)
     ? ReactHtmlParser(node.html)
     : node.html;
@@ -33,11 +30,14 @@ export default function LayerInfo({ node }) {
     </Link>
   );
 
-  const notes = (
-    <div style={{ border: "1px lightgray solid", padding: 8 }}>
-      ・上の説明は，出典からの引用です。
-      <br />
-      ・特別な設定のある一部データは，本サイト上では，正常に動作しない機能や説明と異なる表示があります。
+  const notesFortoggleall = (
+    <div>
+      ・このカテゴリー内のデータは，全て選択すると，本来の表示に近くなります。
+    </div>
+  );
+  const notesForMinZoom = (
+    <div>
+      ・このデータは，対象のエリアで，ズームレベルを〇以上に拡大すると表示されます。
     </div>
   );
 
@@ -49,27 +49,57 @@ export default function LayerInfo({ node }) {
         {node.title}
       </Typography>
 
-      <Typography variant="body1" style={{ paddingTop: 8 }}>
-        出典：{attribution}
+      <Typography variant="body1">
+        <dl>
+          <div>
+            <dt>出典</dt>
+            <dd>{attribution}</dd>
+          </div>
+          <div>
+            <dt>凡例</dt>
+            <dd>{legend}</dd>
+          </div>
+          <div>
+            <dt>説明</dt>
+            <dd>{description}</dd>
+          </div>
+          <div>
+            <dt>備考</dt>
+            <dd>{node.notes}</dd>
+          </div>
+
+          <div>
+            <dt>表示設定</dt>
+            <dd>
+              {node.toggleall &&
+                "このカテゴリー内の全てのデータを選択すると，本来の表示に近くなります。"}
+              {isImage(node.fileType) &&
+                node.minZoom > 0 &&
+                `対象のエリアにおいて，ズームレベルが${node.minZoom}以上で表示されます。`}
+            </dd>
+          </div>
+        </dl>
       </Typography>
 
-      {node.legendUrl && (
-        <Typography variant="body1" style={{ paddingTop: 8 }}>
-          凡例：{legend}
-        </Typography>
-      )}
-
-      {node.html && (
-        <Typography variant="body1" style={{ paddingTop: 8 }}>
-          説明：{description}
-        </Typography>
-      )}
-
-      {node.notes && (
-        <Typography variant="body1" style={{ paddingTop: 8 }}>
-          補足：{node.notes}
-        </Typography>
-      )}
+      <style jsx>
+        {`
+          dl {
+            margin: 0;
+          }
+          dl div {
+            display: flex;
+            border-bottom: 1px rgb(81, 81, 81) solid;
+            padding: 8px;
+          }
+          dt {
+            width: 20%;
+          }
+          dd {
+            width: 80%;
+            margin: 0;
+          }
+        `}
+      </style>
     </div>
   );
 }

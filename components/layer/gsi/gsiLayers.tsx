@@ -11,6 +11,8 @@ import layers7 from "./layers7.json";
 
 // データは20200101時点
 // https://github.com/gsi-cyberjapan/gsimaps/tree/gh-pages/layers_txt
+// https://github.com/gsi-cyberjapan/layers-dot-txt-spec/blob/master/specifications.md
+
 export const layerList = [
   {
     type: "LayerGroup",
@@ -46,9 +48,9 @@ export const fetchUrl = (url) =>
 
 const notesForGsi = (
   <div>
-    ・説明は，出典サイトからの引用です。
+    説明は，出典サイトからの引用です。
     <br />
-    ・特殊な設定のある一部データは，本サイト上では，動作しない機能や本来と異なる表示があります。
+    特殊な設定のある一部データは，本サイト上では，正常な動作・表示とはならない場合があります。
   </div>
 );
 
