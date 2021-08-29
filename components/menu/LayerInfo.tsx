@@ -28,17 +28,6 @@ export default function LayerInfo({ node }) {
     </Link>
   );
 
-  const notesFortoggleall = (
-    <div>
-      ・このカテゴリー内のデータは，全て選択すると，本来の表示に近くなります。
-    </div>
-  );
-  const notesForMinZoom = (
-    <div>
-      ・このデータは，対象のエリアで，ズームレベルを〇以上に拡大すると表示されます。
-    </div>
-  );
-
   // 地理院データはminZoomが実態と１ずれるよう
   const minZoom =
     node.category[0] === "国土地理院" ? node.minZoom - 1 : node.minZoom;

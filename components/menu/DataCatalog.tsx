@@ -53,12 +53,12 @@ export default function DataCatalog({
                 alignItems: "center",
               }}
             >
-              {/* <div style={{ marginRight: "auto" }}> */}
-              {node.title}
-              {/* {node.fileType && <Chip label={node.fileType} size="small" />}
+              <div style={{ marginRight: "auto" }}>
+                {node.title}
+                {node.fileType && <Chip label={node.fileType} size="small" />}
                 {node.isTile && <Chip label="タイル" size="small" />}
-                {node.minZoom && <Chip label={node.minZoom} size="small" />} */}
-              {/* </div> */}
+                {node.minZoom && <Chip label={node.minZoom} size="small" />}
+              </div>
 
               {node.area && (
                 <IconButton
@@ -72,6 +72,7 @@ export default function DataCatalog({
                   {<FlightTakeoffIcon />}
                 </IconButton>
               )}
+
               <PopoverButton icon={<InfoOutlinedIcon />}>
                 <LayerInfo node={node}></LayerInfo>
               </PopoverButton>

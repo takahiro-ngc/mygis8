@@ -8,6 +8,8 @@ import Fade from "@material-ui/core/Fade";
 import Slide from "@material-ui/core/Slide";
 import DataCatalog from "./DataCatalog";
 import SelectedLayerList from "./selectedLayer/SelectedLayerList";
+import useLocalStorage from "../useLocalStorage";
+import { unique } from "../utility";
 
 export default function MainMenu({
   layers,
@@ -16,9 +18,17 @@ export default function MainMenu({
   isMainView,
   isDoubleView,
 }) {
+  const [storedHistry, setHistry] = useLocalStorage("histry", []);
+  const addHistry = (id) =>
+    setHistry((prev) => {
+      let uniqueList = unique([id, ...prev]);
+      uniqueList.length > 10 && uniqueList.pop();
+      return uniqueList;
+    });
+
   const addLayer = (id) => {
     setLayers([findLayer(id), ...layers]);
-    // setHistry((prev) => unique([id, ...prev]));
+    addHistry(id);
   };
 
   const deleteLayer = (id) => setLayers(layers.filter((elm) => elm.id !== id));
@@ -81,9 +91,9 @@ export default function MainMenu({
               deleteLayer={deleteLayer}
               layers={layers}
               setLayers={setLayers}
-              // storedHistry={storedHistry}
+              storedHistry={storedHistry}
               addLayer={addLayer}
-              // setHistry={setHistry}
+              setHistry={setHistry}
             ></SelectedLayerList>
           </Resizable>
         </div>

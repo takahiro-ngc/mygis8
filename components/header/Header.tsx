@@ -52,14 +52,12 @@ export default function Header({ setLayers, setIsDoubleView }) {
         zIndex: 1,
         padding: 8,
         display: "flex",
-        // boxShadow: "0px 0px 12px 0px rgba(0,0,0,0.5)",
         background: "rgba(50, 50, 50)",
       }}
     >
       <Typography variant="h5" component="h1">
         色々な地図。
       </Typography>
-
       <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
         <>
           <Button

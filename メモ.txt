@@ -29,7 +29,6 @@ position absoluteのため，親に次を設定すればよい
 
 〇優先度高
 ・demデータの利用
-・履歴
 ・タイプスクリプト
 ・データの充実，メタ情報
 ・共有用url
@@ -43,11 +42,13 @@ position absoluteのため，親に次を設定すればよい
 ・地理院のクリックしても無反応データ
 ・blurの再検討
 ・geojsonbufの利用
-・大きなツリー開閉で書くつく　overflowy hidden?
 
 
 
 〇優先度中
+・二画面時にツリー開閉でかくつく　overflowy hidden?
+
+・headerの垂直のずれ（* borderで分かる）
 ・gsiベクターを一種類ずつ掲載
 ・ラベルドgeojson
 ・ミニマップ

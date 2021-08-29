@@ -20,7 +20,12 @@ export default function SelectedLayerList({
         height: "100%",
       }}
     >
-      <Title />
+      <Title
+        layers={layers}
+        addLayer={addLayer}
+        storedHistry={storedHistry}
+        setHistry={setHistry}
+      />
 
       <ListReactMovable
         values={layers}

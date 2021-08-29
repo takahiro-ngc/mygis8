@@ -14,7 +14,7 @@ export const setProps = (url, fileType) => {
     isTile: isTile(url), //デバッグ用　不要？
 
     // 基本
-    ID: url + Math.random(), //同一URLが複数登録されているため，urlだけでは不可
+    ID: url, //同一URLが複数登録されているため，本当はurlだけでは不可
     data: url,
     pickable: true,
     autoHighlight: false,
