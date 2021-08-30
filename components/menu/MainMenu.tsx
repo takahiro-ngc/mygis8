@@ -100,7 +100,7 @@ export const MainMenu = React.memo(
             .menu {
               width: ${isDoubleView ? "25%" : "35%"};
               max-width: 420px;
-              min-width: 350px;
+              min-width: 340px;
               height: 100%;
               display: flex;
               flex-direction: column;

@@ -47,6 +47,7 @@ export const Header = React.memo(({ setLayers, setIsDoubleView }) => {
         zIndex: 1,
         padding: 8,
         display: "flex",
+        alignItems: "center",
         background: "rgba(50, 50, 50)",
       }}
     >

@@ -34,7 +34,6 @@ position absoluteのため，親に次を設定すればよい
 ・データの充実，メタ情報
 ・共有用url
 ・ステレオグラム
-・useCallback
 ・importの様々な拡張子 kml kmz shape geojson csv（ポイントのみ）
 ・importのヘルパーテキスト
 ・kml用プロパティがgsiプロパティと混在
@@ -49,7 +48,8 @@ position absoluteのため，親に次を設定すればよい
 
 〇優先度中
 ・二画面時にツリー開閉でかくつく　overflowy hidden?
-
+・ホバーで凡例を表示　デフォルトはオフ
+・ツールチップの位置
 ・headerの垂直のずれ（* borderで分かる）
 ・gsiベクターを一種類ずつ掲載
 ・ラベルドgeojson

@@ -6,6 +6,10 @@ import { Header } from "../components/header/Header";
 import { FeatureInfo } from "../components/FeatureInfo";
 import { findLayer } from "../components/layer/layerList";
 import Slide from "@material-ui/core/Slide";
+import Switch from "@material-ui/core/Switch";
+import { Button } from "@material-ui/core";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { SyncSwitch } from "../components/SyncSwitch";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -32,6 +36,7 @@ export default function Home() {
   // 共通
   const [feature, setFeature] = useState(null);
   const [isDoubleView, setIsDoubleView] = useState(true);
+  const [isSync, setIsSync] = useState(false);
 
   return (
     <div className="wrapper">
@@ -52,14 +57,7 @@ export default function Home() {
             isDoubleView={isDoubleView}
           />
         </div>
-        {/* <Slide
-          in={isDoubleView}
-          direction={"left"}
-          appear={false} //初期ロード時のtransitionを防ぐ
-          unmountOnExit
-          mountOnEnter
-          // exit={false}
-        > */}
+
         <div
           className="side"
           style={{ borderLeft: "1px black solid" }}
@@ -67,8 +65,8 @@ export default function Home() {
         >
           <Map
             layers={layersForSub}
-            viewState={viewStateForSub}
-            setViewState={setViewStateForSub}
+            viewState={isSync ? viewState : viewStateForSub}
+            setViewState={isSync ? setViewState : setViewStateForSub}
             setFeature={setFeature}
           />
           <MainMenu
@@ -79,7 +77,15 @@ export default function Home() {
             isDoubleView={isDoubleView}
           />
         </div>
-        {/* </Slide> */}
+
+        {isDoubleView && (
+          <SyncSwitch
+            isSync={isSync}
+            setIsSync={setIsSync}
+            viewState={viewState}
+            setViewStateForSub={setViewStateForSub}
+          />
+        )}
       </div>
 
       <FeatureInfo feature={feature} setFeature={setFeature} />
