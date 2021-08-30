@@ -1,6 +1,6 @@
 import { useState } from "react";
 import MenuContainer from "../components/menu/MenuContainer ";
-import MainMap from "../components/map/MainMap";
+import { Map } from "../components/map/Map";
 import BottomBar from "../components/menu/BottomInfo";
 import LeftBar from "../components/menu/MainMenu";
 import Header from "../components/header/Header";

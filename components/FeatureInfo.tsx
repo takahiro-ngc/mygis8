@@ -1,3 +1,4 @@
+import React from "react";
 import ReactHtmlParser from "react-html-parser";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,7 +11,7 @@ import { isImage } from "./utility";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Fade from "@material-ui/core/Fade";
 
-export default function FeatureInfo({ feature, setFeature }) {
+export const FeatureInfo = React.memo(({ feature, setFeature }) => {
   const infoArray = Object.entries(feature?.object?.properties || {});
   const isStyleInfo = (row) => row.startsWith("_"); //_colorや_opacityなどのプロパティが地理院レイヤーにあり
   return (
@@ -98,4 +99,4 @@ export default function FeatureInfo({ feature, setFeature }) {
       </style>
     </>
   );
-}
+});

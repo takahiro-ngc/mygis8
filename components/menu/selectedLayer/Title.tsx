@@ -17,7 +17,10 @@ export default function Title({ layers, addLayer, storedHistry, setHistry }) {
         選択中のデータ
       </Typography>
 
-      <PopoverButton icon={<HistoryIcon />} style={{ width: "fit-content" }}>
+      <PopoverButton
+        icon={<HistoryIcon />}
+        style={{ width: "fit-content", minWidth: "200px" }}
+      >
         <Histry
           layers={layers}
           storedHistry={storedHistry}

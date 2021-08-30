@@ -1,10 +1,11 @@
-import { useState } from "react";
-import MainMap from "../components/map/MainMap";
+import { useState, memo } from "react";
+import { Map } from "../components/map/Map";
 import BottomInfo from "../components/menu/BottomInfo";
-import MainMenu from "../components/menu/MainMenu";
-import Header from "../components/header/Header";
-import FeatureInfo from "../components/FeatureInfo";
+import { MainMenu } from "../components/menu/MainMenu";
+import { Header } from "../components/header/Header";
+import { FeatureInfo } from "../components/FeatureInfo";
 import { findLayer } from "../components/layer/layerList";
+import Slide from "@material-ui/core/Slide";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -37,13 +38,12 @@ export default function Home() {
       <Header setLayers={setLayers} setIsDoubleView={setIsDoubleView} />
       <div className="main">
         <div className="side">
-          <MainMap
+          <Map
             layers={layers}
             viewState={viewState}
             setViewState={setViewState}
             setFeature={setFeature}
           />
-
           <MainMenu //後の要素が上に描画される
             layers={layers}
             setLayers={setLayers}
@@ -52,13 +52,20 @@ export default function Home() {
             isDoubleView={isDoubleView}
           />
         </div>
-
+        {/* <Slide
+          in={isDoubleView}
+          direction={"left"}
+          appear={false} //初期ロード時のtransitionを防ぐ
+          unmountOnExit
+          mountOnEnter
+          // exit={false}
+        > */}
         <div
           className="side"
           style={{ borderLeft: "1px black solid" }}
           hidden={!isDoubleView}
         >
-          <MainMap
+          <Map
             layers={layersForSub}
             viewState={viewStateForSub}
             setViewState={setViewStateForSub}
@@ -72,6 +79,7 @@ export default function Home() {
             isDoubleView={isDoubleView}
           />
         </div>
+        {/* </Slide> */}
       </div>
 
       <FeatureInfo feature={feature} setFeature={setFeature} />

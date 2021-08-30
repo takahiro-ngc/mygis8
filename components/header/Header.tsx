@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import { Typography } from "@material-ui/core";
 import { Button } from "@material-ui/core/";
@@ -6,19 +6,14 @@ import PopoverButton from "../menu/PopoverButton";
 import Faq from "./Faq";
 import Import from "./Import";
 import ShareIcon from "@material-ui/icons/Share";
-import HelpIcon from "@material-ui/icons/Help";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-import InfoIcon from "@material-ui/icons/Info";
+
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import MenuIcon from "@material-ui/icons/Menu";
-import Popover from "../menu/Popover";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+
 import LooksTwoOutlinedIcon from "@material-ui/icons/LooksTwoOutlined";
 
-export default function Header({ setLayers, setIsDoubleView }) {
+export const Header = React.memo(({ setLayers, setIsDoubleView }) => {
   const matches = useMediaQuery("(min-width:500px)");
   const Item = ({ label, icon, children }) => (
     <>
@@ -58,6 +53,7 @@ export default function Header({ setLayers, setIsDoubleView }) {
       <Typography variant="h5" component="h1">
         色々な地図。
       </Typography>
+
       <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
         <>
           <Button
@@ -83,4 +79,4 @@ export default function Header({ setLayers, setIsDoubleView }) {
       </div>
     </div>
   );
-}
+});
