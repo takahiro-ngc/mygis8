@@ -98,9 +98,9 @@ export const MainMenu = React.memo(
         <style jsx>
           {`
             .menu {
-              width: ${isDoubleView ? "25%" : "35%"};
+              width: ${isDoubleView ? "20%" : "35%"};
               max-width: 420px;
-              min-width: 340px;
+              min-width: 260px;
               height: 100%;
               display: flex;
               flex-direction: column;

@@ -2,16 +2,25 @@ import { BitmapLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
 import { hex2rgb } from "../hex2rgb";
 import { isTile, getFileType, isImage } from "../utility";
+import { load } from "@loaders.gl/core";
+import { registerLoaders } from "@loaders.gl/core";
+// import { ShapefileLoader } from "@loaders.gl/shapefile";
+// registerLoaders([KMLLoader, ShapefileLoader]);
+
+// registerLoaders([KMLLoader]); data: load(url),
+// data: load(url,[KMLLoader]),
+// のどちらでも，fileObjectからkml,jsonの読込できた 　ただしタイルの設定をしないとランタイムエラー多発
+// loadがないとkmlもjsonも読み込めない
 
 export const setProps = (url, fileType) => {
   fileType = fileType || getFileType(url);
-
   const mainProps = {
     // deck.glにない独自プロパティ
     // title: url, //表示名。個別設定を想定。
-    layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
+    layerType: "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
+    // layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
     fileType: fileType,
-    isTile: isTile(url), //デバッグ用　不要？
+    // isTile: isTile(url), //デバッグ用　不要？
 
     // 基本
     ID: url, //同一URLが複数登録されているため，本当はurlだけでは不可
@@ -60,11 +69,12 @@ export const setProps = (url, fileType) => {
   };
 
   // ToDo imageとbitmapの用語
-  const isBitmapTile = isTile(url) && isImage(fileType);
+  // const isBitmapTile = isTile(url) && isImage(fileType);
+
   return Object.assign(
     {},
     mainProps,
-    isBitmapTile && bitmapTileProps,
+    // isBitmapTile && bitmapTileProps,
     fileType === "kml" && kmlProps
   );
 };

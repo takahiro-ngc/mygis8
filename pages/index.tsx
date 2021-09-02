@@ -26,7 +26,8 @@ export const defaultLayer = findLayer(defaultLayerId);
 
 export default function Home() {
   // メインマップ用
-  const [layers, setLayers] = useState([defaultLayer]);
+  const [layers, setLayers] = useState([]);
+  // const [layers, setLayers] = useState([defaultLayer]);
   const [viewState, setViewState] = useState(initialViewState);
 
   // サブマップ用
@@ -35,7 +36,7 @@ export default function Home() {
 
   // 共通
   const [feature, setFeature] = useState(null);
-  const [isDoubleView, setIsDoubleView] = useState(true);
+  const [isDoubleView, setIsDoubleView] = useState(false);
   const [isSync, setIsSync] = useState(false);
 
   return (

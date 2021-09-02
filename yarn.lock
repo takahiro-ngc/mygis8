@@ -267,6 +267,16 @@
     "@loaders.gl/worker-utils" "3.0.9"
     draco3d "1.4.1"
 
+"@loaders.gl/gis@3.0.11":
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/@loaders.gl/gis/-/gis-3.0.11.tgz#eb9d7206e05a69b084e75628fd4db130d0b97a83"
+  integrity sha512-1zQz65+o4/nrHwyPKa2yYI0Mk7D9nkGxNXjJZ1CAmj92Idt1B1xJ+SDBYOri/ad0DPARoFm1H6RETDgZFZSdqA==
+  dependencies:
+    "@loaders.gl/loader-utils" "3.0.11"
+    "@loaders.gl/schema" "3.0.11"
+    "@mapbox/vector-tile" "^1.3.1"
+    pbf "^3.2.1"
+
 "@loaders.gl/gis@3.0.9", "@loaders.gl/gis@^3.0.8":
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@loaders.gl/gis/-/gis-3.0.9.tgz#81dc1e046bbb48fcac54bc215c5f6a38cee04b95"
@@ -305,6 +315,15 @@
     "@loaders.gl/schema" "3.0.9"
     "@tmcw/togeojson" "^4.5.0"
 
+"@loaders.gl/loader-utils@3.0.11":
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/@loaders.gl/loader-utils/-/loader-utils-3.0.11.tgz#99a3ad8dae57747a85f36825388da958cc508dc9"
+  integrity sha512-AdaEIfkOsUQZFPp6EbdZLxzXadiBESXvP8sMWwCZuPqQuBeq8YvwBHk58YtiKII8LRpbq75zT9CGdsB1ruCN5g==
+  dependencies:
+    "@babel/runtime" "^7.3.1"
+    "@loaders.gl/worker-utils" "3.0.11"
+    "@probe.gl/stats" "^3.4.0"
+
 "@loaders.gl/loader-utils@3.0.9", "@loaders.gl/loader-utils@^3.0.8", "@loaders.gl/loader-utils@^3.0.9":
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@loaders.gl/loader-utils/-/loader-utils-3.0.9.tgz#3a0e574510bf89d77fa5c3d3508d41f9c8778450"
@@ -333,6 +352,15 @@
     "@math.gl/polygon" "^3.5.1"
     pbf "^3.2.1"
 
+"@loaders.gl/schema@3.0.11":
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/@loaders.gl/schema/-/schema-3.0.11.tgz#196a0540ff9669400356da951c96142d6c5c5b75"
+  integrity sha512-3UIi25honY9HXkcUqeIGPFNFWs79giE+TyuzgVnRJnc80ZRTmBtlNnRKlFXg5mNq6YCjVcr1ql1Zdx1tfxokww==
+  dependencies:
+    "@types/geojson" "^7946.0.7"
+    apache-arrow "^4.0.0"
+    d3-dsv "^1.2.0"
+
 "@loaders.gl/schema@3.0.9":
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@loaders.gl/schema/-/schema-3.0.9.tgz#8f719396d30b5af41ab15c28dc2c27d3c84a17c7"
@@ -341,6 +369,16 @@
     "@types/geojson" "^7946.0.7"
     apache-arrow "^4.0.0"
     d3-dsv "^1.2.0"
+
+"@loaders.gl/shapefile@^3.0.11":
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/@loaders.gl/shapefile/-/shapefile-3.0.11.tgz#4318cfe8cdc573ecc0ce18d2dcbfa188d1d0ba25"
+  integrity sha512-QRA3mdKQp8eTtmpX4JDb5fEuvv7V8BcZr86NzomoOj36r3Vm4YTxtREVG95z5jXQXRqF8ONjbbnVcyudQuSgmA==
+  dependencies:
+    "@loaders.gl/gis" "3.0.11"
+    "@loaders.gl/loader-utils" "3.0.11"
+    "@loaders.gl/schema" "3.0.11"
+    "@math.gl/proj4" "^3.5.1"
 
 "@loaders.gl/terrain@^3.0.8":
   version "3.0.9"
@@ -365,6 +403,13 @@
     "@math.gl/geospatial" "^3.5.1"
     "@math.gl/web-mercator" "^3.5.1"
     "@probe.gl/stats" "^3.4.0"
+
+"@loaders.gl/worker-utils@3.0.11":
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/@loaders.gl/worker-utils/-/worker-utils-3.0.11.tgz#6418032e0a0a89d6988ab8a822eaa2e6f8ea56c5"
+  integrity sha512-zJZtc+EQUKDRL+Xz7uMWfFLARn9gAgG38GZXdPJAGOKD+H7QQ9f72csPqb6/cxrjDyF7ryv02tMF3Ry/40a8fw==
+  dependencies:
+    "@babel/runtime" "^7.3.1"
 
 "@loaders.gl/worker-utils@3.0.9":
   version "3.0.9"
@@ -583,6 +628,16 @@
   integrity sha512-Qco432yukFC+mJum/CgCVX2AT0JOmSlOhwC2mHQWUJlDLe9mSYZ9SmIKHfxSsY8uRxkzqQAxBJoHPKgyoTJbag==
   dependencies:
     "@math.gl/core" "3.5.4"
+
+"@math.gl/proj4@^3.5.1":
+  version "3.5.4"
+  resolved "https://registry.yarnpkg.com/@math.gl/proj4/-/proj4-3.5.4.tgz#8adfb384f3d78537f3d1324c4f3b49d2dfcf1a5c"
+  integrity sha512-inJWhoPaqdxjZFnmno5iQEcu+pG9zW99kOjJV5EY7dc5tnJBZzZf+r5RXmPFZ2utj2F8IAgfqc+Pz679Fd4fgg==
+  dependencies:
+    "@babel/runtime" "^7.12.0"
+    "@math.gl/core" "3.5.4"
+    "@types/proj4" "^2.5.0"
+    proj4 "2.6.2"
 
 "@math.gl/web-mercator@^3.5.1", "@math.gl/web-mercator@^3.5.4":
   version "3.5.4"
@@ -1875,6 +1930,11 @@
   version "14.17.10"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.10.tgz#93f4b095af275a0427114579c10ec7aa696729d7"
   integrity sha512-09x2d6kNBwjHgyh3jOUE2GE4DFoxDriDvWdu6mFhMP1ysynGYazt4ecZmJlL6/fe4Zi2vtYvTvtL7epjQQrBhA==
+
+"@types/proj4@^2.5.0":
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/@types/proj4/-/proj4-2.5.2.tgz#e3afa4e09e5cf08d8bc74e1b3de3b2111324ee33"
+  integrity sha512-/Nmfn9p08yaYw6xo5f2b0L+2oHk2kZeOkp5v+4VCeNfq+ETlLQbmHmC97/pjDIEZy8jxwz7pdPpwNzDHM5cuJw==
 
 "@types/prop-types@*", "@types/prop-types@^15.7.3":
   version "15.7.4"
@@ -4159,6 +4219,11 @@ merge2@^1.3.0:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
 
+mgrs@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mgrs/-/mgrs-1.0.0.tgz#fb91588e78c90025672395cb40b25f7cd6ad1829"
+  integrity sha1-+5FYjnjJACVnI5XLQLJffNatGCk=
+
 micromatch@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.4.tgz#896d519dfe9db25fce94ceb7a500919bf881ebf9"
@@ -4684,6 +4749,14 @@ progress@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
+
+proj4@2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.6.2.tgz#4665d7cbc30fd356375007c2fed53b07dbda1d67"
+  integrity sha512-Pn0+HZtXb4JzuN8RR0VM7yyseegiYHbXkF+2FOdGpzRojcZ1BTjWxOh7qfp2vH0EyLu8pvcrhLxidwzgyUy/Gw==
+  dependencies:
+    mgrs "1.0.0"
+    wkt-parser "^1.2.4"
 
 prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
@@ -5696,6 +5769,11 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
+
+wkt-parser@^1.2.4:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/wkt-parser/-/wkt-parser-1.3.1.tgz#a569678eb28f82f6739f736319be073e32bf8191"
+  integrity sha512-XK5qV+Y5gsygQfHx2/cS5a7Zxsgleaw8iX5UPC5eOXPc0TgJAu1JB9lr0iYYX3zAnN3p0aNiaN5c+1Bdblxwrg==
 
 word-wrap@^1.2.3:
   version "1.2.3"
