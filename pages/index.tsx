@@ -1,15 +1,15 @@
 import { useState, memo } from "react";
-import { Map } from "../components/map/Map";
+import Map from "../components/map/Map";
 import BottomInfo from "../components/menu/BottomInfo";
-import { MainMenu } from "../components/menu/MainMenu";
-import { Header } from "../components/header/Header";
+import Menu from "../components/menu/Menu";
+import Header from "../components/header/Header";
 import FeatureInfo from "../components/FeatureInfo";
 import { findLayer } from "../components/layer/layerList";
 import Slide from "@material-ui/core/Slide";
 import Switch from "@material-ui/core/Switch";
 import { Button } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { SyncSwitch } from "../components/SyncSwitch";
+import SyncSwitch from "../components/SyncSwitch";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -49,7 +49,7 @@ export default function Home() {
             setViewState={setViewState}
             setFeature={setFeature}
           />
-          <MainMenu //後の要素が上に描画される
+          <Menu //後の要素が上に描画される
             layers={layers}
             setLayers={setLayers}
             setViewState={setViewState}
@@ -69,7 +69,7 @@ export default function Home() {
             setViewState={isSync ? setViewState : setViewStateForSub}
             setFeature={setFeature}
           />
-          <MainMenu
+          <Menu
             layers={layersForSub}
             setLayers={setLayersForSub}
             setViewState={setViewStateForSub}

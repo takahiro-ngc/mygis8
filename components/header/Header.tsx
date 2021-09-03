@@ -13,7 +13,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import LooksTwoOutlinedIcon from "@material-ui/icons/LooksTwoOutlined";
 
-export const Header = React.memo(({ setLayers, setIsDoubleView }) => {
+const Header = ({ setLayers, setIsDoubleView }) => {
   const matches = useMediaQuery("(min-width:500px)");
   const Item = ({ label, icon, children }) => (
     <>
@@ -80,4 +80,6 @@ export const Header = React.memo(({ setLayers, setIsDoubleView }) => {
       </div>
     </div>
   );
-});
+};
+
+export default React.memo(Header);
