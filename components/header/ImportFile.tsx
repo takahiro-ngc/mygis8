@@ -9,19 +9,18 @@ import { ZipLoader } from "@loaders.gl/zip";
 import { ShapefileLoader, DBFLoader } from "@loaders.gl/shapefile";
 // registerLoaders([KMLLoader, ShapefileLoader, DBFLoader]);
 
+// ToDo utilityへ移動
 const getFileType = (fileName) => {
   const pos = fileName.lastIndexOf(".");
   return fileName.slice(pos + 1).toLowerCase();
 };
 
-// ToDO isTileでエラーなので，仮削除中
 export default function ImportFile({ setLayers }) {
-  const importFile = async (e) => {
+  const importFile = (e) => {
     const fileObject = e.target.files[0];
-    const fileName = fileObject.name;
-    const fileType = getFileType(fileName);
+    const fileType = getFileType(fileObject.name);
 
-    await load(fileObject, [KMLLoader])
+    load(fileObject, [KMLLoader])
       .then((d) => {
         console.log(d, fileType);
         return {
@@ -50,7 +49,7 @@ export default function ImportFile({ setLayers }) {
             color="primary"
           >
             ファイルを選択
-            <input type="file" hidden onChange={importFile} multiple />
+            <input type="file" hidden onChange={importFile} />
           </Button>
         </div>
       </div>

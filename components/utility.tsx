@@ -83,8 +83,8 @@ export const isValidUrl = (url) => {
 };
 
 export const isTile = (url) => {
-  const d = url?.toLowerCase();
-  return d?.includes("{x}") && d?.includes("{y}") && d?.includes("{z}");
+  const d = url.toString().toLowerCase().slice(0, 100);
+  return d.includes("{x}") && d.includes("{y}") && d.includes("{z}");
 };
 // 説明 正規化関数
 // 参考 https://zukucode.com/2017/04/javascript-object-max.html
