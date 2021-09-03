@@ -11,7 +11,7 @@ import { isImage } from "./utility";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Fade from "@material-ui/core/Fade";
 
-export const FeatureInfo = React.memo(({ feature, setFeature }) => {
+const FeatureInfo = ({ feature, setFeature }) => {
   const infoArray = Object.entries(feature?.object?.properties || {});
   const isStyleInfo = (row) => row.startsWith("_"); //_colorや_opacityなどのプロパティが地理院レイヤーにあり
   return (
@@ -99,4 +99,6 @@ export const FeatureInfo = React.memo(({ feature, setFeature }) => {
       </style>
     </>
   );
-});
+};
+
+export default React.memo(FeatureInfo);

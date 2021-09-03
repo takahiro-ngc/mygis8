@@ -3,7 +3,7 @@ import { Map } from "../components/map/Map";
 import BottomInfo from "../components/menu/BottomInfo";
 import { MainMenu } from "../components/menu/MainMenu";
 import { Header } from "../components/header/Header";
-import { FeatureInfo } from "../components/FeatureInfo";
+import FeatureInfo from "../components/FeatureInfo";
 import { findLayer } from "../components/layer/layerList";
 import Slide from "@material-ui/core/Slide";
 import Switch from "@material-ui/core/Switch";
