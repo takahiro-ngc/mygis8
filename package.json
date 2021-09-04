@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@danmarshall/deckgl-typings": "^4.9.3",
+    "@loaders.gl/json": "^3.0.11",
     "@loaders.gl/kml": "^3.0.8",
     "@loaders.gl/loader-utils": "^3.0.9",
     "@loaders.gl/shapefile": "^3.0.11",

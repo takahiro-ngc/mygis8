@@ -2,6 +2,9 @@ import { BitmapLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
 import { hex2rgb } from "../hex2rgb";
 import { isTile, getFileType, isImage } from "../utility";
+// import { JSONLoader } from "@loaders.gl/json";
+// import { registerLoaders } from "@loaders.gl/core";
+// registerLoaders([JSONLoader]);
 
 // geojsonのスタイルは，以下のうち主な属性のみ実装
 // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
@@ -15,6 +18,7 @@ export const setProps = (url, fileType) => {
     layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
     fileType: fileType,
     isTile: isTile(url), //デバッグ用　不要？
+    // loaders: [JSONLoader],
 
     // 基本
     ID: url, //同一URLが複数登録されているため，本当はurlだけでは不可
@@ -36,7 +40,7 @@ export const setProps = (url, fileType) => {
     getLineColor: (d) => {
       const src = d.properties;
       const hex = src?._color || src?.lineColor || src?.stroke || "#000000";
-      const opacity = src?._opacity || 1;
+      const opacity = src?._opacity || src?.["stroke-opacity"] || 1;
       return [...hex2rgb(hex), opacity * 255];
     },
 
@@ -93,18 +97,18 @@ export const setPropsForGsi = (
   maxNativeZoom = null,
   iconUrl = null
 ) => {
-  // 「deck.glのmaxZoom = 地理院のmaxNativeZoom」である模様。
-  // ただし，minZoomとの誤用？や（湖沼図諸元情報），記載漏れ（電子国土基本図更新情報）もある。
-  // とりあえず，次のように設定するとうまくいくよう。
-  const tileProps = {
+  return {
+    // タイル用
+    // 「deck.glのmaxZoom = 地理院のmaxNativeZoom」である模様。
+    // ただし，minZoomとの誤用？や（湖沼図諸元情報），記載漏れ（電子国土基本図更新情報）もある。
+    // とりあえず，次のように設定するとうまくいくよう。
     minZoom: minZoom,
     maxZoom: isImage(url)
       ? maxNativeZoom ?? maxZoom
       : maxNativeZoom ?? minZoom ?? maxZoom ?? 2, //maxZoomではないので注意。2がデフォルトのよう
-  };
 
-  // ToDo iconがある時は，circleを表示しない 土地条件図→日本の典型地形
-  const iconProps = {
+    // アイコン用
+    // ToDo iconがある時は，circleを表示しない 土地条件図→日本の典型地形
     pointType: iconUrl ? "icon" : "circle+icon",
     getIcon: (d) => {
       const src = d.properties;
@@ -118,6 +122,4 @@ export const setPropsForGsi = (
     },
     getIconSize: 24, //必須
   };
-
-  return Object.assign({}, tileProps, iconProps);
 };
