@@ -32,7 +32,7 @@ export const findLayer = (layerId, targetList = layerList) =>
   flattenTree(layerList).find((obj) => obj.id === layerId);
 
 // 重複
-const idList = flattenTree(layerList).map((d) => d.id);
-const Duplicate = Array.from(new Set(idList));
-console.log("idList", idList);
-console.log("Duplicate", Duplicate);
+// const idList = flattenTree(layerList).map((d) => d.id);
+// const Duplicate = Array.from(new Set(idList));
+// console.log("idList", idList);
+// console.log("Duplicate", Duplicate);
