@@ -15,10 +15,6 @@ import {
   MVTLayer,
   Tile3DLayer,
 } from "@deck.gl/geo-layers";
-// import { GsiTerrainLayer } from "deckgl-gsi-terrain-layer";
-// import { TerrainLayer } from "../terrainLayerForGSI/deckgl/geo-layers/src/";
-// import { LabeledGeoJsonLayer } from "../components/customLayer";
-import { GsiTerrainLayer } from "../terrainLayerForGSI/deckgl-gsi-terrain-layer/index.js";
 
 export const Map = ({ layers, viewState, setViewState, setFeature }) => {
   // https://gbank.gsj.jp/seamless/elev/tile.html
@@ -65,15 +61,12 @@ export const Map = ({ layers, viewState, setViewState, setFeature }) => {
         return new ScatterplotLayer(setting);
       case "TileLayer":
         return new TileLayer(setting);
-      // case "LabeledGeoJsonLayer":
-      //   return new LabeledGeoJsonLayer(setting);
-      // // https://github.com/Kanahiro/deckgl-gsi-terrain-layer
-      case "GsiTerrainLayer":
-        return new GsiTerrainLayer({
-          ...setting,
-          // elevationData: elevationData,
-          // maxZoom: 15.99,
-        });
+      // case "GsiTerrainLayer":
+      //   return new GsiTerrainLayer({
+      //     ...setting,
+      //     // elevationData: elevationData,
+      //     // maxZoom: 15.99,
+      //   });
       case "MVTLayer":
         return new MVTLayer(setting);
       case "Tile3DLayer":
