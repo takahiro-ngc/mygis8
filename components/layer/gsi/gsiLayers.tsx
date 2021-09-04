@@ -74,6 +74,7 @@ const addProps = (url = []) =>
           d.maxNativeZoom,
           d.iconUrl
         ),
+        title: d.title,
       },
       { notes: notesForGsi },
       attribution,

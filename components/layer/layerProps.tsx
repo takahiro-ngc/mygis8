@@ -2,22 +2,16 @@ import { BitmapLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
 import { hex2rgb } from "../hex2rgb";
 import { isTile, getFileType, isImage } from "../utility";
-import { load } from "@loaders.gl/core";
-import { registerLoaders } from "@loaders.gl/core";
-// import { ShapefileLoader } from "@loaders.gl/shapefile";
-// registerLoaders([KMLLoader]);
 
-// registerLoaders([KMLLoader]); data: load(url),
-// data: load(url,[KMLLoader]),
-// のどちらでも，fileObjectからkml,jsonの読込できた 　ただしタイルの設定をしないとランタイムエラー多発
-// loadがないとkmlもjsonも読み込めない
+// geojsonのスタイルは，以下のうち主な属性のみ実装
+// https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
+// https://github.com/gsi-cyberjapan/geojson-with-style-spec
 
 export const setProps = (url, fileType) => {
   fileType = fileType || getFileType(url);
   const mainProps = {
     // deck.glにない独自プロパティ
-    // title: url, //表示名。個別設定を想定。
-    // layerType: "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
+    title: "untitled", //表示名。
     layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
     fileType: fileType,
     isTile: isTile(url), //デバッグ用　不要？
@@ -26,21 +20,34 @@ export const setProps = (url, fileType) => {
     ID: url, //同一URLが複数登録されているため，本当はurlだけでは不可
     data: url,
     pickable: true,
-    autoHighlight: false,
+    autoHighlight: true,
     parameters: {
       depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
     },
-
-    // ライン・ポリゴン関係
-    filled: false,
-    getFillColor: [0, 0, 255, 128],
-    getLineWidth: 4,
-    lineWidthUnits: "pixels",
 
     // 点関係
     getPointRadius: 5,
     pointRadiusUnits: "pixels",
     pointRadiusScale: 5,
+
+    // ライン関係
+    lineWidthUnits: "pixels",
+    getLineWidth: (d) => Number(d.properties?.lineWidth) || 3, //地理院のlineWidthは文字列のことがある
+    getLineColor: (d) => {
+      const src = d.properties;
+      const hex = src?._color || src?.lineColor || src?.stroke || "#000000";
+      const opacity = src?._opacity || 1;
+      return [...hex2rgb(hex), opacity * 255];
+    },
+
+    // ポリゴン関係
+    filled: true, //検討中
+    getFillColor: (d) => {
+      const src = d.properties;
+      const hex = src?._fillColor || src?.polyColor || "#0033ff";
+      const opacity = src?._fillOpacity || src?._opacity || 0.5;
+      return [...hex2rgb(hex), opacity * 255];
+    },
 
     // タイルレイヤー用
     tileSize: 256,
@@ -86,23 +93,6 @@ export const setPropsForGsi = (
   maxNativeZoom = null,
   iconUrl = null
 ) => {
-  const mainProps = {
-    getLineWidth: (d) => Number(d.properties?.lineWidth) || 3,
-    getLineColor: (d) => {
-      const src = d.properties;
-      const hex = src?._color || src?.lineColor || src?.stroke || "#000000";
-      const opacity = src?._opacity || 1;
-      return [...hex2rgb(hex), opacity * 255];
-    },
-    filled: true,
-    getFillColor: (d) => {
-      const src = d.properties;
-      const hex = src?._fillColor || src?.polyColor || "#0033ff";
-      const opacity = src?._fillOpacity || src?._opacity || 1;
-      return [...hex2rgb(hex), opacity * 255];
-    },
-  };
-
   // 「deck.glのmaxZoom = 地理院のmaxNativeZoom」である模様。
   // ただし，minZoomとの誤用？や（湖沼図諸元情報），記載漏れ（電子国土基本図更新情報）もある。
   // とりあえず，次のように設定するとうまくいくよう。
@@ -110,9 +100,10 @@ export const setPropsForGsi = (
     minZoom: minZoom,
     maxZoom: isImage(url)
       ? maxNativeZoom ?? maxZoom
-      : maxNativeZoom ?? minZoom ?? 2, //maxZoomではないので注意。2がデフォルトのよう
+      : maxNativeZoom ?? minZoom ?? maxZoom ?? 2, //maxZoomではないので注意。2がデフォルトのよう
   };
 
+  // ToDo iconがある時は，circleを表示しない 土地条件図→日本の典型地形
   const iconProps = {
     pointType: iconUrl ? "icon" : "circle+icon",
     getIcon: (d) => {
@@ -128,5 +119,5 @@ export const setPropsForGsi = (
     getIconSize: 24, //必須
   };
 
-  return Object.assign({}, mainProps, tileProps, iconProps);
+  return Object.assign({}, tileProps, iconProps);
 };
