@@ -15,8 +15,25 @@ import {
   MVTLayer,
   Tile3DLayer,
 } from "@deck.gl/geo-layers";
+import { EditableGeoJsonLayer } from "@nebula.gl/layers";
+import { Button } from "@material-ui/core";
+import {
+  ViewMode,
+  DrawPointMode,
+  DrawLineStringMode,
+  DrawPolygonMode,
+  DrawPolygonByDraggingMode,
+  DrawRectangleUsingThreePointsMode,
+  DrawCircleFromCenterMode,
+} from "nebula.gl";
 
-export const Map = ({ layers, viewState, setViewState, setFeature }) => {
+export const Map = ({
+  layers,
+  viewState,
+  setViewState,
+  setFeature,
+  modeOfEdit,
+}) => {
   // https://gbank.gsj.jp/seamless/elev/tile.html
   const SEEMLESS = "https://tiles.gsj.jp/tiles/elev/mixed/{z}/{y}/{x}.png";
   // https://maps.gsi.go.jp/development/hyokochi.html
@@ -94,16 +111,35 @@ export const Map = ({ layers, viewState, setViewState, setFeature }) => {
     },
   });
 
+  const [features, setFeatures] = useState({
+    type: "FeatureCollection",
+    features: [],
+  });
+  const [selectedFeatureIndexes] = useState([]);
+
+  const EditableGeoJson = new EditableGeoJsonLayer({
+    id: "EditableGeoJson",
+    data: features,
+    mode: modeOfEdit.handler,
+    selectedFeatureIndexes,
+    onEdit: ({ updatedData }) => {
+      setFeatures(updatedData);
+    },
+  });
+
   return (
     <>
       {/* 右クリックによるメニュー抑止 */}
       <div onContextMenu={(e) => e.preventDefault()}>
         <DeckGL
-          layers={[backgroundLayer, layersWithSetting]}
+          layers={[backgroundLayer, layersWithSetting, EditableGeoJson]}
           controller={{
             inertia: true,
-            scrollZoom: { speed: 0.01, smooth: true },
+            scrollZoom: { speed: 0.05, smooth: true },
             touchRotate: true,
+            // ToDo
+            doubleClickZoom:
+              String(modeOfEdit.handler) === "ViewMode" ? true : false,
           }}
           onClick={onClick}
           viewState={viewState}

@@ -7,13 +7,14 @@ import Faq from "./Faq";
 import Import from "./Import";
 import ShareIcon from "@material-ui/icons/Share";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
+import Edit from "./Edit";
 
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import LooksTwoOutlinedIcon from "@material-ui/icons/LooksTwoOutlined";
 
-const Header = ({ setLayers, setIsDoubleView }) => {
+const Header = ({ setLayers, setIsDoubleView, modeOfEdit, setModeOfEdit }) => {
   const matches = useMediaQuery("(min-width:500px)");
   const Item = ({ label, icon, children }) => (
     <>
@@ -71,6 +72,9 @@ const Header = ({ setLayers, setIsDoubleView }) => {
 
           <Item label="インポート" icon={<ImportExportIcon />}>
             <Import setLayers={setLayers} />
+          </Item>
+          <Item label="作図・計測" icon={<ImportExportIcon />}>
+            <Edit setModeOfEdit={setModeOfEdit} />
           </Item>
 
           <Item label="FAQ" icon={<HelpOutlineIcon />}>

@@ -39,10 +39,16 @@ export default function Home() {
   const [feature, setFeature] = useState(null);
   const [isDoubleView, setIsDoubleView] = useState(false);
   const [isSync, setIsSync] = useState(false);
+  const [modeOfEdit, setModeOfEdit] = useState("ViewMode");
 
   return (
     <div className="wrapper">
-      <Header setLayers={setLayers} setIsDoubleView={setIsDoubleView} />
+      <Header
+        setLayers={setLayers}
+        setIsDoubleView={setIsDoubleView}
+        modeOfEdit={modeOfEdit}
+        setModeOfEdit={setModeOfEdit}
+      />
       <div className="main">
         <div className="side">
           <Map
@@ -50,6 +56,7 @@ export default function Home() {
             viewState={viewState}
             setViewState={setViewState}
             setFeature={setFeature}
+            modeOfEdit={modeOfEdit}
           />
           <Menu //後の要素が上に描画される
             layers={layers}
@@ -70,6 +77,7 @@ export default function Home() {
             viewState={isSync ? viewState : viewStateForSub}
             setViewState={isSync ? setViewState : setViewStateForSub}
             setFeature={setFeature}
+            modeOfEdit={modeOfEdit}
           />
           <Menu
             layers={layersForSub}
