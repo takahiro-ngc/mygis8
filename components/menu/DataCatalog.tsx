@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { layerList } from "../layer/layerList";
 import PopoverButton from "./PopoverButton";
@@ -22,37 +22,17 @@ const DataCatalog = ({
   setIsMenuVisible,
   isMainView,
 }) => {
-  const [filterWord, setFilterWord] = useState("");
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
-
-  const filterChildren = (list) =>
-    list.filter(
-      (d) =>
-        d.title.includes(filterWord) ||
-        (d.entries && filterChildren(d.entries).length)
-    );
-
-  const filterdLayer = layerList
-    .map((d) => {
-      const filterdCildren = d.entries ? filterChildren(d.entries) : [];
-      return (
-        (d.title.includes(filterWord) && d) ||
-        (filterdCildren.length > 0 && { ...d, entries: filterdCildren })
-      );
-    })
-    .filter(Boolean); //配列からnullの削除
-
   const renderIdList = layers.map((elm) => elm.id);
   const toggleLayer = (node) =>
     renderIdList.includes(node.id) ? deleteLayer(node.id) : addLayer(node.id);
 
-  const renderTree = (nodes, parentIndex = 0) =>
+  const renderTree = (nodes) =>
     nodes.map((node, index) => {
-      const newIndex = parentIndex + "_" + index;
+      const key = node.category + node.title + index;
       return (
         <TreeItem
-          key={newIndex}
-          nodeId={newIndex}
+          key={key}
+          nodeId={key}
           onLabelClick={() => (node.layerType ? toggleLayer(node) : null)}
           label={
             <div
@@ -82,7 +62,7 @@ const DataCatalog = ({
             </div>
           }
         >
-          {node.entries && renderTree(node.entries, newIndex)}
+          {node.entries && renderTree(node.entries)}
         </TreeItem>
       );
     });
@@ -96,10 +76,6 @@ const DataCatalog = ({
       }}
     >
       <Header
-        setIsSearchVisible={setIsSearchVisible}
-        filterWord={filterWord}
-        setFilterWord={setFilterWord}
-        isSearchVisible={isSearchVisible}
         setIsMenuVisible={setIsMenuVisible}
         isMainView={isMainView}
       ></Header>
@@ -108,7 +84,7 @@ const DataCatalog = ({
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        {renderTree(filterdLayer)}
+        {renderTree(layerList)}
       </TreeView>
     </div>
   );
