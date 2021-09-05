@@ -21,7 +21,8 @@ export const initialViewState = {
   maxPitch: 85,
 };
 
-const defaultLayerId = "lcm25k_spec";
+// const defaultLayerId = "lcm25k_spec";
+const defaultLayerId = "blank";
 // const defaultLayerId = "pale";
 export const defaultLayer = findLayer(defaultLayerId);
 

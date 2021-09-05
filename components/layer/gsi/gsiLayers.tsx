@@ -59,6 +59,13 @@ const attribution = {
   attributionUrl: "https://maps.gsi.go.jp",
 };
 
+const nankyokuArea = {
+  area: {
+    lat: -73.558561,
+    lng: 38.321278,
+    zoom: 1,
+  },
+};
 const addProps = (url = []) =>
   url.map((d) => {
     // const src = d.src ? fetchUrl(d.src) : [];
@@ -75,7 +82,12 @@ const addProps = (url = []) =>
           d.iconUrl
         ),
         title: d.title,
+        // デバッグ用
+        minZoomOriginal: d.minZoom,
+        maxZoomOriginal: d.maxZoom,
+        maxNativeZoomOriginal: d.maxNativeZoom,
       },
+      d.id === "southpole_satellite_250000_spec" && { ...nankyokuArea },
       { notes: notesForGsi },
       attribution,
       d.entries && { entries: addProps(d.entries) }

@@ -35,9 +35,9 @@ export const setProps = (url, fileType) => {
     },
 
     // 点関係
-    getPointRadius: 5,
+    getPointRadius: 4,
     pointRadiusUnits: "pixels",
-    pointRadiusScale: 5,
+    pointRadiusScale: 3,
 
     // ライン関係
     lineWidthUnits: "pixels",
@@ -105,17 +105,13 @@ export const setPropsForGsi = (
 ) => {
   return {
     // タイル用
-    // 「deck.glのmaxZoom = 地理院のmaxNativeZoom」である模様。
-    // ただし，minZoomとの誤用？や（湖沼図諸元情報），記載漏れ（電子国土基本図更新情報）もある。
-    // とりあえず，次のように設定するとうまくいくよう。
-    minZoom: minZoom,
+    // 記載漏れや混同が多いよう。次のように設定すると，とりあえずうまくいく。
+    minZoom: Math.min(minZoom, maxNativeZoom),
     maxZoom: isImage(url)
-      ? maxNativeZoom ?? maxZoom
-      : // : maxNativeZoom ?? 2, //maxZoomではないので注意。2がデフォルトのよう
-        maxNativeZoom ?? minZoom ?? maxZoom ?? 2, //maxZoomではないので注意。2がデフォルトのよう
+      ? maxNativeZoom || maxZoom
+      : maxNativeZoom || minZoom || 2, //maxZoomではないので注意。2がデフォルト。
 
     // アイコン用
-    // ToDo iconがある時は，circleを表示しない 土地条件図→日本の典型地形
     pointType: iconUrl ? "icon" : "circle+icon",
     getIcon: (d) => {
       const src = d.properties;
@@ -128,5 +124,9 @@ export const setPropsForGsi = (
       };
     },
     getIconSize: 24, //必須
+    getPointRadius: (d) => {
+      const src = d.properties;
+      return src?._iconUrl || src?.icon || iconUrl ? 1 : 4; //iconがある時は点を小さくして隠す
+    },
   };
 };

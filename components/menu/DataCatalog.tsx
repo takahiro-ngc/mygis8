@@ -31,9 +31,13 @@ const DataCatalog = ({
       const key = node.category + node.title + index;
       return (
         <TreeItem
+          hidden={!(node.type === "LayerGroup" || node.fileType === "png")}
           key={key}
           nodeId={key}
-          onLabelClick={() => (node.layerType ? toggleLayer(node) : null)}
+          onLabelClick={() => {
+            node.layerType ? toggleLayer(node) : null;
+            console.log(node);
+          }}
           label={
             <div
               style={{
@@ -45,7 +49,24 @@ const DataCatalog = ({
                 {node.title}
                 {node.fileType && <Chip label={node.fileType} size="small" />}
                 {node.isTile && <Chip label="タイル" size="small" />}
-                {node.minZoom && <Chip label={node.minZoom} size="small" />}
+                {node.minZoom && (
+                  <Chip label={`min=${node.minZoom}`} size="small" />
+                )}
+                {node.maxZoom && (
+                  <Chip label={`max=${node.maxZoom}`} size="small" />
+                )}
+                {node.minZoomOriginal && (
+                  <Chip label={`minO=${node.minZoomOriginal}`} size="small" />
+                )}
+                {node.maxZoomOriginal && (
+                  <Chip label={`maxO=${node.maxZoomOriginal}`} size="small" />
+                )}
+                {node.maxNativeZoomOriginal && (
+                  <Chip
+                    label={`maxN=${node.maxNativeZoomOriginal}`}
+                    size="small"
+                  />
+                )}
               </div>
 
               {node.area && (
