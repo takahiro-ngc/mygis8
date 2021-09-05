@@ -3,22 +3,16 @@ import React, { useState } from "react";
 import { layerList } from "../layer/layerList";
 import PopoverButton from "./PopoverButton";
 import LayerInfo from "./LayerInfo";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+
+import Chip from "@material-ui/core/Chip";
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
+
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { FlyToInterpolator } from "deck.gl";
-import Chip from "@material-ui/core/Chip";
-import { Typography } from "@material-ui/core";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
-import { flatLayerList } from "../layer/layerList";
-import TextField from "@material-ui/core/TextField";
-import SearchIcon from "@material-ui/icons/Search";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import Header from "./dataSelect/Header";
+import JumpButton from "./dataSelect/JumpButton";
 
 const DataCatalog = ({
   addLayer,
@@ -28,19 +22,9 @@ const DataCatalog = ({
   setIsMenuVisible,
   isMainView,
 }) => {
-  const jump = (lng, lat, zoom) =>
-    setViewState((prev) => ({
-      ...prev,
-      longitude: lng,
-      latitude: lat,
-      zoom: zoom,
-      transitionDuration: "auto",
-      transitionInterpolator: new FlyToInterpolator(),
-      transitionEasing: (x) =>
-        x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2, //easeInOutQuad
-    }));
+  const [filterWord, setFilterWord] = useState("");
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
-  const [filterWord, setFilterWord] = useState("空中写真");
   const filterChildren = (list) =>
     list.filter(
       (d) =>
@@ -58,9 +42,6 @@ const DataCatalog = ({
     })
     .filter(Boolean); //配列からnullの削除
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setFilterWord(event.target.value);
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const renderIdList = layers.map((elm) => elm.id);
   const toggleLayer = (node) =>
     renderIdList.includes(node.id) ? deleteLayer(node.id) : addLayer(node.id);
@@ -68,10 +49,8 @@ const DataCatalog = ({
   const renderTree = (nodes, parentIndex = 0) =>
     nodes.map((node, index) => {
       const newIndex = parentIndex + "_" + index;
-      // console.log(node.entries && filterLayer(node.entries));
       return (
         <TreeItem
-          // hidden={!isVisible}
           key={newIndex}
           nodeId={newIndex}
           onLabelClick={() => (node.layerType ? toggleLayer(node) : null)}
@@ -80,7 +59,6 @@ const DataCatalog = ({
               style={{
                 display: "flex",
                 alignItems: "center",
-                // padding: "4px 0px",
               }}
             >
               <div style={{ marginRight: "auto" }}>
@@ -91,16 +69,11 @@ const DataCatalog = ({
               </div>
 
               {node.area && (
-                <IconButton
-                  size="small"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addLayer(node.id);
-                    jump(node.area.lng, node.area.lat, node.area.zoom);
-                  }}
-                >
-                  {<FlightTakeoffIcon />}
-                </IconButton>
+                <JumpButton
+                  addLayer={addLayer}
+                  setViewState={setViewState}
+                  node={node}
+                ></JumpButton>
               )}
 
               <PopoverButton icon={<InfoOutlinedIcon />}>
@@ -122,49 +95,20 @@ const DataCatalog = ({
         height: "100%",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          // justifyContent: "space-between",
-        }}
-      >
-        <Typography variant="h6" component="h2" display="inline">
-          地図の種類
-        </Typography>
-        <IconButton
-          size="small"
-          onClick={() => {
-            setIsSearchVisible((prev) => !prev);
-            setFilterWord("");
-          }}
-          // style={{ margin: "0px 4px" }}
-        >
-          {<SearchIcon />}
-        </IconButton>
-        {isSearchVisible && (
-          <TextField
-            autoFocus
-            size="small"
-            onChange={handleChange}
-            value={filterWord}
-            style={{ flex: 1 }}
-          />
-        )}
-        <IconButton
-          size="small"
-          onClick={() => setIsMenuVisible(false)}
-          style={{ marginLeft: "auto" }}
-        >
-          {isMainView ? <ArrowBackIcon /> : <ArrowForwardIcon />}
-        </IconButton>
-      </div>
+      <Header
+        setIsSearchVisible={setIsSearchVisible}
+        filterWord={filterWord}
+        setFilterWord={setFilterWord}
+        isSearchVisible={isSearchVisible}
+        setIsMenuVisible={setIsMenuVisible}
+        isMainView={isMainView}
+      ></Header>
 
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >
         {renderTree(filterdLayer)}
-        {/* {renderTree(layerList)} */}
       </TreeView>
     </div>
   );
