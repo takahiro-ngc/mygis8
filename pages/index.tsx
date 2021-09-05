@@ -15,13 +15,14 @@ export const initialViewState = {
   longitude: 139.7673068,
   latitude: 35.6809591,
   bearing: 0,
-  zoom: 10,
+  zoom: 8,
   minZoom: 0, //遠景
   maxZoom: 17.499, //近景 地理院地図（ラスター）は17.5未満が最大
   maxPitch: 85,
 };
 
-const defaultLayerId = "pale";
+const defaultLayerId = "lcm25k_spec";
+// const defaultLayerId = "pale";
 export const defaultLayer = findLayer(defaultLayerId);
 
 export default function Home() {

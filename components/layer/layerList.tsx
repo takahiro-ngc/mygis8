@@ -22,7 +22,7 @@ const setCategory = (list, category = []) =>
 export const layerList = setCategory(layers);
 const flattenTree = (tree) =>
   tree.flatMap((d) => (d.entries ? flattenTree(d.entries) : d));
-
+export const flatLayerList = flattenTree(layerList);
 export const findLayer = (layerId, targetList = layerList) =>
   // targetList
   //   ? targetList.find(

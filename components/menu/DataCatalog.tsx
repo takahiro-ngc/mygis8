@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { layerList } from "../layer/layerList";
 import PopoverButton from "./PopoverButton";
@@ -15,6 +15,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
+import { flatLayerList } from "../layer/layerList";
 
 const DataCatalog = ({
   addLayer,
@@ -36,6 +37,45 @@ const DataCatalog = ({
         x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2, //easeInOutQuad
     }));
 
+  const [filterWord, setFilterWord] = useState("空中写真");
+  // レイヤーの判定→ワードを含むか親がvisible
+  // カテゴリーの判定→子がヒット：visile，展開 自分がヒット:visible：非展開
+  // レイヤにワードを含む→当該データ：isVisible 親：isVisible，展開
+  // カテゴリにワードを含む→当該データ:isVisible 子：isVisible，非展開 親：isVisible，展開
+  const filterChildren = (list) =>
+    list.filter(
+      (d) =>
+        d.title.includes(filterWord) ||
+        (d.entries && filterChildren(d.entries).length)
+    );
+
+  const filterdLayer = layerList
+    .map((d) => {
+      const filterdCildren = d.entries ? filterChildren(d.entries) : [];
+      return (
+        (d.title.includes(filterWord) && d) ||
+        (filterdCildren.length > 0 && { ...d, entries: filterdCildren })
+      );
+    })
+    .filter(Boolean); //配列からnullの削除
+  // list.filter(
+  //   (d) =>
+  //     d.title.includes(filterWord) ||
+  //     (d.entries && filterLayer(d.entries).length)
+  // );
+
+  // const hitInSelf = node.title.includes(filterWord);
+  // const childrenList = (list) =>
+  //   list.flatMap((d) => (d.entries ? childrenList(d.entries) : d));
+  // const hitInChildren = childrenList.some((d) => d.title.includes(filterWord));
+  // visible=hitInSelf || hitInChildren 親がhitの場合も
+  // expand=hitInChildren
+
+  // const filterdLayerList = filterLayer(layerList);
+  // console.log(filterdLayerList);
+  // const filterdList = flatLayerList.filter((d) => d.title.includes(filterWord));
+  // console.log(filterdList);
+
   const renderIdList = layers.map((elm) => elm.id);
   const toggleLayer = (node) =>
     renderIdList.includes(node.id) ? deleteLayer(node.id) : addLayer(node.id);
@@ -43,8 +83,10 @@ const DataCatalog = ({
   const renderTree = (nodes, parentIndex = 0) =>
     nodes.map((node, index) => {
       const newIndex = parentIndex + "_" + index;
+      // console.log(node.entries && filterLayer(node.entries));
       return (
         <TreeItem
+          // hidden={!isVisible}
           key={newIndex}
           nodeId={newIndex}
           onLabelClick={() => (node.layerType ? toggleLayer(node) : null)}
@@ -53,6 +95,7 @@ const DataCatalog = ({
               style={{
                 display: "flex",
                 alignItems: "center",
+                // padding: "4px 0px",
               }}
             >
               <div style={{ marginRight: "auto" }}>
@@ -112,7 +155,8 @@ const DataCatalog = ({
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        {renderTree(layerList)}
+        {renderTree(filterdLayer)}
+        {/* {renderTree(layerList)} */}
       </TreeView>
     </div>
   );

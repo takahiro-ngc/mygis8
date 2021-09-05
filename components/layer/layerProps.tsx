@@ -1,8 +1,10 @@
 import { BitmapLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
+import { loadComponents } from "next/dist/server/load-components";
 import { hex2rgb } from "../hex2rgb";
 import { isTile, getFileType, isImage } from "../utility";
-// import { JSONLoader } from "@loaders.gl/json";
+import { load } from "@loaders.gl/core";
+import { JSONLoader } from "@loaders.gl/json";
 // import { registerLoaders } from "@loaders.gl/core";
 // registerLoaders([JSONLoader]);
 
@@ -12,12 +14,15 @@ import { isTile, getFileType, isImage } from "../utility";
 
 export const setProps = (url, fileType) => {
   fileType = fileType || getFileType(url);
+  // url = fileType === "geojson" ? JSON.parse(url) : url;
   const mainProps = {
     // deck.glにない独自プロパティ
     title: "untitled", //表示名。
     layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
     fileType: fileType,
     isTile: isTile(url), //デバッグ用　不要？
+    // onDataLoad: (value, context) =>
+    //   console.log("value", value, "context", context),
     // loaders: [JSONLoader],
 
     // 基本
@@ -87,6 +92,7 @@ export const setProps = (url, fileType) => {
     mainProps,
     isBitmapTile && bitmapTileProps,
     fileType === "kml" && kmlProps
+    // fileType === "geojson" && { fetch: (data) => load(data) }
   );
 };
 
@@ -105,7 +111,8 @@ export const setPropsForGsi = (
     minZoom: minZoom,
     maxZoom: isImage(url)
       ? maxNativeZoom ?? maxZoom
-      : maxNativeZoom ?? minZoom ?? maxZoom ?? 2, //maxZoomではないので注意。2がデフォルトのよう
+      : // : maxNativeZoom ?? 2, //maxZoomではないので注意。2がデフォルトのよう
+        maxNativeZoom ?? minZoom ?? maxZoom ?? 2, //maxZoomではないので注意。2がデフォルトのよう
 
     // アイコン用
     // ToDo iconがある時は，circleを表示しない 土地条件図→日本の典型地形
