@@ -16,6 +16,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import { flatLayerList } from "../layer/layerList";
+import TextField from "@material-ui/core/TextField";
+import SearchIcon from "@material-ui/icons/Search";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const DataCatalog = ({
   addLayer,
@@ -38,10 +41,6 @@ const DataCatalog = ({
     }));
 
   const [filterWord, setFilterWord] = useState("空中写真");
-  // レイヤーの判定→ワードを含むか親がvisible
-  // カテゴリーの判定→子がヒット：visile，展開 自分がヒット:visible：非展開
-  // レイヤにワードを含む→当該データ：isVisible 親：isVisible，展開
-  // カテゴリにワードを含む→当該データ:isVisible 子：isVisible，非展開 親：isVisible，展開
   const filterChildren = (list) =>
     list.filter(
       (d) =>
@@ -58,24 +57,10 @@ const DataCatalog = ({
       );
     })
     .filter(Boolean); //配列からnullの削除
-  // list.filter(
-  //   (d) =>
-  //     d.title.includes(filterWord) ||
-  //     (d.entries && filterLayer(d.entries).length)
-  // );
 
-  // const hitInSelf = node.title.includes(filterWord);
-  // const childrenList = (list) =>
-  //   list.flatMap((d) => (d.entries ? childrenList(d.entries) : d));
-  // const hitInChildren = childrenList.some((d) => d.title.includes(filterWord));
-  // visible=hitInSelf || hitInChildren 親がhitの場合も
-  // expand=hitInChildren
-
-  // const filterdLayerList = filterLayer(layerList);
-  // console.log(filterdLayerList);
-  // const filterdList = flatLayerList.filter((d) => d.title.includes(filterWord));
-  // console.log(filterdList);
-
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setFilterWord(event.target.value);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const renderIdList = layers.map((elm) => elm.id);
   const toggleLayer = (node) =>
     renderIdList.includes(node.id) ? deleteLayer(node.id) : addLayer(node.id);
@@ -140,13 +125,36 @@ const DataCatalog = ({
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          // justifyContent: "space-between",
         }}
       >
         <Typography variant="h6" component="h2" display="inline">
           地図の種類
         </Typography>
-        <IconButton size="small" onClick={() => setIsMenuVisible(false)}>
+        <IconButton
+          size="small"
+          onClick={() => {
+            setIsSearchVisible((prev) => !prev);
+            setFilterWord("");
+          }}
+          // style={{ margin: "0px 4px" }}
+        >
+          {<SearchIcon />}
+        </IconButton>
+        {isSearchVisible && (
+          <TextField
+            autoFocus
+            size="small"
+            onChange={handleChange}
+            value={filterWord}
+            style={{ flex: 1 }}
+          />
+        )}
+        <IconButton
+          size="small"
+          onClick={() => setIsMenuVisible(false)}
+          style={{ marginLeft: "auto" }}
+        >
           {isMainView ? <ArrowBackIcon /> : <ArrowForwardIcon />}
         </IconButton>
       </div>
