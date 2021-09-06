@@ -50,15 +50,12 @@ position absoluteのため，親に次を設定すればよい
 ・geojsonbufの利用
 ・リンク集　nebula等ケプラー
 nebula.gl（英語） 右上のgeojson editer「作図，geojson形式での保存
-距離
-面積
-簡易作図
-・点
-・線
-・面
-・面ドラッグ
-・楕円
-・四角形
+カーソル修正
+ui
+図形の削除機能
+データスタート
+統計gis
+Geoshapeリポジトリ
 
 〇ソース整理関係
 ・blurの再検討

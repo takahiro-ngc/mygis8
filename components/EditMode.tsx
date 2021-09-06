@@ -1,8 +1,3 @@
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem, { ListItemProps } from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import { Button } from "@material-ui/core";
 import {
   ViewMode,
@@ -28,17 +23,27 @@ const modeList = [
     handler: DrawRectangleUsingThreePointsMode,
   },
   { text: "円を描く", handler: DrawCircleFromCenterMode },
-  { text: "描いた図の修正・削除", handler: ModifyMode },
+  { text: "図の修正・削除", handler: ModifyMode },
   { text: "距離を計測", handler: MeasureDistanceMode },
   { text: "面積を計測", handler: MeasureAreaMode },
 ];
-const Edit = ({ setModeOfEdit }) => (
-  <>
+const EditMode = ({ setModeOfEdit }) => (
+  <div
+    style={{
+      position: "absolute",
+      top: 48,
+      right: "8px",
+      display: "flex",
+      flexDirection: "column",
+      zIndex: 1000,
+      gap: 8,
+    }}
+  >
     {modeList.map((d, index) => (
-      <Button variant="outlined" onClick={() => setModeOfEdit(d)}>
+      <Button size="small" variant="contained" onClick={() => setModeOfEdit(d)}>
         {d.text}
       </Button>
     ))}
-  </>
+  </div>
 );
-export default Edit;
+export default EditMode;

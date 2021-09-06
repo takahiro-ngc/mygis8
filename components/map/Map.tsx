@@ -17,20 +17,13 @@ import {
 } from "@deck.gl/geo-layers";
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { Button } from "@material-ui/core";
-import {
-  ViewMode,
-  DrawPointMode,
-  DrawLineStringMode,
-  DrawPolygonMode,
-  DrawPolygonByDraggingMode,
-  DrawRectangleUsingThreePointsMode,
-  DrawCircleFromCenterMode,
-} from "nebula.gl";
+// import { Toolbox } from "@nebula.gl/editor";
 
 export const Map = ({
   layers,
   viewState,
   setViewState,
+  feature,
   setFeature,
   modeOfEdit,
 }) => {
@@ -115,16 +108,19 @@ export const Map = ({
     type: "FeatureCollection",
     features: [],
   });
-  const [selectedFeatureIndexes] = useState([]);
 
   const EditableGeoJson = new EditableGeoJsonLayer({
     id: "EditableGeoJson",
     data: features,
     mode: modeOfEdit.handler,
-    selectedFeatureIndexes,
+    // ToDo id==="EditableGeoJson"の時のみ
+    selectedFeatureIndexes: [feature?.index],
     onEdit: ({ updatedData }) => {
       setFeatures(updatedData);
+      console.log(feature);
     },
+    pickable: true,
+    autoHighlight: true,
   });
 
   return (
@@ -137,7 +133,6 @@ export const Map = ({
             inertia: true,
             scrollZoom: { speed: 0.05, smooth: true },
             touchRotate: true,
-            // ToDo
             doubleClickZoom:
               String(modeOfEdit.handler) === "ViewMode" ? true : false,
           }}

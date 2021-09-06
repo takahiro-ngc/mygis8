@@ -22,10 +22,8 @@ const SyncSwitch = ({ isSync, setIsSync, viewState, setViewStateForSub }) => {
         {`
           .center {
             position: absolute;
-            left: 0;
-            right: 0;
-            margin: auto;
-            margin-top: 8px;
+            top: 8px;
+            transform: translate(-50%);
             width: fit-content;
             border-radius: 4px;
             padding-left: 16px;
