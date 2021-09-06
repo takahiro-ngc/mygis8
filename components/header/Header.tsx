@@ -7,7 +7,7 @@ import Faq from "./Faq";
 import Import from "./Import";
 import ShareIcon from "@material-ui/icons/Share";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
-import Edit from "./Edit";
+import { defaultMode, drawMode } from "../EditMode";
 
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -73,9 +73,20 @@ const Header = ({ setLayers, setIsDoubleView, modeOfEdit, setModeOfEdit }) => {
           <Item label="インポート" icon={<ImportExportIcon />}>
             <Import setLayers={setLayers} />
           </Item>
-          <Item label="作図・計測" icon={<ImportExportIcon />}>
-            <Edit setModeOfEdit={setModeOfEdit} />
-          </Item>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() =>
+              setModeOfEdit((prev) =>
+                prev.id === "ViewMode"
+                  ? drawMode.find((d) => d.id === "DrawPolygonMode")
+                  : defaultMode.find((d) => d.id === "ViewMode")
+              )
+            }
+            // startIcon={<LooksTwoOutlinedIcon />}
+          >
+            計測・作図
+          </Button>
 
           <Item label="FAQ" icon={<HelpOutlineIcon />}>
             <Faq />

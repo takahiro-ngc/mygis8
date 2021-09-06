@@ -7,6 +7,7 @@ import FeatureInfo from "../components/FeatureInfo";
 import { findLayer } from "../components/layer/layerList";
 import SyncSwitch from "../components/SyncSwitch";
 import EditMode from "../components/EditMode";
+import { defaultMode } from "../components/EditMode";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -34,7 +35,7 @@ export default function Home() {
   const [feature, setFeature] = useState(null);
   const [isDoubleView, setIsDoubleView] = useState(false);
   const [isSync, setIsSync] = useState(false);
-  const [modeOfEdit, setModeOfEdit] = useState("ViewMode");
+  const [modeOfEdit, setModeOfEdit] = useState(defaultMode[0]);
 
   return (
     <div className="wrapper">
@@ -88,14 +89,17 @@ export default function Home() {
             />
           </div>
         )}
-      </div>
 
-      {String(modeOfEdit.handler) === "ViewMode" ? (
-        <FeatureInfo feature={feature} setFeature={setFeature} />
-      ) : (
-        <EditMode setModeOfEdit={setModeOfEdit}></EditMode>
-      )}
-      <BottomInfo viewState={viewState} />
+        {modeOfEdit?.id === "ViewMode" ? (
+          <FeatureInfo feature={feature} setFeature={setFeature} />
+        ) : (
+          <EditMode
+            modeOfEdit={modeOfEdit}
+            setModeOfEdit={setModeOfEdit}
+          ></EditMode>
+        )}
+        <BottomInfo viewState={viewState} />
+      </div>
 
       <style jsx>
         {`
@@ -110,6 +114,7 @@ export default function Home() {
             height: 100%;
             overflow: hidden; //カクつくことがあるのを防ぐ
             display: flex;
+            position: relative;
           }
           .side {
             position: relative;

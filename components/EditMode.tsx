@@ -7,43 +7,76 @@ import {
   DrawPolygonByDraggingMode,
   DrawRectangleUsingThreePointsMode,
   DrawCircleFromCenterMode,
-  ModifyMode,
   MeasureDistanceMode,
   MeasureAreaMode,
 } from "@nebula.gl/edit-modes";
 
-const modeList = [
-  { text: "作図・計測の終了", handler: ViewMode },
-  { text: "点を描く", handler: DrawPointMode },
-  { text: "線を描く", handler: DrawLineStringMode },
-  { text: "面を描く", handler: DrawPolygonMode },
-  { text: "ドラッグで面を描く", handler: DrawPolygonByDraggingMode },
+export const defaultMode = [
+  { id: "ViewMode", text: "終了", handler: ViewMode },
+];
+
+const measureMode = [
   {
-    text: "四角形を描く",
+    id: "MeasureDistanceMode",
+    text: "距離",
+    handler: MeasureDistanceMode,
+  },
+  { id: "MeasureAreaMode", text: "面積", handler: MeasureAreaMode },
+];
+
+export const drawMode = [
+  { id: "DrawPointMode", text: "点", handler: DrawPointMode },
+  { id: "DrawLineStringMode", text: "線", handler: DrawLineStringMode },
+  { id: "DrawPolygonMode", text: "面", handler: DrawPolygonMode },
+  {
+    id: "DrawPolygonByDraggingMode",
+    text: "フリーハンド",
+    handler: DrawPolygonByDraggingMode,
+  },
+  {
+    id: "DrawRectangleUsingThreePointsMode",
+    text: "四角形",
     handler: DrawRectangleUsingThreePointsMode,
   },
-  { text: "円を描く", handler: DrawCircleFromCenterMode },
-  { text: "図の修正・削除", handler: ModifyMode },
-  { text: "距離を計測", handler: MeasureDistanceMode },
-  { text: "面積を計測", handler: MeasureAreaMode },
+  {
+    id: "DrawCircleFromCenterMode",
+    text: "円",
+    handler: DrawCircleFromCenterMode,
+  },
 ];
-const EditMode = ({ setModeOfEdit }) => (
-  <div
-    style={{
-      position: "absolute",
-      top: 48,
-      right: "8px",
-      display: "flex",
-      flexDirection: "column",
-      zIndex: 1000,
-      gap: 8,
-    }}
-  >
-    {modeList.map((d, index) => (
-      <Button size="small" variant="contained" onClick={() => setModeOfEdit(d)}>
-        {d.text}
+
+const EditMode = ({ modeOfEdit, setModeOfEdit }) => {
+  const ButtonGroup = ({ list }) =>
+    list.map((item) => (
+      <Button
+        size="small"
+        variant="contained"
+        onClick={() => setModeOfEdit(item)}
+        style={{ marginBottom: 8 }}
+        color={item.id === modeOfEdit.id ? "primary" : "default"}
+      >
+        {item.text}
       </Button>
-    ))}
-  </div>
-);
+    ));
+  const spacer = <div style={{ margin: 8 }}></div>;
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        margin: 8,
+        right: 0,
+        display: "flex",
+        flexDirection: "column",
+        // gap: 16,
+      }}
+    >
+      <ButtonGroup list={defaultMode} />
+      {spacer}
+      <ButtonGroup list={measureMode} />
+      {spacer}
+      <ButtonGroup list={drawMode} />
+    </div>
+  );
+};
 export default EditMode;

@@ -112,7 +112,7 @@ export const Map = ({
   const EditableGeoJson = new EditableGeoJsonLayer({
     id: "EditableGeoJson",
     data: features,
-    mode: modeOfEdit.handler,
+    mode: modeOfEdit?.handler,
     // ToDo id==="EditableGeoJson"の時のみ
     selectedFeatureIndexes: [feature?.index],
     onEdit: ({ updatedData }) => {
@@ -133,8 +133,7 @@ export const Map = ({
             inertia: true,
             scrollZoom: { speed: 0.05, smooth: true },
             touchRotate: true,
-            doubleClickZoom:
-              String(modeOfEdit.handler) === "ViewMode" ? true : false,
+            doubleClickZoom: modeOfEdit?.id === "ViewMode" ? true : false,
           }}
           onClick={onClick}
           viewState={viewState}
