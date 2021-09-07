@@ -35,7 +35,7 @@ const DataCatalog = ({
           key={key}
           nodeId={key}
           onLabelClick={() => {
-            node.layerType ? toggleLayer(node) : null;
+            node.data ? toggleLayer(node) : null;
             console.log(node);
           }}
           label={

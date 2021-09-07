@@ -1,43 +1,36 @@
 import { BitmapLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
-import { loadComponents } from "next/dist/server/load-components";
 import { hex2rgb } from "../hex2rgb";
 import { isTile, getFileType, isImage } from "../utility";
-import { load } from "@loaders.gl/core";
-import { JSONLoader } from "@loaders.gl/json";
-// import { registerLoaders } from "@loaders.gl/core";
-// registerLoaders([JSONLoader]);
 
 // geojsonのスタイルは，以下のうち主な属性のみ実装
 // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
 // https://github.com/gsi-cyberjapan/geojson-with-style-spec
 
-export const setProps = (url, fileType) => {
-  fileType = fileType || getFileType(url);
-  // url = fileType === "geojson" ? JSON.parse(url) : url;
+export const addDefaultProps = (item) => {
+  const data = item?.data || item?.url;
+
   const mainProps = {
     // deck.glにない独自プロパティ
-    title: "untitled", //表示名。
-    layerType: isTile(url) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
-    fileType: fileType,
-    isTile: isTile(url), //デバッグ用　不要？
-    // onDataLoad: (value, context) =>
-    //   console.log("value", value, "context", context),
+    layerType: isTile(data) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
+    // fileType: fileType,
+    isTile: isTile(data), //デバッグ用
 
     // 基本
-    ID: url, //同一URLが複数登録されているため，本当はurlだけでは不可
-    data: url,
+    ID: data, //同一URLが複数登録されているため，本当はurlだけでは不可
+    data: data,
     pickable: true,
     autoHighlight: true,
     parameters: {
       depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
     },
-    loaders: [KMLLoader],
+    // ToDo loadersの設定を消さないとmvtLayerが描画できない
+    // loaders: [KMLLoader],
 
     // 点関係
-    getPointRadius: 4,
     pointRadiusUnits: "pixels",
     pointRadiusScale: 3,
+    getPointRadius: 3,
 
     // ライン関係
     lineWidthUnits: "pixels",
@@ -50,7 +43,7 @@ export const setProps = (url, fileType) => {
     },
 
     // ポリゴン関係
-    filled: true, //検討中
+    filled: true,
     getFillColor: (d) => {
       const src = d.properties;
       const hex = src?._fillColor || src?.polyColor || "#0033ff";
@@ -78,9 +71,9 @@ export const setProps = (url, fileType) => {
   };
 
   // ToDo imageとbitmapの用語
-  const isBitmapTile = isTile(url) && isImage(fileType);
+  const isBitmapTile = isTile(data) && isImage(data);
 
-  return Object.assign({}, mainProps, isBitmapTile && bitmapTileProps);
+  return Object.assign({}, mainProps, isBitmapTile && bitmapTileProps, item);
 };
 
 export const setPropsForGsi = (
@@ -92,6 +85,7 @@ export const setPropsForGsi = (
 ) => {
   return {
     data: url,
+
     // タイル用
     // 記載漏れや混同が多いよう。次のように設定すると，とりあえずうまくいく。
     minZoom: Math.min(minZoom, maxNativeZoom),

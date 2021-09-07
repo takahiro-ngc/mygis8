@@ -19,6 +19,7 @@ import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { Button } from "@material-ui/core";
 import { backgroundLayer } from "./backgroundLayer";
 // import { Toolbox } from "@nebula.gl/editor";
+import { addDefaultProps } from "./addDefaultProps";
 
 export const Map = ({
   layers,
@@ -46,8 +47,9 @@ export const Map = ({
   // リストで上のレイヤーを上層に描画させる
   const cloneLayers = [...layers]; //reverseは破壊的メソッドのため注意
   const reversedLayers = cloneLayers.reverse();
-
-  const layersWithSetting = reversedLayers.map((item: any, index: number) => {
+  const testLayer = reversedLayers.map((d) => addDefaultProps(d));
+  console.log("testLayer", testLayer);
+  const layersWithSetting = testLayer.map((item: any, index: number) => {
     const setting = {
       ...item,
       updateTriggers: {

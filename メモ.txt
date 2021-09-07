@@ -1,4 +1,7 @@
 〇作図をselectedLayerに追加したい→Map，addPropsの整理が必要→updateTriggersの整理が必要→layerControlの整理が必要
+propsConverter fillTerget:aaa → getFillColor:d=>d.properties.["aaa"]
+色　何の項目に基づくか　単色・塗分け　絶対数・対数　最大・最小　カテゴリ・段階・０基準段階・無段階
+フィルター
 
 〇レイヤー種類の変更
 bitmap→terrain
@@ -65,6 +68,7 @@ Geoshapeリポジトリ
 →reverse
 →addprops
 →mapで
+default→item→common
 
 〇作図
 ・スペーサー
@@ -79,6 +83,7 @@ Geoshapeリポジトリ
 
 
 〇優先度中
+・kmlがautoHilightにならない
 ・layerPropsのisTileでimportするとローカルではくるくるが止まらないことがある
 ・緯度経度ラインレイヤー
 ・二画面時にツリー開閉でかくつく　overflowy hidden?

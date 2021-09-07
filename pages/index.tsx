@@ -19,7 +19,7 @@ export const initialViewState = {
   maxPitch: 85,
 };
 
-const defaultLayerId = "blank";
+const defaultLayerId = "OpenStreetMap";
 const defaultLayer = findLayer(defaultLayerId);
 
 export default function Home() {

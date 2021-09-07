@@ -110,23 +110,6 @@ export default function LayerControls({ index, layers, setLayers }) {
         </>
       )} */}
 
-      {/* {layers[index].layerType === "LabeledGeoJsonLayer" && (
-        <div className="style">
-          文字の大きさ
-          <Slider
-            valueLabelDisplay="auto"
-            min={0}
-            max={5}
-            step={1 / 5}
-            value={layers[index].sizeScale ?? 1}
-            onChange={(event, newValue) =>
-              changeSetting("sizeScale", newValue)
-            }
-          />
-        </div>
-      )} */}
-      {/* </List> */}
-
       <style jsx>
         {`
           .style {

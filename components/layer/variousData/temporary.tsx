@@ -108,12 +108,6 @@ export const otherLayers = [
       // colors: "BluYl",
     }),
 
-    pickable: true,
-    autoHighlight: true,
-    parameters: {
-      depthTest: false,
-    },
-
     pointType: "circle+text",
     getText: (d) =>
       (Number(d.properties.L01_006) / 1000).toLocaleString() + "千",
@@ -130,7 +124,6 @@ export const otherLayers = [
     title: "公示地価zip",
     data: "/layer/L01-20.zip",
     loaders: [ZipLoader],
-
     dataTransform: (d) =>
       JSON.parse(new TextDecoder().decode(d["L01-20.json"])),
     pointRadiusUnits: "meters",
@@ -144,12 +137,6 @@ export const otherLayers = [
       // domain: [2, 23],
       // colors: "BluYl",
     }),
-
-    pickable: true,
-    autoHighlight: true,
-    parameters: {
-      depthTest: false,
-    },
 
     pointType: "circle+text",
     getText: (d) =>

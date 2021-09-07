@@ -68,12 +68,11 @@ const nankyokuArea = {
 };
 const addProps = (url = []) =>
   url.map((d) => {
-    // const src = d.src ? fetchUrl(d.src) : [];
     return Object.assign(
       {},
       d,
       d.type === "Layer" && {
-        ...setProps(d.url),
+        // ...setProps(d.url),
         ...setPropsForGsi(
           d.url,
           d.minZoom,
@@ -91,10 +90,6 @@ const addProps = (url = []) =>
       { notes: notesForGsi },
       attribution,
       d.entries && { entries: addProps(d.entries) }
-
-      // d.src === "./layers_tochibunrui.txt" && {
-      //   src: fetchUrl(d.src),
-      // }
     );
   });
 export const gsiLayers = addProps(layerList);
