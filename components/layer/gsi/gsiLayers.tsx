@@ -1,4 +1,4 @@
-import { setProps, setPropsForGsi } from "../layerProps";
+import { addPropsForGsiLayer } from "./addPropsForGsiLayer";
 
 import layers0 from "./layers0.json";
 import layers1 from "./layers1.json";
@@ -30,69 +30,60 @@ export const layerList = [
   },
 ];
 
-const relToAbsPath = (url = "") =>
-  url.startsWith("http")
-    ? url
-    : url.replace("./", "https://maps.gsi.go.jp/layers_txt/");
-
-export const fetchUrl = (url) =>
-  fetch(relToAbsPath(url))
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => data.layers)
-    .catch((error) => console.error("Error:", error));
-
-const notesForGsi = (
-  <div>
-    説明は，出典サイトからの引用です。
-    <br />
-    特殊な設定のある一部データは，本サイト上では，正常な動作・表示とはならない場合があります。
-  </div>
-);
+const notes = {
+  notes: (
+    <div>
+      説明は，出典サイトからの引用です。
+      <br />
+      特殊な設定のある一部データは，本サイト上では，正常な動作・表示とはならない場合があります。
+    </div>
+  ),
+};
 
 const attribution = {
   attributionName: "地理院地図（国土地理院）",
   attributionUrl: "https://maps.gsi.go.jp",
 };
 
-const nankyokuArea = {
+const isSouthpoleLayer = (id) => id === "southpole_satellite_250000_spec";
+const southpoleArea = {
   area: {
     lat: -73.558561,
     lng: 38.321278,
     zoom: 1,
   },
 };
-const addProps = (url = []) =>
-  url.map((d) => {
-    return Object.assign(
+
+const addProps = (list) =>
+  list.map((d) =>
+    Object.assign(
       {},
       d,
-      d.type === "Layer" && {
-        // ...setProps(d.url),
-        ...setPropsForGsi(
-          d.url,
-          d.minZoom,
-          d.maxZoom,
-          d.maxNativeZoom,
-          d.iconUrl
-        ),
-        title: d.title,
-        // デバッグ用
-        minZoomOriginal: d.minZoom,
-        maxZoomOriginal: d.maxZoom,
-        maxNativeZoomOriginal: d.maxNativeZoom,
-      },
-      d.id === "southpole_satellite_250000_spec" && { ...nankyokuArea },
-      { notes: notesForGsi },
+      notes,
       attribution,
-      d.entries && { entries: addProps(d.entries) }
-    );
-  });
+      d.type === "Layer" && addPropsForGsiLayer(d),
+      d.entries && { entries: addProps(d.entries) },
+      isSouthpoleLayer(d.id) && southpoleArea
+    )
+  );
+
 export const gsiLayers = addProps(layerList);
 
 // d.srcの中身は，以下で確認できるが，データ数が多いため実装は保留
 //  fetchUrl(ralativeToAbsolutePath(d.src))
+
+// const relToAbsPath = (url = "") =>
+//   url.startsWith("http")
+//     ? url
+//     : url.replace("./", "https://maps.gsi.go.jp/layers_txt/");
+
+// export const fetchUrl = (url) =>
+//   fetch(relToAbsPath(url))
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       return response.json();
+//     })
+//     .then((data) => data.layers)
+//     .catch((error) => console.error("Error:", error));

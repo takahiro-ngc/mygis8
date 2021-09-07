@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { isValidUrl, isTile } from "../utility";
-import { setProps } from "../layer/layerProps";
 import Typography from "@material-ui/core/Typography";
 import ImportFile from "./ImportFile";
 
@@ -72,7 +71,7 @@ export default function Import({ setLayers }) {
               // ToDo histry
               url
                 ? (setLayers((prev) => [
-                    { ...setProps(url), id: url, title: url },
+                    { data: url, id: url, title: url },
                     ...prev,
                   ]),
                   setHelperText("「選択中のデータ」に追加しました。"),

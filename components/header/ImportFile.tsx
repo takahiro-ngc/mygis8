@@ -1,6 +1,5 @@
 import Button from "@material-ui/core/Button";
 
-import { setProps } from "../layer/layerProps";
 import Typography from "@material-ui/core/Typography";
 import { KMLLoader } from "@loaders.gl/kml";
 import { load } from "@loaders.gl/core";
@@ -24,7 +23,7 @@ export default function ImportFile({ setLayers }) {
       .then((d) => {
         console.log(d, fileType);
         return {
-          ...setProps(d, fileType),
+          data: d,
           id: fileObject.name,
           title: fileObject.name,
         };

@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState } from "react";
 import Map from "../components/map/Map";
 import BottomInfo from "../components/menu/BottomInfo";
 import Menu from "../components/menu/Menu";

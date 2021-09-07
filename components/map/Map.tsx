@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import DeckGL from "deck.gl";
 
 import {
@@ -29,63 +29,33 @@ export const Map = ({
   setFeature,
   modeOfEdit,
 }) => {
-  // https://gbank.gsj.jp/seamless/elev/tile.html
-  const SEEMLESS = "https://tiles.gsj.jp/tiles/elev/mixed/{z}/{y}/{x}.png";
-  // https://maps.gsi.go.jp/development/hyokochi.html
-  const DEM5A =
-    "https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png";
-  const DEM10B = "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png";
-  const DEMGM =
-    "https://cyberjapandata.gsi.go.jp/xyz/demgm_png/{z}/{x}/{y}.png";
-  const [elevationData, setElevationData] = useState(DEM10B);
-  const autoElevationData = (zoom: number) =>
-    setElevationData(
-      "https://tiles.gsj.jp/tiles/elev/gsidem5a/{z}/{y}/{x}.png"
-    );
-  // setElevationData(zoom >= 13.5 ? DEM5A : zoom >= 7.5 ? DEM10B : DEMGM);
-
   // リストで上のレイヤーを上層に描画させる
+  // const prepareRender
   const cloneLayers = [...layers]; //reverseは破壊的メソッドのため注意
   const reversedLayers = cloneLayers.reverse();
   const testLayer = reversedLayers.map((d) => addDefaultProps(d));
-  console.log("testLayer", testLayer);
   const layersWithSetting = testLayer.map((item: any, index: number) => {
-    const setting = {
-      ...item,
-      updateTriggers: {
-        getFillColor: layers[index]?.getFillColor,
-        // all: layers[index].layerType,
-      },
-      // onDataLoad: (value) => console.log(value),
-    };
-
     switch (item.layerType) {
       case "GeoJsonLayer":
-        return new GeoJsonLayer(setting);
+        return new GeoJsonLayer(item);
       case "HexagonLayer":
-        return new HexagonLayer(setting);
+        return new HexagonLayer(item);
       case "ColumnLayer":
-        return new ColumnLayer(setting);
+        return new ColumnLayer(item);
       case "TextLayer":
-        return new TextLayer(setting);
+        return new TextLayer(item);
       case "ScreenGridLayer":
-        return new ScreenGridLayer(setting);
+        return new ScreenGridLayer(item);
       case "ScatterplotLayer":
-        return new ScatterplotLayer(setting);
+        return new ScatterplotLayer(item);
       case "TileLayer":
-        return new TileLayer(setting);
-      // case "GsiTerrainLayer":
-      //   return new GsiTerrainLayer({
-      //     ...setting,
-      //     // elevationData: elevationData,
-      //     // maxZoom: 15.99,
-      //   });
+        return new TileLayer(item);
       case "MVTLayer":
-        return new MVTLayer(setting);
+        return new MVTLayer(item);
       case "Tile3DLayer":
-        return new Tile3DLayer(setting);
+        return new Tile3DLayer(item);
       case "TerrainLayer":
-        return new TerrainLayer(setting);
+        return new TerrainLayer(item);
     }
   });
 
@@ -129,7 +99,7 @@ export const Map = ({
           onClick={onClick}
           viewState={viewState}
           onViewStateChange={({ viewState }) => {
-            autoElevationData(viewState.zoom);
+            // autoElevationData(viewState.zoom);
             setViewState(viewState);
           }}
         ></DeckGL>
