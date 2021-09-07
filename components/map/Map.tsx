@@ -17,6 +17,7 @@ import {
 } from "@deck.gl/geo-layers";
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { Button } from "@material-ui/core";
+import { backgroundLayer } from "./backgroundLayer";
 // import { Toolbox } from "@nebula.gl/editor";
 
 export const Map = ({
@@ -91,18 +92,6 @@ export const Map = ({
     event.preventDefault();
     console.log(info);
   };
-
-  // ToDo 背景レイヤーがないときは，合成できないようにすれば？
-  // 背景レイヤーがないと，「合成」したときに見えなくなるのを防止
-  const backgroundLayer = new BitmapLayer({
-    id: "background-layer",
-    bounds: [-180, -180, 180, 180],
-    image: "/img/white.jpg",
-    // 傾けたときにチラつくのを防止
-    parameters: {
-      depthTest: false,
-    },
-  });
 
   const [features, setFeatures] = useState({
     type: "FeatureCollection",

@@ -1,3 +1,5 @@
+〇作図をselectedLayerに追加したい→Map，addPropsの整理が必要→updateTriggersの整理が必要→layerControlの整理が必要
+
 〇レイヤー種類の変更
 bitmap→terrain
 geojson→コラム，グリッド，ヘキサゴン，ヒートマップ
@@ -40,6 +42,7 @@ position absoluteのため，親に次を設定すればよい
 ・塗分けマップ（都道府県名，市町村名オプション，数字，インポート後のオプション 線形・対数，基準値，dataTransform
 
 〇優先度高
+・layerPropsを描画する時に移動 default item gsiの優先順
 ・demデータの利用
 ・histryが再アクセスで空
 ・データの充実，メタ情報
@@ -56,6 +59,18 @@ ui
 データスタート
 統計gis
 Geoshapeリポジトリ
+
+現在　全て
+案　{title,id,data,attribution}
+→reverse
+→addprops
+→mapで
+
+〇作図
+・スペーサー
+・すべて削除
+・選択して削除
+・selectedLayer
 
 〇ソース整理関係
 ・blurの再検討

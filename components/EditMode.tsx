@@ -28,11 +28,7 @@ export const drawMode = [
   { id: "DrawPointMode", text: "点", handler: DrawPointMode },
   { id: "DrawLineStringMode", text: "線", handler: DrawLineStringMode },
   { id: "DrawPolygonMode", text: "面", handler: DrawPolygonMode },
-  {
-    id: "DrawPolygonByDraggingMode",
-    text: "フリーハンド",
-    handler: DrawPolygonByDraggingMode,
-  },
+
   {
     id: "DrawRectangleUsingThreePointsMode",
     text: "四角形",
@@ -42,6 +38,11 @@ export const drawMode = [
     id: "DrawCircleFromCenterMode",
     text: "円",
     handler: DrawCircleFromCenterMode,
+  },
+  {
+    id: "DrawPolygonByDraggingMode",
+    text: "フリーハンド",
+    handler: DrawPolygonByDraggingMode,
   },
 ];
 

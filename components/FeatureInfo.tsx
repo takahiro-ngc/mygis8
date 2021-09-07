@@ -81,11 +81,11 @@ const FeatureInfo = ({ feature, setFeature }) => {
         {`
           .style {
             position: absolute;
-            top: 48px; //headerHight
+            top: 0;
             right: 0;
             min-width: 320px;
             max-width: min(40vw, 380px);
-            max-height: calc(100% - 48px); //headerHeight
+            max-height: 100%;
             overflow: auto;
             z-index: 1;
           }
