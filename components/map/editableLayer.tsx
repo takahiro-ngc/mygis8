@@ -1,7 +1,7 @@
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { useState } from "react";
 
-export const editableLayer = (feature, modeOfEdit) => {
+export const EditableLayer = (feature, modeOfEdit) => {
   const [features, setFeatures] = useState({
     type: "FeatureCollection",
     features: [],

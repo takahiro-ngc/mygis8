@@ -20,7 +20,7 @@ import { Button } from "@material-ui/core";
 import { backgroundLayer } from "./backgroundLayer";
 // import { Toolbox } from "@nebula.gl/editor";
 import { addDefaultProps } from "./addDefaultProps";
-import { editableLayer } from "./editableLayer";
+import { EditableLayer } from "./EditableLayer";
 
 export const Map = ({
   layers,
@@ -74,7 +74,7 @@ export const Map = ({
           layers={[
             backgroundLayer,
             layersWithSetting,
-            editableLayer(feature, modeOfEdit),
+            EditableLayer(feature, modeOfEdit),
           ]}
           // layers={[backgroundLayer, layersWithSetting, EditableGeoJson]}
           controller={{

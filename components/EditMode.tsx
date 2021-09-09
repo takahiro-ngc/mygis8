@@ -63,6 +63,7 @@ const EditMode = ({ modeOfEdit, setModeOfEdit }) => {
   const ButtonGroup = ({ list }) =>
     list.map((item) => (
       <Button
+        key={item.id}
         size="small"
         variant="contained"
         onClick={() => setModeOfEdit(item)}
