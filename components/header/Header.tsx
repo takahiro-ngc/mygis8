@@ -14,7 +14,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import LooksTwoOutlinedIcon from "@material-ui/icons/LooksTwoOutlined";
 
-const Header = ({ setLayers, setIsDoubleView, modeOfEdit, setModeOfEdit }) => {
+const Header = ({ setLayers, setIsDoubleView, setModeOfEdit }) => {
   const matches = useMediaQuery("(min-width:500px)");
   const Item = ({ label, icon, children }) => (
     <>

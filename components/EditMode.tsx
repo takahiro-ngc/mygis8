@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Button } from "@material-ui/core";
 import {
   ViewMode,
@@ -9,6 +11,7 @@ import {
   DrawCircleFromCenterMode,
   MeasureDistanceMode,
   MeasureAreaMode,
+  TransformMode,
 } from "@nebula.gl/edit-modes";
 
 export const defaultMode = [
@@ -43,6 +46,11 @@ export const drawMode = [
     id: "DrawPolygonByDraggingMode",
     text: "フリーハンド",
     handler: DrawPolygonByDraggingMode,
+  },
+  {
+    id: "TransformMode",
+    text: "移動・変形",
+    handler: TransformMode,
   },
 ];
 
@@ -80,4 +88,4 @@ const EditMode = ({ modeOfEdit, setModeOfEdit }) => {
     </div>
   );
 };
-export default EditMode;
+export default React.memo(EditMode);

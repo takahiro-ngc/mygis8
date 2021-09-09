@@ -42,7 +42,6 @@ export default function Home() {
       <Header
         setLayers={setLayers}
         setIsDoubleView={setIsDoubleView}
-        modeOfEdit={modeOfEdit}
         setModeOfEdit={setModeOfEdit}
       />
       <div className="main">

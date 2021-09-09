@@ -20,6 +20,7 @@ import { Button } from "@material-ui/core";
 import { backgroundLayer } from "./backgroundLayer";
 // import { Toolbox } from "@nebula.gl/editor";
 import { addDefaultProps } from "./addDefaultProps";
+import { editableLayer } from "./editableLayer";
 
 export const Map = ({
   layers,
@@ -65,43 +66,41 @@ export const Map = ({
     console.log(info);
   };
 
-  const [features, setFeatures] = useState({
-    type: "FeatureCollection",
-    features: [],
-  });
-
-  const EditableGeoJson = new EditableGeoJsonLayer({
-    id: "EditableGeoJson",
-    data: features,
-    mode: modeOfEdit?.handler,
-    // ToDo id==="EditableGeoJson"の時のみ
-    selectedFeatureIndexes: [feature?.index],
-    onEdit: ({ updatedData }) => {
-      setFeatures(updatedData);
-      console.log(feature);
-    },
-    pickable: true,
-    autoHighlight: true,
-  });
-
   return (
     <>
       {/* 右クリックによるメニュー抑止 */}
       <div onContextMenu={(e) => e.preventDefault()}>
         <DeckGL
-          layers={[backgroundLayer, layersWithSetting, EditableGeoJson]}
+          layers={[
+            backgroundLayer,
+            layersWithSetting,
+            editableLayer(feature, modeOfEdit),
+          ]}
+          // layers={[backgroundLayer, layersWithSetting, EditableGeoJson]}
           controller={{
             inertia: true,
             scrollZoom: { speed: 0.05, smooth: true },
             touchRotate: true,
             doubleClickZoom: modeOfEdit?.id === "ViewMode" ? true : false,
           }}
+          // onHover={onClick}
           onClick={onClick}
           viewState={viewState}
           onViewStateChange={({ viewState }) => {
             // autoElevationData(viewState.zoom);
             setViewState(viewState);
           }}
+          // getTooltip={({ object }) =>
+          //   object && {
+          //     html: `<h2>${object.toString()}</h2><div>${object.toString()}</div>`,
+          //     style: {
+          //       backgroundColor: "#f00",
+          //       fontSize: "0.8em",
+          //       position: "fixed",
+          //       top: "100px",
+          //     },
+          //   }
+          // }
         ></DeckGL>
       </div>
     </>
