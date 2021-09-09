@@ -58,9 +58,9 @@ export const Map = ({
   });
 
   const onClick = (info, event) => {
-    setFeature(info);
+    info.x === -1 ? null : setFeature(info);
     event.preventDefault();
-    console.log(info);
+    // console.log(info);
   };
 
   return (
@@ -74,6 +74,7 @@ export const Map = ({
             scrollZoom: { speed: 0.05, smooth: true },
             touchRotate: true,
           }}
+          onHover={onClick}
           onClick={onClick}
           viewState={viewState}
           onViewStateChange={({ viewState }) => {

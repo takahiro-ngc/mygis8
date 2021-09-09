@@ -8,6 +8,10 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+/* * {
+  border: 1px red solid;
+} */
+
 /* support iOS */
 /* https://coliss.com/articles/build-websites/operation/css/css-cover-the-entire-height-of-the-screen.html */
 html {

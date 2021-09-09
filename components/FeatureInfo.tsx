@@ -8,12 +8,30 @@ import TableRow from "@material-ui/core/TableRow";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import { isImage } from "./utility";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Fade from "@material-ui/core/Fade";
 
 const FeatureInfo = ({ feature, setFeature }) => {
-  const infoArray = Object.entries(feature?.object?.properties || {});
-  const isStyleInfo = (row) => row.startsWith("_"); //_colorや_opacityなどのプロパティが地理院レイヤーにあり
+  const lat = feature?.coordinate[1].toFixed(6);
+  const lon = feature?.coordinate[0].toFixed(6);
+
+  const properties = {
+    "緯度・経度": `${lat} ${lon}`,
+    レイヤー名: feature?.layer?.props?.title,
+    ...feature?.object?.properties,
+  };
+
+  const entries = Object.entries(properties);
+
+  const showImage = (url) => (
+    <div>
+      <a href={url} target="_blank" rel="noreferrer">
+        <img src={url} width={"100%"} alt="サムネイル画像" />
+      </a>
+    </div>
+  );
+
+  const isStyleInfo = (key) => key.startsWith("_"); //_colorや_opacityなどのプロパティが地理院レイヤーにある
+  const isUndefined = (value) => value === undefined;
+  const shouldRender = (key, value) => !isStyleInfo(key) && !isUndefined(value);
   return (
     <>
       <div className="style acrylic-color" hidden={!Boolean(feature)}>
@@ -32,43 +50,16 @@ const FeatureInfo = ({ feature, setFeature }) => {
         <TableContainer>
           <Table size="small">
             <TableBody>
-              <TableRow key={"緯度/経度"}>
-                <TableCell>緯度/経度</TableCell>
-                <TableCell>
-                  {feature?.coordinate[1].toFixed(6)},
-                  {feature?.coordinate[0].toFixed(6)}
-                </TableCell>
-              </TableRow>
-
-              {feature?.layer && (
-                <TableRow key={"@@レイヤ"}>
-                  <TableCell>レイヤー名</TableCell>
-                  <TableCell>{feature.layer?.props?.title}</TableCell>
-                </TableRow>
-              )}
-
-              {infoArray?.map(
+              {entries.map(
                 (row) =>
-                  !isStyleInfo(row[0]) && (
+                  shouldRender(row[0], row[1]) && (
                     <TableRow key={row[0]}>
-                      <TableCell>{ReactHtmlParser(row[0])}</TableCell>
-                      <TableCell>
+                      <TableCell style={{ width: "120px" }}>
+                        {ReactHtmlParser(row[0])}
+                      </TableCell>
+                      <TableCell style={{ wordBreak: "break-word" }}>
                         {ReactHtmlParser(row[1])}
-                        {isImage(row[1]) && (
-                          <div>
-                            <a
-                              href={`${row[1]}`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <img
-                                src={`${row[1]}`}
-                                width={200}
-                                alt="サムネイル画像"
-                              />
-                            </a>
-                          </div>
-                        )}
+                        {isImage(row[1]) && showImage(row[1])}
                       </TableCell>
                     </TableRow>
                   )
@@ -77,17 +68,18 @@ const FeatureInfo = ({ feature, setFeature }) => {
           </Table>
         </TableContainer>
       </div>
+
       <style jsx>
         {`
           .style {
             position: absolute;
-            top: 0;
-            right: 0;
+            top: ${feature.y + 5}px;
+            left: ${feature.x + 5}px;
             min-width: 320px;
-            max-width: min(40vw, 380px);
+            max-width: min(40vw, 420px);
             max-height: 100%;
-            overflow: auto;
-            z-index: 1;
+            overflow-x: hidden;
+            overflow-y: auto;
           }
           @media screen and (max-width: 700px) {
             .style {
