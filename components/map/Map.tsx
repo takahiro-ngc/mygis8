@@ -18,9 +18,7 @@ import {
 import { EditableGeoJsonLayer } from "@nebula.gl/layers";
 import { Button } from "@material-ui/core";
 import { backgroundLayer } from "./backgroundLayer";
-// import { Toolbox } from "@nebula.gl/editor";
 import { addDefaultProps } from "./addDefaultProps";
-import { EditableLayer } from "./EditableLayer";
 
 export const Map = ({
   layers,
@@ -28,7 +26,6 @@ export const Map = ({
   setViewState,
   feature,
   setFeature,
-  modeOfEdit,
 }) => {
   // リストで上のレイヤーを上層に描画させる
   // const prepareRender
@@ -71,37 +68,18 @@ export const Map = ({
       {/* 右クリックによるメニュー抑止 */}
       <div onContextMenu={(e) => e.preventDefault()}>
         <DeckGL
-          layers={[
-            backgroundLayer,
-            layersWithSetting,
-            EditableLayer(feature, modeOfEdit),
-          ]}
-          // layers={[backgroundLayer, layersWithSetting, EditableGeoJson]}
+          layers={[backgroundLayer, layersWithSetting]}
           controller={{
             inertia: true,
             scrollZoom: { speed: 0.05, smooth: true },
             touchRotate: true,
-            doubleClickZoom: modeOfEdit?.id === "ViewMode" ? true : false,
           }}
-          // onHover={onClick}
           onClick={onClick}
           viewState={viewState}
           onViewStateChange={({ viewState }) => {
             // autoElevationData(viewState.zoom);
             setViewState(viewState);
           }}
-
-          // getTooltip={({ object }) =>
-          //   object && {
-          //     html: `<h2>${object.toString()}</h2><div>${object.toString()}</div>`,
-          //     style: {
-          //       backgroundColor: "#f00",
-          //       fontSize: "0.8em",
-          //       position: "fixed",
-          //       top: "100px",
-          //     },
-          //   }
-          // }
         ></DeckGL>
       </div>
     </>

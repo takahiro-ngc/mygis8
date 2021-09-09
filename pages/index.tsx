@@ -6,7 +6,6 @@ import Header from "../components/header/Header";
 import FeatureInfo from "../components/FeatureInfo";
 import { findLayer } from "../components/layer/layerList";
 import SyncSwitch from "../components/SyncSwitch";
-import EditMode from "../components/EditMode";
 import { defaultMode } from "../components/EditMode";
 
 export const initialViewState = {
@@ -35,15 +34,10 @@ export default function Home() {
   const [feature, setFeature] = useState(null);
   const [isDoubleView, setIsDoubleView] = useState(false);
   const [isSync, setIsSync] = useState(false);
-  const [modeOfEdit, setModeOfEdit] = useState(defaultMode[0]);
 
   return (
     <div className="wrapper">
-      <Header
-        setLayers={setLayers}
-        setIsDoubleView={setIsDoubleView}
-        setModeOfEdit={setModeOfEdit}
-      />
+      <Header setLayers={setLayers} setIsDoubleView={setIsDoubleView} />
       <div className="main">
         <div className="side">
           <Map
@@ -52,7 +46,6 @@ export default function Home() {
             setViewState={setViewState}
             feature={feature}
             setFeature={setFeature}
-            modeOfEdit={modeOfEdit}
           />
           <Menu //後の要素が上に描画される
             layers={layers}
@@ -71,7 +64,6 @@ export default function Home() {
               setViewState={isSync ? setViewState : setViewStateForSub}
               feature={feature}
               setFeature={setFeature}
-              modeOfEdit={modeOfEdit}
             />
             <Menu
               layers={layersForSub}
@@ -89,14 +81,7 @@ export default function Home() {
           </div>
         )}
 
-        {modeOfEdit?.id === "ViewMode" ? (
-          <FeatureInfo feature={feature} setFeature={setFeature} />
-        ) : (
-          <EditMode
-            modeOfEdit={modeOfEdit}
-            setModeOfEdit={setModeOfEdit}
-          ></EditMode>
-        )}
+        <FeatureInfo feature={feature} setFeature={setFeature} />
         <BottomInfo viewState={viewState} />
       </div>
 

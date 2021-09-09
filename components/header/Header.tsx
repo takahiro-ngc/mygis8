@@ -14,7 +14,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import LooksTwoOutlinedIcon from "@material-ui/icons/LooksTwoOutlined";
 
-const Header = ({ setLayers, setIsDoubleView, setModeOfEdit }) => {
+const Header = ({ setLayers, setIsDoubleView }) => {
   const matches = useMediaQuery("(min-width:500px)");
   const Item = ({ label, icon, children }) => (
     <>
@@ -73,7 +73,8 @@ const Header = ({ setLayers, setIsDoubleView, setModeOfEdit }) => {
           <Item label="インポート" icon={<ImportExportIcon />}>
             <Import setLayers={setLayers} />
           </Item>
-          <Button
+
+          {/* <Button
             size="small"
             variant="outlined"
             onClick={() =>
@@ -86,7 +87,7 @@ const Header = ({ setLayers, setIsDoubleView, setModeOfEdit }) => {
             // startIcon={<LooksTwoOutlinedIcon />}
           >
             計測・作図
-          </Button>
+          </Button> */}
 
           <Item label="FAQ" icon={<HelpOutlineIcon />}>
             <Faq />
