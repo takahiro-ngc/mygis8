@@ -90,6 +90,7 @@ export const Map = ({
             // autoElevationData(viewState.zoom);
             setViewState(viewState);
           }}
+
           // getTooltip={({ object }) =>
           //   object && {
           //     html: `<h2>${object.toString()}</h2><div>${object.toString()}</div>`,

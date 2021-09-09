@@ -6,23 +6,29 @@ export const editableLayer = (feature, modeOfEdit) => {
     type: "FeatureCollection",
     features: [],
   });
-
+  const [selectedFeatureIndexes] = useState([]);
+  const canSelectFeature =
+    modeOfEdit?.id === "TransformMode" || modeOfEdit?.id === "DeleteMode";
   return new EditableGeoJsonLayer({
     id: "EditableGeoJson",
     data: features,
     mode: modeOfEdit?.handler,
-    selectedFeatureIndexes: [
-      feature?.layer?.id === "EditableGeoJson" &&
-        modeOfEdit?.id === "TransformMode" &&
-        !feature?.isGuide &&
-        feature.index,
-    ],
+    selectedFeatureIndexes,
+    // selectedFeatureIndexes: canSelectFeature
+    //   ? [
+    //       feature?.layer?.id === "EditableGeoJson" &&
+    //         !feature?.isGuide &&
+    //         feature.index,
+    //     ]
+    //   : [null],
     onEdit: ({ updatedData }) => {
       setFeatures(updatedData);
       // console.log(feature);
     },
     pickable: true,
     autoHighlight: true,
+    highlightColor:
+      modeOfEdit?.id === "DeleteMode" ? [255, 0, 0, 128] : [0, 0, 128, 128],
     // ToDO deleteButton
     // const delete=(index)=>...
     // onClick: d=>delete(d.index)
@@ -31,7 +37,6 @@ export const editableLayer = (feature, modeOfEdit) => {
     //     modeOfEdit?.id === "DeleteMode" &&
     //     feature.index,
     // ],
-    // autoHighlightColor:modeOfEdit?.id === "DeleteMode" &&...
-    // onClick: (d) => console.log("a", d),
+    // onClick: (d) => modeOfEdit?.id === "DeleteMode" ?,
   });
 };

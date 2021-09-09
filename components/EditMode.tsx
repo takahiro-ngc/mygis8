@@ -52,6 +52,11 @@ export const drawMode = [
     text: "移動・変形",
     handler: TransformMode,
   },
+  {
+    id: "DeleteMode", //オリジナル
+    text: "削除",
+    handler: ViewMode,
+  },
 ];
 
 const EditMode = ({ modeOfEdit, setModeOfEdit }) => {
