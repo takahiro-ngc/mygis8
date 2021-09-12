@@ -31,7 +31,7 @@ const DataCatalog = ({
       const key = node.category + node.title + index;
       return (
         <TreeItem
-          // hidden={!(node.type === "LayerGroup" || node.fileType === "png")} //デバッグ用
+          // hidden={!(node.layerType === "LayerGroup" || node.fileType === "png")} //デバッグ用
           key={key}
           nodeId={key}
           onLabelClick={() => {
