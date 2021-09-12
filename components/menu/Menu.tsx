@@ -10,6 +10,7 @@ import DataCatalog from "./DataCatalog";
 import SelectedLayerList from "./selectedLayer/SelectedLayerList";
 import useLocalStorage from "../useLocalStorage";
 import { unique } from "../utility";
+import FeatureTable from "./selectedLayer/FeatureTable";
 
 export const Menu = ({
   layers,
@@ -17,6 +18,7 @@ export const Menu = ({
   setViewState,
   isMainView,
   isDoubleView,
+  loadedData,
 }) => {
   const [storedHistry, setHistry] = useLocalStorage("histry", []);
   const addHistry = (id) =>
@@ -35,6 +37,7 @@ export const Menu = ({
 
   const [isMenuVisible, setIsMenuVisible] = useState(true);
   const [isButtonVisible, setIsButtonVisible] = useState(!isMenuVisible);
+
   return (
     <>
       {/* メニューボタン */}
@@ -58,6 +61,7 @@ export const Menu = ({
       </Fade>
 
       {/* メニュー */}
+
       <Slide
         in={isMenuVisible}
         direction={isMainView ? "right" : "left"}
@@ -94,6 +98,7 @@ export const Menu = ({
               storedHistry={storedHistry}
               addLayer={addLayer}
               setHistry={setHistry}
+              loadedData={loadedData}
             ></SelectedLayerList>
           </Resizable>
         </div>

@@ -12,6 +12,7 @@ export default function SelectedLayerList({
   storedHistry,
   addLayer,
   setHistry,
+  loadedData,
 }) {
   return (
     <div
@@ -58,6 +59,7 @@ export default function SelectedLayerList({
               storedHistry={storedHistry}
               addLayer={addLayer}
               setHistry={setHistry}
+              loadedData={loadedData}
             />
           </Collapse>
         )}

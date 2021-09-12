@@ -15,8 +15,6 @@ import {
   MVTLayer,
   Tile3DLayer,
 } from "@deck.gl/geo-layers";
-import { EditableGeoJsonLayer } from "@nebula.gl/layers";
-import { Button } from "@material-ui/core";
 import { backgroundLayer } from "./backgroundLayer";
 import { addDefaultProps } from "./addDefaultProps";
 
@@ -24,15 +22,27 @@ export const Map = ({
   layers,
   viewState,
   setViewState,
-  feature,
   setFeature,
+  setLoadedData,
 }) => {
-  // リストで上のレイヤーを上層に描画させる
-  // const prepareRender
   const cloneLayers = [...layers]; //reverseは破壊的メソッドのため注意
   const reversedLayers = cloneLayers.reverse();
   const testLayer = reversedLayers.map((d) => addDefaultProps(d));
-  const layersWithSetting = testLayer.map((item: any, index: number) => {
+  const testLayer3 = testLayer.map((d) => ({
+    ...d,
+    onDataLoad: (value) =>
+      setLoadedData((prev) => ({ ...prev, [d.id]: value?.features })),
+    onViewportLoad: (data) =>
+      setLoadedData((prev) => ({
+        ...prev,
+        [d.id]: data.flatMap((d) => d?.content?.features),
+      })),
+  }));
+  const testLayer2 = testLayer3.map((d) =>
+    d.target ? { ...d, getFillColor: d.target } : d
+  );
+  // console.log("testLayer2", testLayer2);
+  const layersWithSetting = testLayer2.map((item: any, index: number) => {
     switch (item.layerType) {
       case "GeoJsonLayer":
         return new GeoJsonLayer(item);
@@ -74,11 +84,9 @@ export const Map = ({
             scrollZoom: { speed: 0.05, smooth: true },
             touchRotate: true,
           }}
-          onHover={onClick}
           onClick={onClick}
           viewState={viewState}
           onViewStateChange={({ viewState }) => {
-            // autoElevationData(viewState.zoom);
             setViewState(viewState);
           }}
         ></DeckGL>

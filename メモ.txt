@@ -41,11 +41,11 @@ position absoluteのため，親に次を設定すればよい
 ・合成
 ・テキストのアウトライン
 ・importの様々な拡張子 shape csv（ポイントのみ）
-・標高断面図（bbox利用）
+・標高断面図（bbox利用）ClipExtension
 ・塗分けマップ（都道府県名，市町村名オプション，数字，インポート後のオプション 線形・対数，基準値，dataTransform
 
 〇優先度高
-・layerPropsを描画する時に移動 default item gsiの優先順
+。layerInfoの整理と設定機能
 ・demデータの利用
 ・histryが再アクセスで空
 ・データの充実，メタ情報
@@ -54,27 +54,8 @@ position absoluteのため，親に次を設定すればよい
 ・赤色立体地図の権利処理
 ・地理院のクリックしても無反応データd.src===""?
 ・geojsonbufの利用
-・リンク集　nebula等ケプラー
-nebula.gl（英語） 右上のgeojson editer「作図，geojson形式での保存
-カーソル修正
-ui
-図形の削除機能
-データスタート
-統計gis
-Geoshapeリポジトリ
-
-現在　全て
-案　{title,id,data,attribution}
-→reverse
-→addprops
-→mapで
-default→item→common
-
-〇作図
-・スペーサー
-・すべて削除
-・選択して削除
-・selectedLayer
+・アイコンのハイライト
+・ダウンロード済みデータの保存 geojson,csv
 
 〇ソース整理関係
 ・blurの再検討
@@ -83,6 +64,9 @@ default→item→common
 
 
 〇優先度中
+・onDragg時にmenuを薄くする
+・リンク集　geojson編集，ケプラー，データスタート，統計gis，RESUS，Geoshapeリポジトリ
+
 ・kmlがautoHilightにならない
 ・layerPropsのisTileでimportするとローカルではくるくるが止まらないことがある
 ・緯度経度ラインレイヤー

@@ -6,7 +6,6 @@ import Header from "../components/header/Header";
 import FeatureInfo from "../components/FeatureInfo";
 import { findLayer } from "../components/layer/layerList";
 import SyncSwitch from "../components/SyncSwitch";
-import { defaultMode } from "../components/EditMode";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -18,7 +17,8 @@ export const initialViewState = {
   maxPitch: 85,
 };
 
-const defaultLayerId = "OpenStreetMap";
+const defaultLayerId = "disaster_lore_all";
+// const defaultLayerId = "OpenStreetMap";
 const defaultLayer = findLayer(defaultLayerId);
 
 export default function Home() {
@@ -34,6 +34,7 @@ export default function Home() {
   const [feature, setFeature] = useState(null);
   const [isDoubleView, setIsDoubleView] = useState(false);
   const [isSync, setIsSync] = useState(false);
+  const [loadedData, setLoadedData] = useState({});
 
   return (
     <div className="wrapper">
@@ -44,8 +45,8 @@ export default function Home() {
             layers={layers}
             viewState={viewState}
             setViewState={setViewState}
-            feature={feature}
             setFeature={setFeature}
+            setLoadedData={setLoadedData}
           />
           <Menu //後の要素が上に描画される
             layers={layers}
@@ -53,6 +54,8 @@ export default function Home() {
             setViewState={setViewState}
             isMainView={true}
             isDoubleView={isDoubleView}
+            // test
+            loadedData={loadedData}
           />
         </div>
 
@@ -62,8 +65,8 @@ export default function Home() {
               layers={layersForSub}
               viewState={isSync ? viewState : viewStateForSub}
               setViewState={isSync ? setViewState : setViewStateForSub}
-              feature={feature}
               setFeature={setFeature}
+              setLoadedData={setLoadedData}
             />
             <Menu
               layers={layersForSub}

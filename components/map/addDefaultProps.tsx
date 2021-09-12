@@ -25,7 +25,7 @@ export const addDefaultProps = (item) => {
       depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
     },
     // ToDo loadersの設定を消さないとmvtLayerが描画できない
-    // loaders: [KMLLoader],
+    loaders: [KMLLoader],
 
     // 点関係
     pointRadiusUnits: "pixels",
@@ -74,41 +74,4 @@ export const addDefaultProps = (item) => {
   const isBitmapTile = isTile(data) && isImage(data);
 
   return Object.assign({}, mainProps, isBitmapTile && bitmapTileProps, item);
-};
-
-export const setPropsForGsi = (
-  url,
-  minZoom = 0,
-  maxZoom = null,
-  maxNativeZoom = null,
-  iconUrl = null
-) => {
-  return {
-    data: url,
-
-    // タイル用
-    // 記載漏れや混同が多いよう。次のように設定すると，とりあえずうまくいく。
-    minZoom: Math.min(minZoom, maxNativeZoom),
-    maxZoom: isImage(url)
-      ? maxNativeZoom || maxZoom
-      : maxNativeZoom || minZoom || 2, //maxZoomではないので注意。2がデフォルト。
-
-    // アイコン用
-    pointType: iconUrl ? "icon" : "circle+icon",
-    getIcon: (d) => {
-      const src = d.properties;
-      return {
-        url: src?._iconUrl || src?.icon || iconUrl,
-        width: src?._iconSize?.[0] ?? 20,
-        height: src?._iconSize?.[1] ?? 20,
-        anchorX: src?._iconAnchor?.[0] ?? 10,
-        anchorY: src?._iconAnchor?.[1] ?? 10,
-      };
-    },
-    getIconSize: 24, //必須
-    getPointRadius: (d) => {
-      const src = d.properties;
-      return src?._iconUrl || src?.icon || iconUrl ? 1 : 4; //iconがある時は点を小さくして隠す
-    },
-  };
 };

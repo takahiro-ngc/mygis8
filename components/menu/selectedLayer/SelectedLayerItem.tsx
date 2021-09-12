@@ -11,6 +11,7 @@ import PopoverButton from "../PopoverButton";
 import SettingsIcon from "@material-ui/icons/Settings";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import LayerInfo from "../LayerInfo";
+import FeatureTable from "./FeatureTable";
 // import { isBitmap } from "../utils/utility";
 
 export default function SelectedLayerItem({
@@ -25,6 +26,7 @@ export default function SelectedLayerItem({
   storedHistry,
   addLayer,
   setHistry,
+  loadedData,
 }) {
   const isVisible = (item) => item.visible ?? true; //undefinedの時はデフォルトのtrueにする
 
@@ -92,6 +94,11 @@ export default function SelectedLayerItem({
           {is3d(unReversedIndex) ? "2D" : "3D"}
         </IconButton>
       )} */}
+
+      {/* ToDo アイコン*/}
+      <PopoverButton icon={<SettingsIcon />} style={{ width: "800px" }}>
+        <FeatureTable loadedData={loadedData} />
+      </PopoverButton>
 
       {/* 設定切替ボタン */}
       <PopoverButton icon={<SettingsIcon />}>

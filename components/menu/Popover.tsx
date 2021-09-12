@@ -20,11 +20,11 @@ export default function Popover({
       anchorEl={anchorEl}
       placement="right"
       style={{
-        zIndex: 1,
+        // zIndex: 1,
         padding: 16,
         width: 420,
-        maxWidth: "95vw",
-        maxHeight: "calc(100vh - 16px)",
+        maxWidth: "calc(100vw - 10px)", //100vwだと右に隙間ができるのをごまかす
+        maxHeight: "calc(100vh - 10px)",
         overflow: "auto",
         wordBreak: "break-all",
         borderRadius: 8,

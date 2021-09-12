@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";

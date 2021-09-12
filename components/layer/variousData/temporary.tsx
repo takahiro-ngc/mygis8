@@ -107,7 +107,7 @@ export const otherLayers = [
       // domain: [2, 23],
       // colors: "BluYl",
     }),
-
+    target: [128, 128, 0, 128],
     pointType: "circle+text",
     getText: (d) =>
       (Number(d.properties.L01_006) / 1000).toLocaleString() + "千",

@@ -62,53 +62,19 @@ export default function LayerControls({ index, layers, setLayers }) {
         />
       </div>
 
-      {/* ToDo geojson以外への対応 gsiGeojsonの時，iconの大きさが変えられない gsiの時は不要か検討*/}
-      {/* {(getFileTypeCategory(layers[index].data) === "geojson" ||
-        getFileTypeCategory(layers[index].data) === "kml") && (
-        <>
-          <hr></hr>
-
-          <div className="style">
-            点の大きさ
-            GSIの時はiconの大きさ
-            <Slider
-              valueLabelDisplay="auto"
-              min={0}
-              max={5}
-              step={1 / 10}
-              value={layers[index].radiusScale ?? 1}
-              onChange={(event, newValue) =>
-                changeSetting("radiusScale", newValue)
-              }
-            />
-          </div>
-
-          <div className="style">
-            線の太さ
-            <Slider
-              valueLabelDisplay="auto"
-              min={0}
-              max={5}
-              step={1 / 10}
-              value={layers[index].lineWidthScale ?? 1}
-              onChange={(event, newValue) =>
-                changeSetting("lineWidthScale", newValue)
-              }
-            />
-          </div>
-
-          <div className="style">
-            面の塗りつぶし
-            <SwitchType
-              settingName="filled"
-              defaultValue={true}
-              layers={layers}
-              changeSetting={changeSetting}
-              index={index}
-            ></SwitchType>
-          </div>
-        </>
-      )} */}
+      <div className="style">
+        ターゲット
+        <Slider
+          valueLabelDisplay="auto"
+          min={0}
+          max={255}
+          step={1 / 10}
+          value={layers[index].target[0]}
+          onChange={(event, newValue) =>
+            changeSetting("target", [newValue, 0, 0, 255])
+          }
+        />
+      </div>
 
       <style jsx>
         {`
@@ -116,6 +82,7 @@ export default function LayerControls({ index, layers, setLayers }) {
             display: grid;
             grid-template-columns: 50% 50%;
             align-items: center;
+            overflow-x: hidden;
           }
         `}
       </style>
