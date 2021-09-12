@@ -1,6 +1,7 @@
 import { FlyToInterpolator } from "deck.gl";
 import IconButton from "@material-ui/core/IconButton";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
+import { jumpSetting } from "../../utility";
 
 const JumpButton = ({ addLayer, setViewState, node }) => {
   const jump = (lng, lat, zoom) =>
@@ -9,10 +10,7 @@ const JumpButton = ({ addLayer, setViewState, node }) => {
       longitude: lng,
       latitude: lat,
       zoom: zoom,
-      transitionDuration: "auto",
-      transitionInterpolator: new FlyToInterpolator(),
-      transitionEasing: (x) =>
-        x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2, //easeInOutQuad
+      ...jumpSetting,
     }));
 
   return (

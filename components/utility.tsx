@@ -2,33 +2,46 @@
 // import * as d3 from "d3";
 import * as turf from "@turf/turf";
 // import Color from "./layerData/node_modules/color";
+import { FlyToInterpolator } from "deck.gl";
 
-const getLabelAnchors = (feature) =>
-  // Extract anchor positions from features. We will be placing labels at these positions.
-  {
-    const { type, coordinates } = feature.geometry;
-    switch (type) {
-      case "Point":
-        return [coordinates];
-      case "MultiPoint":
-        return coordinates;
-      case "Polygon":
-        return [turf.centerOfMass(feature).geometry.coordinates];
-      case "MultiPolygon":
-        let polygons = coordinates.map((rings) => turf.polygon(rings));
-        const areas = polygons.map(turf.area);
-        const maxArea = Math.max.apply(null, areas);
-        // Filter out the areas that are too small
-        return polygons
-          .filter((f, index) => areas[index] > maxArea * 0.5)
-          .map((f) => turf.centerOfMass(f).geometry.coordinates);
-      default:
-        return [];
-    }
-  };
+export const jumpSetting = {
+  transitionDuration: "auto",
+  transitionInterpolator: new FlyToInterpolator(),
+  transitionEasing: (x) =>
+    x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2, //easeInOutQuad
+};
+
+// 中心座標を求める方法は，https://observablehq.com/@pessimistress/deck-gl-custom-layer-tutorial
+// のgetLabelAnchorsを参考にし，さらにcase "LineString"を追加
+export const getCenterPosition = (feature) => {
+  const type = feature?.geometry?.type;
+  const coordinates = feature?.geometry?.coordinates;
+
+  switch (type) {
+    case "Point":
+      return coordinates;
+    case "MultiPoint":
+      return coordinates.flat();
+    case "Polygon":
+      return turf.centerOfMass(feature).geometry.coordinates;
+    case "LineString":
+      return turf.centerOfMass(feature).geometry.coordinates;
+    case "MultiPolygon":
+      let polygons = coordinates.map((rings) => turf.polygon(rings));
+      const areas = polygons.map(turf.area);
+      const maxArea = Math.max.apply(null, areas);
+      // Filter out the areas that are too small
+      return polygons
+        .filter((f, index) => areas[index] > maxArea * 0.5)
+        .flatMap((f) => turf.centerOfMass(f).geometry.coordinates);
+    default:
+      return [];
+  }
+};
+
 export const addCenterPosition = (data) => {
   const newFeatures = (data.features || data).map((feature) => {
-    const labelAnchors = getLabelAnchors(feature).flat();
+    const labelAnchors = getCenterPosition(feature);
 
     const result = {
       type: "Feature",
