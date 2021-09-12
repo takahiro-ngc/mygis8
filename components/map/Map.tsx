@@ -20,6 +20,7 @@ import { addDefaultProps } from "./addDefaultProps";
 
 export const Map = ({
   layers,
+  setLayers,
   viewState,
   setViewState,
   setFeature,
@@ -32,11 +33,10 @@ export const Map = ({
     ...d,
     onDataLoad: (value) =>
       setLoadedData((prev) => ({ ...prev, [d.id]: value?.features })),
-    onViewportLoad: (data) =>
-      setLoadedData((prev) => ({
-        ...prev,
-        [d.id]: data.flatMap((d) => d?.content?.features),
-      })),
+    onViewportLoad: (data) => {
+      const features = data.flatMap((d) => d?.content?.features || []);
+      setLoadedData((prev) => ({ ...prev, [d.id]: features }));
+    },
   }));
   const testLayer2 = testLayer3.map((d) =>
     d.target ? { ...d, getFillColor: d.target } : d

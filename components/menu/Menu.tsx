@@ -99,6 +99,7 @@ export const Menu = ({
               addLayer={addLayer}
               setHistry={setHistry}
               loadedData={loadedData}
+              setViewState={setViewState}
             ></SelectedLayerList>
           </Resizable>
         </div>

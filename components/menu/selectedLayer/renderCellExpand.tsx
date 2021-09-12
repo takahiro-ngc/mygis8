@@ -1,12 +1,12 @@
 // https://next.material-ui.com/components/data-grid/columns/#render-cell
-// のサンプルコードとほぼ同じ
+// のExpand cell rendererのサンプルコードを少しアレンジ
 import * as React from "react";
 import Typography from "@material-ui/core/Typography";
 
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { GridRenderCellParams } from "@mui/x-data-grid";
 import ReactHtmlParser from "react-html-parser";
 
 interface GridCellExpandProps {

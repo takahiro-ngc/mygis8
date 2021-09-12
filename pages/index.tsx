@@ -43,6 +43,7 @@ export default function Home() {
         <div className="side">
           <Map
             layers={layers}
+            setLayers={setLayers}
             viewState={viewState}
             setViewState={setViewState}
             setFeature={setFeature}
@@ -63,6 +64,7 @@ export default function Home() {
           <div className="side" style={{ borderLeft: "1px black solid" }}>
             <Map
               layers={layersForSub}
+              setLayers={setLayersForSub}
               viewState={isSync ? viewState : viewStateForSub}
               setViewState={isSync ? setViewState : setViewStateForSub}
               setFeature={setFeature}

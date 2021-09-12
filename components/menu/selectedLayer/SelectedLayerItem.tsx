@@ -10,6 +10,7 @@ import PopoverButton from "../PopoverButton";
 
 import SettingsIcon from "@material-ui/icons/Settings";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import ListAltIcon from "@material-ui/icons/ListAlt";
 import LayerInfo from "../LayerInfo";
 import FeatureTable from "./FeatureTable";
 // import { isBitmap } from "../utils/utility";
@@ -27,6 +28,7 @@ export default function SelectedLayerItem({
   addLayer,
   setHistry,
   loadedData,
+  setViewState,
 }) {
   const isVisible = (item) => item.visible ?? true; //undefinedの時はデフォルトのtrueにする
 
@@ -95,10 +97,15 @@ export default function SelectedLayerItem({
         </IconButton>
       )} */}
 
-      {/* ToDo アイコン*/}
-      <PopoverButton icon={<SettingsIcon />} style={{ width: "800px" }}>
-        <FeatureTable loadedData={loadedData} />
-      </PopoverButton>
+      {/* 表ボタン*/}
+      {!!loadedData[value.id]?.length && (
+        <PopoverButton icon={<ListAltIcon />} style={{ width: "800px" }}>
+          <FeatureTable
+            features={loadedData[value.id]}
+            setViewState={setViewState}
+          />
+        </PopoverButton>
+      )}
 
       {/* 設定切替ボタン */}
       <PopoverButton icon={<SettingsIcon />}>

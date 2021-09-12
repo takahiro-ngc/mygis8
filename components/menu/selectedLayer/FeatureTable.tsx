@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   DataGrid,
@@ -7,66 +7,26 @@ import {
   GridToolbarColumnsButton,
   GridToolbarFilterButton,
   GridToolbarExport,
-  GridRenderCellParams,
+  GridSelectionModel,
+  useGridSlotComponentProps,
 } from "@mui/x-data-grid";
+import Pagination from "@material-ui/lab/Pagination";
 import renderCellExpand from "./renderCellExpand";
+import * as turf from "@turf/turf";
+import Tablefooter from "./TableFooter";
+import { Button } from "@material-ui/core";
+import { FlyToInterpolator } from "deck.gl";
 
-export const FeatureTable = ({ loadedData }) => {
-  //   const columns: GridColDef[] = [
-  //     { field: "id", headerName: "ID", width: 90 },
-  //     {
-  //       field: "firstName",
-  //       headerName: "First name",
-  //       width: 150,
-  //       editable: true,
-  //     },
-  //     {
-  //       field: "lastName",
-  //       headerName: "Last name",
-  //       width: 150,
-  //       editable: true,
-  //     },
-  //     {
-  //       field: "age",
-  //       headerName: "Age",
-  //       type: "number",
-  //       width: 110,
-  //       editable: true,
-  //     },
-  //   ];
-
-  //   const rows = [
-  //     { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  //     { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  //     { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  //     { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  //     { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  //     { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  //     { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  //     { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  //     { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  //   ];
-
-  const data = loadedData?.["disaster_lore_all"];
-  console.log("loadedData0", data);
-  const col = Object.keys(data?.[0].properties || {});
-  console.log("col", col);
-
-  const columns: GridColDef[] = col.map((d) => ({
+export const FeatureTable = ({ features, setViewState }) => {
+  const keyList = Object.keys(features?.[0].properties || {});
+  const columns: GridColDef[] = keyList.map((d) => ({
     field: d,
     headerName: d,
     minWidth: 150,
     renderCell: renderCellExpand,
   }));
 
-  const rows = data?.map((d, index) => ({ id: index, ...d?.properties }));
-  //   console.log("rows", rows);
-  //   const test2 = data?.map((d, index) => (
-  //     <div key={index} style={{ padding: 8 }}>
-  //       {JSON.stringify(d?.properties)}
-  //     </div>
-  //   ));
-  //   const result = test2?.map((d) => <div>{JSON.stringify(test2)}</div>);
+  const rows = features?.map((d, index) => ({ id: index, ...d?.properties }));
 
   const CustomToolbar = () => (
     <GridToolbarContainer>
@@ -76,31 +36,96 @@ export const FeatureTable = ({ loadedData }) => {
     </GridToolbarContainer>
   );
 
+  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
+  const selectedFeature = features[selectionModel[0]];
+  console.log(selectionModel);
+  console.log(selectedFeature);
+
+  // 中心座標を求める方法は，https://observablehq.com/@pessimistress/deck-gl-custom-layer-tutorial
+  // のgetLabelAnchorsを参考にし，さらにcase "LineString"を追加
+  const getPosition = (feature) => {
+    const type = feature?.geometry?.type;
+    const coordinates = feature?.geometry?.coordinates;
+
+    switch (type) {
+      case "Point":
+        return [coordinates];
+      case "MultiPoint":
+        return coordinates;
+      case "Polygon":
+        return [turf.centerOfMass(feature).geometry.coordinates];
+      case "LineString":
+        return [turf.centerOfMass(feature).geometry.coordinates];
+      case "MultiPolygon":
+        let polygons = coordinates.map((rings) => turf.polygon(rings));
+        const areas = polygons.map(turf.area);
+        const maxArea = Math.max.apply(null, areas);
+        // Filter out the areas that are too small
+        return polygons
+          .filter((f, index) => areas[index] > maxArea * 0.5)
+          .map((f) => turf.centerOfMass(f).geometry.coordinates);
+      default:
+        return [];
+    }
+  };
+  const position = getPosition(selectedFeature).flat();
+  const jump = (lng, lat) =>
+    lng &&
+    lat &&
+    setViewState((prev) => ({
+      ...prev,
+      longitude: lng,
+      latitude: lat,
+      transitionDuration: "auto",
+      transitionInterpolator: new FlyToInterpolator(),
+      transitionEasing: (x) =>
+        x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2, //easeInOutQuad
+    }));
+
+  const CustomPagination = () => {
+    const { state, apiRef } = useGridSlotComponentProps();
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "space-between", margin: 8 }}
+      >
+        <Button
+          size="small"
+          variant="outlined"
+          onClick={() => jump(position[0], position[1])}
+        >
+          選択地点に移動
+        </Button>
+        <Pagination
+          color="primary"
+          count={state.pagination.pageCount}
+          page={state.pagination.page + 1}
+          onChange={(event, value) => apiRef.current.setPage(value - 1)}
+        />
+      </div>
+    );
+  };
+
   return (
-    <div style={{}}>
-      {data && (
+    <>
+      {features && (
         <DataGrid
           rows={rows}
           columns={columns}
           disableColumnMenu
           components={{
             Toolbar: CustomToolbar,
+            Footer: CustomPagination,
           }}
+          onSelectionModelChange={(newSelectionModel) => {
+            setSelectionModel(newSelectionModel);
+          }}
+          selectionModel={selectionModel}
+          rowHeight={36}
           style={{ height: "700px", maxHeight: "80vh" }}
-          //   autoHeight
-          //   style={{ overflow: "scroll" }}
-          //   pageSize={5}
-          //   rowsPerPageOptions={[5]}
         />
       )}
-      {/* {test2} */}
-      <style jsx>{`
-        .test {
-          background-color: red;
-          width: 300px;
-        }
-      `}</style>
-    </div>
+      {selectedFeature && JSON.stringify(position)}
+    </>
   );
 };
 
