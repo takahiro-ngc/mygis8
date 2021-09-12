@@ -55,7 +55,6 @@ export default function Home() {
             setViewState={setViewState}
             isMainView={true}
             isDoubleView={isDoubleView}
-            // test
             loadedData={loadedData}
           />
         </div>
@@ -76,6 +75,7 @@ export default function Home() {
               setViewState={setViewStateForSub}
               isMainView={false}
               isDoubleView={isDoubleView}
+              loadedData={loadedData}
             />
             <SyncSwitch
               isSync={isSync}

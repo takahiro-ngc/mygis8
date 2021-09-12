@@ -32,7 +32,7 @@ export default function Histry({ layers, addLayer, storedHistry, setHistry }) {
         </Typography>
       ) : (
         <>
-          <Typography variant="h5" component="h1">
+          <Typography variant="h6" component="h1">
             履歴
           </Typography>
           <List dense>{histryList}</List>

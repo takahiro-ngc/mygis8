@@ -46,7 +46,6 @@ position absoluteのため，親に次を設定すればよい
 
 〇優先度高
 ・アイコンやlineのハイライト
-
 。layerInfoの整理と設定機能
 ・demデータの利用
 ・histryが再アクセスで空
@@ -57,7 +56,7 @@ position absoluteのため，親に次を設定すればよい
 ・地理院のクリックしても無反応データd.src===""?
 ・geojsonbufの利用
 ・カラーダークを明るく？
-・簡易変換　disaster
+
 
 〇ソース整理関係
 ・blurの再検討

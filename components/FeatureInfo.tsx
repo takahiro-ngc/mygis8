@@ -73,8 +73,8 @@ const FeatureInfo = ({ feature, setFeature }) => {
         {`
           .style {
             position: absolute;
-            top: ${feature?.y + 5}px;
-            left: ${feature?.x + 5}px;
+            top: 0;
+            right: 0;
             min-width: 320px;
             max-width: min(40vw, 420px);
             max-height: 100%;
