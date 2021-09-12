@@ -47,6 +47,8 @@ a:hover {
 /* ackdrop-filter:blurはPopoverとの相性が悪いようで，文字がにじむ */
 .acrylic-color-dark {
   background: rgba(30, 30, 30, 0.96);
+  /* background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(0px); */
 }
 
 /* スクロールバーをgooglemap風に */

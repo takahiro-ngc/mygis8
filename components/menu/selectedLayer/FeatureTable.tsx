@@ -16,6 +16,9 @@ import * as turf from "@turf/turf";
 import Tablefooter from "./TableFooter";
 import { Button } from "@material-ui/core";
 import { FlyToInterpolator } from "deck.gl";
+import { Typography } from "@material-ui/core";
+import PopoverButton from "../PopoverButton";
+import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 
 export const FeatureTable = ({ features, setViewState }) => {
   const keyList = Object.keys(features?.[0].properties || {});
@@ -27,12 +30,18 @@ export const FeatureTable = ({ features, setViewState }) => {
   }));
 
   const rows = features?.map((d, index) => ({ id: index, ...d?.properties }));
-
   const CustomToolbar = () => (
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <GridToolbarExport csvOptions={{ allColumns: true }} />
+      <PopoverButton icon={<ErrorOutlineOutlinedIcon />}>
+        <Typography>
+          ・この表は，元データからの簡易変換のため，完全な再現とは限りません。
+          <br />
+          ・タイルデータの場合，表に表示できるのは，画面内の地物のみです。
+        </Typography>
+      </PopoverButton>
     </GridToolbarContainer>
   );
 
@@ -100,6 +109,7 @@ export const FeatureTable = ({ features, setViewState }) => {
           count={state.pagination.pageCount}
           page={state.pagination.page + 1}
           onChange={(event, value) => apiRef.current.setPage(value - 1)}
+          size="small"
         />
       </div>
     );
@@ -121,10 +131,9 @@ export const FeatureTable = ({ features, setViewState }) => {
           }}
           selectionModel={selectionModel}
           rowHeight={36}
-          style={{ height: "700px", maxHeight: "80vh" }}
+          style={{ height: "700px", maxHeight: "70vh" }}
         />
       )}
-      {selectedFeature && JSON.stringify(position)}
     </>
   );
 };
