@@ -6,7 +6,7 @@ import { getCenterPosition } from "../../utility";
 import { jumpSetting } from "../../utility";
 import { CustomToolbar, CustomPagination } from "./DataGridCompornent";
 
-export const FeatureTable = ({ features, setViewState }) => {
+const FeatureTable = ({ features, setViewState }) => {
   const keyList = features?.flatMap((d) => Object.keys(d?.properties));
   const uniqueKeyList = Array.from(new Set(keyList));
   const columns: GridColDef[] = uniqueKeyList.map((d) => ({
@@ -30,6 +30,7 @@ export const FeatureTable = ({ features, setViewState }) => {
       ...jumpSetting,
     }));
 
+  const Footer = () => <CustomPagination jump={jump} />;
   return (
     <>
       {columns.length ? (
@@ -39,7 +40,7 @@ export const FeatureTable = ({ features, setViewState }) => {
           disableColumnMenu
           components={{
             Toolbar: CustomToolbar,
-            Footer: () => <CustomPagination jump={jump} />,
+            Footer: Footer,
           }}
           onSelectionModelChange={(newSelectionModel) => {
             setSelectionModel(newSelectionModel);

@@ -72,7 +72,7 @@ export const Map = ({
 
   const onClick = (info, event) => {
     setFeature(info);
-    event.preventDefault();
+    // event.preventDefault();
     // console.log(info);
   };
 
@@ -94,21 +94,7 @@ export const Map = ({
         anchorY: src?._iconAnchor?.[1] ?? 10,
       };
     },
-    renderSubLayers: (props) => {
-      const {
-        bbox: { west, south, east, north },
-      } = props.tile;
 
-      return new GeoJsonLayer(props, {
-        // data: null,
-        // image: props.data,
-        bounds: [west, south, east, north],
-        pickable: true,
-        autoHighlight: true,
-        highlightColor: [255, 0, 0, 128],
-        highlightedObjectIndex: 10,
-      });
-    },
     highlightedObjectIndex: 10,
     getIconSize: 24, //必須
     // getPointRadius: (d) => 1000,
@@ -129,7 +115,7 @@ export const Map = ({
             scrollZoom: { speed: 0.05, smooth: true },
             touchRotate: true,
           }}
-          // onClick={onClick}
+          onClick={onClick}
           viewState={viewState}
           onViewStateChange={({ viewState }) => {
             setViewState(viewState);
