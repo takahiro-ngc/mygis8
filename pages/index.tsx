@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <div className="wrapper">
-      {/* <Header setLayers={setLayers} setIsDoubleView={setIsDoubleView} />
+      <Header setLayers={setLayers} setIsDoubleView={setIsDoubleView} />
       <div className="main">
         <div className="side">
           <Map
@@ -88,7 +88,7 @@ export default function Home() {
 
         <FeatureInfo feature={feature} setFeature={setFeature} />
         <BottomInfo viewState={viewState} />
-      </div> */}
+      </div>
 
       <style jsx>
         {`
