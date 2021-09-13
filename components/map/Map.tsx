@@ -37,14 +37,10 @@ export const Map = ({
       const features = data.flatMap((d) => d?.content?.features || []);
       setLoadedData((prev) => ({ ...prev, [d.id]: features }));
     },
-    // highlightedObjectIndex: 10,
-
-    // highlightColor: [255, 0, 0, 128],
   }));
   const testLayer2 = testLayer3.map((d) =>
     d.target ? { ...d, getFillColor: d.target } : d
   );
-  // console.log("testLayer2", testLayer2);
   const layersWithSetting = testLayer2.map((item: any, index: number) => {
     switch (item.layerType) {
       case "GeoJsonLayer":
@@ -76,40 +72,40 @@ export const Map = ({
     // console.log(info);
   };
 
-  const gsilayer = new TileLayer({
-    id: "skhb01",
-    data: "https://maps.gsi.go.jp/xyz/skhb01/{z}/{x}/{y}.geojson",
-    minZoom: 10,
-    maxZoom: 10,
-    tileSize: 256,
-    pointType: "circle+icon",
-    // pointType: "icon", // "circle+icon",
-    getIcon: (d) => {
-      const src = d.properties;
-      return {
-        url: "https://maps.gsi.go.jp/portal/sys/v4/symbols/skhb.png",
-        width: src?._iconSize?.[0] ?? 20,
-        height: src?._iconSize?.[1] ?? 20,
-        anchorX: src?._iconAnchor?.[0] ?? 10,
-        anchorY: src?._iconAnchor?.[1] ?? 10,
-      };
-    },
+  // const gsilayer = new TileLayer({
+  //   id: "skhb01",
+  //   data: "https://maps.gsi.go.jp/xyz/skhb01/{z}/{x}/{y}.geojson",
+  //   minZoom: 10,
+  //   maxZoom: 10,
+  //   tileSize: 256,
+  //   pointType: "circle+icon",
+  //   // pointType: "icon", // "circle+icon",
+  //   getIcon: (d) => {
+  //     const src = d.properties;
+  //     return {
+  //       url: "https://maps.gsi.go.jp/portal/sys/v4/symbols/skhb.png",
+  //       width: src?._iconSize?.[0] ?? 20,
+  //       height: src?._iconSize?.[1] ?? 20,
+  //       anchorX: src?._iconAnchor?.[0] ?? 10,
+  //       anchorY: src?._iconAnchor?.[1] ?? 10,
+  //     };
+  //   },
 
-    highlightedObjectIndex: 10,
-    getIconSize: 24, //必須
-    // getPointRadius: (d) => 1000,
-    pickable: true,
-    autoHighlight: true,
-    highlightColor: [255, 0, 0, 128],
-    // filled: true,
-  });
+  //   highlightedObjectIndex: 10,
+  //   getIconSize: 24, //必須
+  //   // getPointRadius: (d) => 1000,
+  //   pickable: true,
+  //   autoHighlight: true,
+  //   highlightColor: [255, 0, 0, 128],
+  //   // filled: true,
+  // });
 
   return (
     <>
       {/* 右クリックによるメニュー抑止 */}
       <div onContextMenu={(e) => e.preventDefault()}>
         <DeckGL
-          layers={[backgroundLayer, layersWithSetting, gsilayer]}
+          layers={[backgroundLayer, layersWithSetting]}
           controller={{
             inertia: true,
             scrollZoom: { speed: 0.05, smooth: true },
