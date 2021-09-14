@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Resizable } from "re-resizable";
 import { findLayer } from "../layer/layerList";
 
@@ -28,12 +28,18 @@ export const Menu = ({
       return uniqueList;
     });
 
-  const addLayer = (id) => {
-    setLayers([findLayer(id), ...layers]);
-    addHistry(id);
-  };
+  const addLayer = useCallback(
+    (id) => {
+      setLayers([findLayer(id), ...layers]);
+      addHistry(id);
+    },
+    [layers]
+  );
 
-  const deleteLayer = (id) => setLayers(layers.filter((elm) => elm.id !== id));
+  const deleteLayer = useCallback(
+    (id) => setLayers(layers.filter((elm) => elm.id !== id)),
+    [layers]
+  );
 
   const [isMenuVisible, setIsMenuVisible] = useState(true);
   const [isButtonVisible, setIsButtonVisible] = useState(!isMenuVisible);
