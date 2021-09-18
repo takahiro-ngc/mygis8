@@ -57,8 +57,9 @@ position absoluteのため，親に次を設定すればよい
 ・geojsonbufの利用
 ・カラーダークを明るく？
 ・useReducer使えるか
-・デプロイ不可の解決
 ・boxの使用
+・スクロールバーをオンホバーライト
+featureinfoのクリックアウェイリスナー
 
 
 〇ソース整理関係

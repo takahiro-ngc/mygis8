@@ -35,7 +35,7 @@ const DataCatalog = ({
           // hidden={!(node.layerType === "LayerGroup" || node.fileType === "png")} //デバッグ用
           key={key}
           nodeId={key}
-          onLabelClick={() => {
+          onClick={() => {
             node.data ? toggleLayer(node) : null;
             console.log(node);
           }}

@@ -6,6 +6,8 @@ import Header from "../components/header/Header";
 import FeatureInfo from "../components/FeatureInfo";
 import { findLayer } from "../components/layer/layerList";
 import SyncSwitch from "../components/SyncSwitch";
+import NewMenu from "../components/menu/NewMenu";
+import MainContent from "../components/MainContent";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -22,25 +24,96 @@ const defaultLayerId = "disaster_lore_all";
 const defaultLayer = findLayer(defaultLayerId);
 
 export default function Home() {
-  // メインマップ用
   const [layers, setLayers] = useState([defaultLayer]);
-  const [viewState, setViewState] = useState(initialViewState);
-
-  // サブマップ用
   const [layersForSub, setLayersForSub] = useState([defaultLayer]);
+
+  const [viewState, setViewState] = useState(initialViewState);
   const [viewStateForSub, setViewStateForSub] = useState(initialViewState);
 
-  // メイン・サブ共通
-  const [feature, setFeature] = useState(null);
   const [isDoubleView, setIsDoubleView] = useState(false);
   const [isSync, setIsSync] = useState(false);
-  const [loadedData, setLoadedData] = useState({});
 
   return (
     <div className="wrapper">
       <Header setLayers={setLayers} setIsDoubleView={setIsDoubleView} />
       <div className="main">
-        <div className="side">
+        <MainContent
+          // key="main"
+          layers={layers}
+          setLayers={setLayers}
+          viewState={viewState}
+          setViewState={setViewState}
+          isDoubleView={isDoubleView}
+          isMainView={true}
+        />
+
+        {isDoubleView && (
+          <>
+            <MainContent
+              // key="sub"
+              layers={layersForSub}
+              setLayers={setLayersForSub}
+              viewState={isSync ? viewState : viewStateForSub}
+              setViewState={isSync ? setViewState : setViewStateForSub}
+              isDoubleView={isDoubleView}
+              isMainView={false}
+            />
+            <SyncSwitch
+              isSync={isSync}
+              setIsSync={setIsSync}
+              viewState={viewState}
+              setViewStateForSub={setViewStateForSub}
+            />
+          </>
+        )}
+
+        {/* <div className="side">
+          <NewMenu
+            layers={layers}
+            setLayers={setLayers}
+            setViewState={setViewState}
+            isMainView={true}
+            isDoubleView={isDoubleView}
+            loadedData={loadedData}
+          />
+          <Map
+            layers={layers}
+            setLayers={setLayers}
+            viewState={viewState}
+            setViewState={setViewState}
+            setFeature={setFeature}
+            setLoadedData={setLoadedData}
+          />
+        </div> */}
+
+        {/* {isDoubleView && (
+          <div className="side" style={{ borderLeft: "1px black solid" }}>
+            <Map
+              layers={layersForSub}
+              setLayers={setLayersForSub}
+              viewState={isSync ? viewState : viewStateForSub}
+              setViewState={isSync ? setViewState : setViewStateForSub}
+              setFeature={setFeature}
+              setLoadedData={setLoadedData}
+            />
+            <Menu
+              layers={layersForSub}
+              setLayers={setLayersForSub}
+              setViewState={setViewStateForSub}
+              isMainView={false}
+              isDoubleView={isDoubleView}
+              loadedData={loadedData}
+            />
+            <SyncSwitch
+              isSync={isSync}
+              setIsSync={setIsSync}
+              viewState={viewState}
+              setViewStateForSub={setViewStateForSub}
+            />
+          </div>
+        )} */}
+
+        {/* <div className="side">
           <Map
             layers={layers}
             setLayers={setLayers}
@@ -87,7 +160,7 @@ export default function Home() {
         )}
 
         <FeatureInfo feature={feature} setFeature={setFeature} />
-        <BottomInfo viewState={viewState} />
+        <BottomInfo viewState={viewState} /> */}
       </div>
 
       <style jsx>
@@ -107,6 +180,9 @@ export default function Home() {
           }
           .side {
             position: relative;
+            display: flex;
+            width: 100%;
+
             height: 100%; //子要素に継承させるため必須
             flex-grow: 1;
           }

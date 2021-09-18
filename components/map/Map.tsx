@@ -28,8 +28,8 @@ export const Map = ({
 }) => {
   const cloneLayers = [...layers]; //reverseは破壊的メソッドのため注意
   const reversedLayers = cloneLayers.reverse();
-  const testLayer = reversedLayers.map((d) => addDefaultProps(d));
-  const testLayer3 = testLayer.map((d) => ({
+  // const testLayer = reversedLayers.map((d) => addDefaultProps(d));
+  const testLayer3 = reversedLayers.map((d) => ({
     ...d,
     onDataLoad: (value) =>
       setLoadedData((prev) => ({ ...prev, [d.id]: value?.features })),
@@ -68,8 +68,7 @@ export const Map = ({
 
   const onClick = (info, event) => {
     setFeature(info);
-    // event.preventDefault();
-    // console.log(info);
+    console.log(info);
   };
 
   // const gsilayer = new TileLayer({
@@ -78,7 +77,7 @@ export const Map = ({
   //   minZoom: 10,
   //   maxZoom: 10,
   //   tileSize: 256,
-  //   pointType: "circle+icon",
+  //   pointType: "circle",
   //   // pointType: "icon", // "circle+icon",
   //   getIcon: (d) => {
   //     const src = d.properties;
@@ -91,9 +90,9 @@ export const Map = ({
   //     };
   //   },
 
-  //   highlightedObjectIndex: 10,
+  //   // highlightedObjectIndex: 10,
   //   getIconSize: 24, //必須
-  //   // getPointRadius: (d) => 1000,
+  //   getPointRadius: (d) => 1000,
   //   pickable: true,
   //   autoHighlight: true,
   //   highlightColor: [255, 0, 0, 128],
@@ -102,9 +101,17 @@ export const Map = ({
 
   return (
     <>
-      {/* 右クリックによるメニュー抑止 */}
-      <div onContextMenu={(e) => e.preventDefault()}>
+      {/* 右クリックメニューの抑止 */}
+      <div
+        onContextMenu={(e) => e.preventDefault()}
+        style={{
+          position: "relative",
+          border: "3px red solid",
+          width: "100%",
+        }}
+      >
         <DeckGL
+          // layers={[backgroundLayer, gsilayer]}
           layers={[backgroundLayer, layersWithSetting]}
           controller={{
             inertia: true,

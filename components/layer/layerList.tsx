@@ -15,6 +15,8 @@ const layers = [
 
 const setCategory = (list, category = []) =>
   list.map((d) => ({
+    // ToDo　ここにaddDefaultPropsを入れてよいかの検討
+    ...addDefaultProps(d),
     ...d,
     category: category,
     entries: d.entries && setCategory(d.entries, [...category, d.title]),
