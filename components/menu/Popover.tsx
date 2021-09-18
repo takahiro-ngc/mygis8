@@ -23,8 +23,8 @@ export default function Popover({
         // zIndex: 1,
         padding: 16,
         width: 420,
-        maxWidth: "calc(100vw - 10px)", //100vwだと右に隙間ができるのをごまかす
-        maxHeight: "calc(100vh - 10px)",
+        maxWidth: "100vw",
+        maxHeight: "100vh",
         overflow: "auto",
         wordBreak: "break-all",
         borderRadius: 8,
@@ -32,15 +32,21 @@ export default function Popover({
       }}
       transition
       onClick={(e) => e.stopPropagation()}
-      modifiers={{
-        flip: {
+      modifiers={[
+        {
+          name: "flip",
           enabled: false,
         },
-        preventOverflow: {
+
+        {
+          name: "preventOverflow",
           enabled: true,
-          boundariesElement: "viewport",
+          options: {
+            altAxis: true,
+            tether: true,
+          },
         },
-      }}
+      ]}
       {...popoverStyle}
     >
       {({ TransitionProps }) => (
