@@ -3,18 +3,20 @@ import "../styles/global.css";
 import * as React from "react";
 import Head from "next/head";
 import { AppProps } from "next/app";
-import { ThemeProvider, Theme, StyledEngineProvider } from "@mui/material/styles";
+import {
+  ThemeProvider,
+  Theme,
+  StyledEngineProvider,
+} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import theme from "../styles/theme";
 import createEmotionCache from "../styles/createEmotionCache";
 
-
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+declare module "@mui/styles/defaultTheme" {
+  // // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
