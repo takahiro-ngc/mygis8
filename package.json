@@ -24,6 +24,7 @@
     "@mui/icons-material": "^5.0.0",
     "@mui/lab": "^5.0.0-alpha.47",
     "@mui/material": "^5.0.0",
+    "@mui/styles": "^5.0.0",
     "@mui/x-data-grid": "^4.0.0",
     "@nebula.gl/layers": "^0.23.3",
     "@turf/turf": "^6.5.0",
