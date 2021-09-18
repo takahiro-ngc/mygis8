@@ -1,16 +1,16 @@
 import LayerControls from "./LayerControls";
 // import Histry from "./Histry";
-import ListItem from "@material-ui/core/ListItem";
+import ListItem from "@mui/material/ListItem";
 import JSONTree from "react-json-tree";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import PopoverButton from "../PopoverButton";
 
-import SettingsIcon from "@material-ui/icons/Settings";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-import ListAltIcon from "@material-ui/icons/ListAlt";
+import SettingsIcon from "@mui/icons-material/Settings";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import ListAltIcon from "@mui/icons-material/ListAlt";
 import LayerInfo from "../LayerInfo";
 import FeatureTable from "./FeatureTable";
 // import { isBitmap } from "../utils/utility";

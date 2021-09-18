@@ -1,8 +1,8 @@
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem, { ListItemProps } from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem, { ListItemProps } from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 
 const FaqContent = ({ title, children }) => (
   <>

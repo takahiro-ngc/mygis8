@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Popper from "@material-ui/core/Popper";
-import Fade from "@material-ui/core/Fade";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
+import Popper from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 export default function Popover({
   anchorEl,

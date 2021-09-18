@@ -4,7 +4,7 @@ import { DataGrid, GridColDef, GridSelectionModel } from "@mui/x-data-grid";
 import renderCellExpand from "./renderCellExpand";
 import { getCenterPosition } from "../../utility";
 import { jumpSetting } from "../../utility";
-// import { CustomToolbar, CustomPagination } from "./DataGridCompornent";
+import { CustomToolbar, CustomPagination } from "./DataGridCompornent";
 
 const FeatureTable = ({ features, setViewState }) => {
   const keyList = features?.flatMap((d) => Object.keys(d?.properties));
@@ -30,7 +30,7 @@ const FeatureTable = ({ features, setViewState }) => {
       ...jumpSetting,
     }));
 
-  // const Footer = () => <CustomPagination jump={jump} />;
+  const Footer = () => <CustomPagination jump={jump} />;
   return (
     <>
       {columns.length ? (
@@ -38,10 +38,10 @@ const FeatureTable = ({ features, setViewState }) => {
           rows={rows}
           columns={columns}
           disableColumnMenu
-          // components={{
-          //   Toolbar: CustomToolbar,
-          //   Footer: Footer,
-          // }}
+          components={{
+            Toolbar: CustomToolbar,
+            Footer: Footer,
+          }}
           onSelectionModelChange={(newSelectionModel) => {
             setSelectionModel(newSelectionModel);
           }}

@@ -1,6 +1,6 @@
 import { FlyToInterpolator } from "deck.gl";
-import IconButton from "@material-ui/core/IconButton";
-import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
+import IconButton from "@mui/material/IconButton";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { jumpSetting } from "../../utility";
 
 const JumpButton = ({ addLayer, setViewState, node }) => {

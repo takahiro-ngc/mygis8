@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Button } from "@material-ui/core/";
+import { Button } from "@mui/material/";
 
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
 import Popover from "./Popover";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import CloseIcon from "@material-ui/icons/Close";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import CloseIcon from "@mui/icons-material/Close";
 
 const PopoverButton = ({
   icon = null,

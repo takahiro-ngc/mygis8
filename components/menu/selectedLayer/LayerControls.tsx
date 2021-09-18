@@ -1,6 +1,6 @@
 // https://github.com/shimizu/learning-vis-academy/blob/master/Building-a-geospatial-app/2-scatterplot-overlay/src/controls.js
-import Switch from "@material-ui/core/Switch";
-import Slider from "@material-ui/core/Slider";
+import Switch from "@mui/material/Switch";
+import Slider from "@mui/material/Slider";
 import GL from "@luma.gl/constants";
 // import {
 //   getFileTypeCategory,

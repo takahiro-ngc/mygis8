@@ -4,13 +4,14 @@ import { layerList } from "../layer/layerList";
 import PopoverButton from "./PopoverButton";
 import LayerInfo from "./LayerInfo";
 
-import Chip from "@material-ui/core/Chip";
-import TreeView from "@material-ui/lab/TreeView";
-import TreeItem from "@material-ui/lab/TreeItem";
+import Chip from "@mui/material/Chip";
+import TreeView from "@mui/lab/TreeView";
+import TreeItem from "@mui/lab/TreeItem";
 
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import InfoIcon from "@mui/icons-material/Info";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Header from "./dataSelect/Header";
 import JumpButton from "./dataSelect/JumpButton";
 

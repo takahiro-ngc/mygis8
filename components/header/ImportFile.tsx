@@ -1,6 +1,6 @@
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 import { KMLLoader } from "@loaders.gl/kml";
 import { load } from "@loaders.gl/core";
 import { registerLoaders } from "@loaders.gl/core";

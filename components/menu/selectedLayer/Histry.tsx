@@ -1,11 +1,11 @@
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import { findLayer } from "../../layer/layerList";
-import { Typography } from "@material-ui/core";
-import ListItemText from "@material-ui/core/ListItemText";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { Typography } from "@mui/material";
+import ListItemText from "@mui/material/ListItemText";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 export default function Histry({ layers, addLayer, storedHistry, setHistry }) {
   const histryList = storedHistry.map((id) => {

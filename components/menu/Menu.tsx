@@ -2,10 +2,10 @@ import React, { useState, useCallback } from "react";
 import { Resizable } from "re-resizable";
 import { findLayer } from "../layer/layerList";
 
-import MenuIcon from "@material-ui/icons/Menu";
-import Button from "@material-ui/core/Button";
-import Fade from "@material-ui/core/Fade";
-import Slide from "@material-ui/core/Slide";
+import MenuIcon from "@mui/icons-material/Menu";
+import Button from "@mui/material/Button";
+import Fade from "@mui/material/Fade";
+import Slide from "@mui/material/Slide";
 import DataCatalog from "./DataCatalog";
 import SelectedLayerList from "./selectedLayer/SelectedLayerList";
 import useLocalStorage from "../useLocalStorage";

@@ -1,18 +1,18 @@
 import React from "react";
 
-import { Typography } from "@material-ui/core";
-import { Button } from "@material-ui/core/";
+import { Typography } from "@mui/material";
+import { Button } from "@mui/material/";
 import PopoverButton from "../menu/PopoverButton";
 import Faq from "./Faq";
 import Import from "./Import";
-import ShareIcon from "@material-ui/icons/Share";
-import ImportExportIcon from "@material-ui/icons/ImportExport";
+import ShareIcon from "@mui/icons-material/Share";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
 import { defaultMode, drawMode } from "../EditMode";
 
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import LooksTwoOutlinedIcon from "@material-ui/icons/LooksTwoOutlined";
+import LooksTwoOutlinedIcon from "@mui/icons-material/LooksTwoOutlined";
 
 const Header = ({ setLayers, setIsDoubleView }) => {
   const matches = useMediaQuery("(min-width:500px)");

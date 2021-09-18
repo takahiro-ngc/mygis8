@@ -56,7 +56,6 @@ position absoluteのため，親に次を設定すればよい
 ・地理院のクリックしても無反応データd.src===""?
 ・geojsonbufの利用
 ・カラーダークを明るく？
-loadedDataによるカクつき
 ・useReducer使えるか
 ・デプロイ不可の解決
 ・boxの使用
