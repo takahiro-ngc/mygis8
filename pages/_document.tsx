@@ -5,6 +5,7 @@ import theme from "../styles/theme";
 import createEmotionCache from "../styles/createEmotionCache";
 
 export default class MyDocument extends Document {
+  static displayName: string;
   render() {
     return (
       <Html lang="ja">
@@ -24,7 +25,6 @@ export default class MyDocument extends Document {
     );
   }
 }
-
 MyDocument.displayName = "MyDocument";
 
 // `getInitialProps` belongs to `_document` (instead of `_app`),
