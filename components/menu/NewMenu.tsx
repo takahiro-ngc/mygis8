@@ -19,6 +19,8 @@ export const NewMenu = ({
   isMainView,
   isDoubleView,
   loadedData,
+  isMenuVisible,
+  setIsMenuVisible,
 }) => {
   const [storedHistry, setHistry] = useLocalStorage("histry", []);
   const addHistry = (id) =>
@@ -41,23 +43,23 @@ export const NewMenu = ({
     [layers]
   );
 
-  const [isMenuVisible, setIsMenuVisible] = useState(true);
   const [isButtonVisible, setIsButtonVisible] = useState(!isMenuVisible);
   return (
     <>
       {/* メニューボタン */}
-      {/* <Button
+      <Button
         variant="contained"
         style={{ position: "absolute", width: 200, left: 400, zIndex: 100 }}
-        onClick={() => setOpen(!open)}
+        onClick={() => setIsMenuVisible((prev) => !prev)}
       >
         aaa
-      </Button> */}
+      </Button>
       {/* メニュー */}
       <Drawer
         sx={{
-          width: 400,
+          width: 300,
           flexShrink: 0,
+          border: "3px blue solid",
         }}
         variant="persistent"
         anchor="left"

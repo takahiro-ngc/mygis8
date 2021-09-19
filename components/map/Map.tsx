@@ -25,6 +25,7 @@ export const Map = ({
   setViewState,
   setFeature,
   setLoadedData,
+  isMenuVisible,
 }) => {
   const cloneLayers = [...layers]; //reverseは破壊的メソッドのため注意
   const reversedLayers = cloneLayers.reverse();
@@ -100,32 +101,20 @@ export const Map = ({
   // });
 
   return (
-    <>
-      {/* 右クリックメニューの抑止 */}
-      <div
-        onContextMenu={(e) => e.preventDefault()}
-        style={{
-          position: "relative",
-          border: "3px red solid",
-          width: "100%",
-        }}
-      >
-        <DeckGL
-          // layers={[backgroundLayer, gsilayer]}
-          layers={[backgroundLayer, layersWithSetting]}
-          controller={{
-            inertia: true,
-            scrollZoom: { speed: 0.05, smooth: true },
-            touchRotate: true,
-          }}
-          onClick={onClick}
-          viewState={viewState}
-          onViewStateChange={({ viewState }) => {
-            setViewState(viewState);
-          }}
-        ></DeckGL>
-      </div>
-    </>
+    <DeckGL
+      // layers={[backgroundLayer, gsilayer]}
+      layers={[backgroundLayer, layersWithSetting]}
+      controller={{
+        inertia: true,
+        scrollZoom: { speed: 0.05, smooth: true },
+        touchRotate: true,
+      }}
+      onClick={onClick}
+      viewState={viewState}
+      onViewStateChange={({ viewState }) => {
+        setViewState(viewState);
+      }}
+    ></DeckGL>
   );
 };
 

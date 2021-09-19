@@ -23,6 +23,7 @@ export default function MainContent({
 }) {
   const [loadedData, setLoadedData] = useState({});
   const [feature, setFeature] = useState(null);
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
 
   return (
     <div className="side" key={isMainView.toString()}>
@@ -33,15 +34,44 @@ export default function MainContent({
         isMainView={isMainView}
         isDoubleView={isDoubleView}
         loadedData={loadedData}
+        isMenuVisible={isMenuVisible}
+        setIsMenuVisible={setIsMenuVisible}
       />
-      <Map
-        layers={layers}
-        setLayers={setLayers}
-        viewState={viewState}
-        setViewState={setViewState}
-        setFeature={setFeature}
-        setLoadedData={setLoadedData}
-      />
+      {/* 右クリックメニューの抑止 */}
+      <div
+        onContextMenu={(e) => e.preventDefault()}
+        style={{
+          position: "relative",
+          border: "3px red solid",
+          width: "100%",
+          flexGrow: 1,
+
+          transitionProperty: "all",
+          transitionDuration: "195ms",
+          transitionTimingFunction: "ease-in-out",
+          //   transition: "all .2s ease-in-out",
+          ...(!isMenuVisible && {
+            marginLeft: `-${300}px`,
+            transitionDuration: "225ms",
+          }),
+          //   ...(isMenuVisible && {
+          //     transition: "all",
+          //     easing: "cubic-bezier(0.0, 0, 0.2, 1)",
+          //     duration: 225,
+          //     marginLeft: 0,
+          //   }),
+        }}
+      >
+        <Map
+          layers={layers}
+          setLayers={setLayers}
+          viewState={viewState}
+          setViewState={setViewState}
+          setFeature={setFeature}
+          setLoadedData={setLoadedData}
+          isMenuVisible={isMenuVisible}
+        />
+      </div>
       <FeatureInfo feature={feature} setFeature={setFeature} />
       <BottomInfo viewState={viewState} />
       <style jsx>
