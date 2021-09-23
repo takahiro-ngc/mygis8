@@ -14,7 +14,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import LooksTwoOutlinedIcon from "@mui/icons-material/LooksTwoOutlined";
 
-const Header = ({ setLayers, setIsDoubleView }) => {
+const Header = ({ setLayers }) => {
   const matches = useMediaQuery("(min-width:500px)");
   const Item = ({ label, icon, children }) => (
     <>
@@ -58,14 +58,6 @@ const Header = ({ setLayers, setIsDoubleView }) => {
 
       <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
         <>
-          <Button
-            size="small"
-            variant="outlined"
-            onClick={() => setIsDoubleView((prev) => !prev)}
-            startIcon={<LooksTwoOutlinedIcon />}
-          >
-            二画面
-          </Button>
           <Item label="共有" icon={<ShareIcon />}>
             {/* <Import setLayers={setLayers} /> */}
           </Item>

@@ -28,7 +28,6 @@ export default function MainContent({
       key={variant}
       style={{
         display: "flex",
-        flexDirection: isMainView ? "row" : "row-reverse",
         height: "100%", //子要素に継承させるため必須
         width: isDoubleView ? "50%" : "100%",
       }}

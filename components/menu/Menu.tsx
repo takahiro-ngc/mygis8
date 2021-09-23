@@ -16,8 +16,7 @@ export const Menu = ({
   layers,
   setLayers,
   setViewState,
-  isMainView,
-  isDoubleView,
+
   loadedData,
 }) => {
   const [storedHistry, setHistry] = useLocalStorage("histry", []);
@@ -42,88 +41,76 @@ export const Menu = ({
   );
 
   const [isMenuVisible, setIsMenuVisible] = useState(true);
-  const [isButtonVisible, setIsButtonVisible] = useState(!isMenuVisible);
-
+  const handleMenuVisible = () => setIsMenuVisible(!isMenuVisible);
   return (
     <>
-      {/* メニューボタン */}
-      <Fade in={isButtonVisible} unmountOnExit exit={false}>
+      <div
+        className="acrylic-color"
+        style={{
+          marginLeft: isMenuVisible ? 0 : -300,
+          transition: "all 230ms ease-in-out",
+          zIndex: 1,
+        }}
+      >
         <Button
           variant="contained"
           color="primary"
-          onClick={() => {
-            setIsButtonVisible(false);
-            setIsMenuVisible(true);
-          }}
+          onClick={handleMenuVisible}
           style={{
             position: "absolute",
             top: 8,
-            left: isMainView && 8,
-            right: !isMainView && 8,
+            right: 0,
+            transform: "translate(100%)",
+            borderRadius: "0px 6px 6px 0px",
+            height: "32px",
+            backgroundColor: "black",
+            width: 16,
+          }}
+        ></Button>
+        <DataCatalog
+          addLayer={addLayer}
+          deleteLayer={deleteLayer}
+          layers={layers}
+          setViewState={setViewState}
+          setIsMenuVisible={setIsMenuVisible}
+        />
+
+        <Resizable
+          defaultSize={{
+            width: "100%",
+            height: 180,
+          }}
+          minHeight={48}
+          enable={{
+            top: true,
+          }}
+          style={{
+            borderTop: "1px solid lightgray",
           }}
         >
-          <MenuIcon />
-        </Button>
-      </Fade>
-
-      {/* メニュー */}
-
-      <Slide
-        in={isMenuVisible}
-        direction={isMainView ? "right" : "left"}
-        appear={false} //初期ロード時のtransitionを防ぐ
-        onExited={() => setIsButtonVisible(true)}
-      >
-        <div className="acrylic-color menu">
-          <DataCatalog
-            addLayer={addLayer}
+          <SelectedLayerList
             deleteLayer={deleteLayer}
             layers={layers}
+            setLayers={setLayers}
+            storedHistry={storedHistry}
+            addLayer={addLayer}
+            setHistry={setHistry}
+            loadedData={loadedData}
             setViewState={setViewState}
-            setIsMenuVisible={setIsMenuVisible}
-            isMainView={isMainView}
-          />
-
-          <Resizable
-            defaultSize={{
-              width: "100%",
-              height: 180,
-            }}
-            minHeight={48}
-            enable={{
-              top: true,
-            }}
-            style={{
-              borderTop: "1px solid lightgray",
-            }}
-          >
-            <SelectedLayerList
-              deleteLayer={deleteLayer}
-              layers={layers}
-              setLayers={setLayers}
-              storedHistry={storedHistry}
-              addLayer={addLayer}
-              setHistry={setHistry}
-              loadedData={loadedData}
-              setViewState={setViewState}
-            ></SelectedLayerList>
-          </Resizable>
-        </div>
-      </Slide>
+          ></SelectedLayerList>
+        </Resizable>
+      </div>
 
       <style jsx>
         {`
           .menu {
-            width: ${isDoubleView ? "20%" : "35%"};
+            width: 35%;
             max-width: 420px;
             min-width: 260px;
             height: 100%;
             display: flex;
             flex-direction: column;
-            margin-left: ${!isMainView && "auto"};
-            position: absolute;
-            left: ${isMainView && 0};
-            right: ${!isMainView && 0};
+
             z-index: 1;
           }
           @media screen and (max-width: 700px) {

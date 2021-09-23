@@ -2,9 +2,12 @@ import { useState } from "react";
 
 import Header from "../components/header/Header";
 import { findLayer } from "../components/layer/layerList";
-import SyncSwitch from "../components/SyncSwitch";
-import MainContent from "../components/MainContent";
+
 import FeatureInfo from "../components/FeatureInfo";
+import Menu from "../components/menu/Menu";
+import Map from "../components/map/Map";
+import BottomInfo from "../components/menu/BottomInfo";
+import { Stack } from "@mui/material";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -24,69 +27,31 @@ const defaultLayer = [defaultLayer1, defaultLayer2];
 
 export default function Home() {
   const [layers, setLayers] = useState(defaultLayer);
-  const [layersForSub, setLayersForSub] = useState(defaultLayer);
-
   const [viewState, setViewState] = useState(initialViewState);
-  const [viewStateForSub, setViewStateForSub] = useState(initialViewState);
-
-  const [isDoubleView, setIsDoubleView] = useState(false);
-  const [isSync, setIsSync] = useState(false);
   const [feature, setFeature] = useState(null);
+  const [loadedData, setLoadedData] = useState({});
 
   return (
-    <div className="wrapper">
-      <Header setLayers={setLayers} setIsDoubleView={setIsDoubleView} />
-      <div className="main">
-        <MainContent
-          variant="mainView"
+    <Stack sx={{ height: "100vh", width: "100vw" }}>
+      <Header setLayers={setLayers} />
+      <Stack direction="row" sx={{ height: "100%", position: "relative" }}>
+        <Menu
+          layers={layers}
+          setLayers={setLayers}
+          setViewState={setViewState}
+          loadedData={loadedData}
+        />
+        <Map
           layers={layers}
           setLayers={setLayers}
           viewState={viewState}
           setViewState={setViewState}
-          isDoubleView={isDoubleView}
-          isMainView={true}
           setFeature={setFeature}
+          setLoadedData={setLoadedData}
         />
-        {isDoubleView && (
-          <>
-            <MainContent
-              variant="subView"
-              layers={layersForSub}
-              setLayers={setLayersForSub}
-              viewState={isSync ? viewState : viewStateForSub}
-              setViewState={isSync ? setViewState : setViewStateForSub}
-              isDoubleView={isDoubleView}
-              isMainView={false}
-              setFeature={setFeature}
-            />
-            <SyncSwitch
-              isSync={isSync}
-              setIsSync={setIsSync}
-              viewState={viewState}
-              setViewStateForSub={setViewStateForSub}
-            />
-          </>
-        )}
-      </div>
-      <FeatureInfo feature={feature} setFeature={setFeature} />
-
-      <style jsx>
-        {`
-          .wrapper {
-            display: flex;
-            flex-direction: column;
-            width: 100vw;
-            height: 100vh;
-          }
-          .main {
-            width: 100%;
-            height: 100%;
-            overflow: hidden; //カクつくことがあるのを防ぐ
-            display: flex;
-            position: relative;
-          }
-        `}
-      </style>
-    </div>
+        <FeatureInfo feature={feature} setFeature={setFeature} />
+        <BottomInfo viewState={viewState} />
+      </Stack>
+    </Stack>
   );
 }

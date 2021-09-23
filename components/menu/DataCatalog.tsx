@@ -21,7 +21,6 @@ const DataCatalog = ({
   layers,
   setViewState,
   setIsMenuVisible,
-  isMainView,
 }) => {
   const renderIdList = layers.map((elm) => elm.id);
   const toggleLayer = (node) =>
@@ -97,10 +96,7 @@ const DataCatalog = ({
         height: "100%",
       }}
     >
-      <Header
-        setIsMenuVisible={setIsMenuVisible}
-        isMainView={isMainView}
-      ></Header>
+      <Header setIsMenuVisible={setIsMenuVisible}></Header>
 
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}

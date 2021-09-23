@@ -17,6 +17,7 @@ import {
 } from "@deck.gl/geo-layers";
 import { backgroundLayer } from "./backgroundLayer";
 import { addDefaultProps } from "./addDefaultProps";
+import { MarginTwoTone } from "@mui/icons-material";
 
 export const Map = ({
   layers,
@@ -25,7 +26,6 @@ export const Map = ({
   setViewState,
   setFeature,
   setLoadedData,
-  isMenuVisible,
 }) => {
   const cloneLayers = [...layers]; //reverseは破壊的メソッドのため注意
   const reversedLayers = cloneLayers.reverse();

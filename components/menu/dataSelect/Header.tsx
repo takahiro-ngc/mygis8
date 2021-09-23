@@ -7,7 +7,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 
-const Header = ({ setIsMenuVisible, isMainView }) => {
+const Header = ({ setIsMenuVisible }) => {
   return (
     <div
       style={{
@@ -23,7 +23,7 @@ const Header = ({ setIsMenuVisible, isMainView }) => {
         onClick={() => setIsMenuVisible(false)}
         style={{ marginLeft: "auto" }}
       >
-        {isMainView ? <ArrowBackIcon /> : <ArrowForwardIcon />}
+        <ArrowBackIcon />
       </IconButton>
     </div>
   );
