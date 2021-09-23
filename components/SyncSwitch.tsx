@@ -4,7 +4,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 
 const SyncSwitch = ({ isSync, setIsSync, viewState, setViewStateForSub }) => {
   return (
-    <div className="acrylic-color center">
+    <div className="acrylic-color center" key="syncSwitch">
       <FormControlLabel
         label="連動"
         control={

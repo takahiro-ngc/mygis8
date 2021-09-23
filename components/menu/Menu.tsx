@@ -121,6 +121,10 @@ export const Menu = ({
             display: flex;
             flex-direction: column;
             margin-left: ${!isMainView && "auto"};
+            position: absolute;
+            left: ${isMainView && 0};
+            right: ${!isMainView && 0};
+            z-index: 1;
           }
           @media screen and (max-width: 700px) {
             .menu {

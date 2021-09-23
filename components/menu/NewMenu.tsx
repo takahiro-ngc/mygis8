@@ -45,76 +45,72 @@ export const NewMenu = ({
 
   const [isButtonVisible, setIsButtonVisible] = useState(!isMenuVisible);
   return (
-    <>
+    <div
+      style={{
+        height: "100%",
+        width: 300,
+        border: "3px yellow solid",
+        marginLeft: isMainView && !isMenuVisible && "-300px",
+        marginRight: !isMainView && !isMenuVisible && "-300px",
+        transition: "all 0.23s ease-in-out",
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      key="menu"
+    >
       {/* メニューボタン */}
       <Button
         variant="contained"
-        style={{ position: "absolute", width: 200, left: 400, zIndex: 100 }}
+        sx={{
+          position: "absolute",
+          top: 16,
+          ...(isMainView ? { right: 0 } : { left: 0 }),
+          transform: isMainView ? "translate(100%)" : "translate(-100%)",
+          zIndex: 1,
+        }}
         onClick={() => setIsMenuVisible((prev) => !prev)}
       >
-        aaa
+        ボタン
       </Button>
       {/* メニュー */}
-      <Drawer
-        sx={{
-          width: 300,
-          flexShrink: 0,
-          border: "3px blue solid",
+
+      <DataCatalog
+        addLayer={addLayer}
+        deleteLayer={deleteLayer}
+        layers={layers}
+        setViewState={setViewState}
+        setIsMenuVisible={setIsMenuVisible}
+        isMainView={isMainView}
+      />
+
+      <Resizable
+        defaultSize={{
+          width: "100%",
+          height: 180,
         }}
-        variant="persistent"
-        anchor="left"
-        open={isMenuVisible}
-        className="acrylic-color menu"
+        minHeight={48}
+        enable={{
+          top: true,
+        }}
+        style={{
+          borderTop: "1px solid lightgray",
+        }}
       >
-        {/* <div > */}
-        <DataCatalog
-          addLayer={addLayer}
+        <SelectedLayerList
           deleteLayer={deleteLayer}
           layers={layers}
+          setLayers={setLayers}
+          storedHistry={storedHistry}
+          addLayer={addLayer}
+          setHistry={setHistry}
+          loadedData={loadedData}
           setViewState={setViewState}
-          setIsMenuVisible={setIsMenuVisible}
-          isMainView={isMainView}
-        />
+        ></SelectedLayerList>
+      </Resizable>
 
-        <Resizable
-          defaultSize={{
-            width: "100%",
-            height: 180,
-          }}
-          minHeight={48}
-          enable={{
-            top: true,
-          }}
-          style={{
-            borderTop: "1px solid lightgray",
-          }}
-        >
-          <SelectedLayerList
-            deleteLayer={deleteLayer}
-            layers={layers}
-            setLayers={setLayers}
-            storedHistry={storedHistry}
-            addLayer={addLayer}
-            setHistry={setHistry}
-            loadedData={loadedData}
-            setViewState={setViewState}
-          ></SelectedLayerList>
-        </Resizable>
-        {/* </div> */}
-      </Drawer>
       <style jsx>
         {`
-          .menu {
-             {
-              /* width: ${isDoubleView ? "20%" : "35%"};
-            max-width: 420px;
-            min-width: 260px;
-            height: 100%; */
-            }
-            display: flex;
-            flex-direction: column;
-            margin-left: ${!isMainView && "auto"};
-          }
           @media screen and (max-width: 700px) {
             .menu {
               width: 100%;
@@ -126,7 +122,7 @@ export const NewMenu = ({
           }
         `}
       </style>
-    </>
+    </div>
   );
 };
 

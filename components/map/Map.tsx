@@ -99,22 +99,32 @@ export const Map = ({
   //   highlightColor: [255, 0, 0, 128],
   //   // filled: true,
   // });
-
+  const preventContextMenu = (e) => e.preventDefault();
+  const handleViewState = ({ viewState }) => setViewState(viewState);
   return (
-    <DeckGL
-      // layers={[backgroundLayer, gsilayer]}
-      layers={[backgroundLayer, layersWithSetting]}
-      controller={{
-        inertia: true,
-        scrollZoom: { speed: 0.05, smooth: true },
-        touchRotate: true,
+    <div
+      style={{
+        border: "6px pink solid",
+        width: "100%",
+        height: "100%",
+        position: "relative",
       }}
-      onClick={onClick}
-      viewState={viewState}
-      onViewStateChange={({ viewState }) => {
-        setViewState(viewState);
-      }}
-    ></DeckGL>
+      key="map"
+      onContextMenu={preventContextMenu} //右クリックメニューの抑止
+    >
+      <DeckGL
+        // layers={[backgroundLayer, gsilayer]}
+        layers={[backgroundLayer, layersWithSetting]}
+        controller={{
+          inertia: true,
+          scrollZoom: { speed: 0.05, smooth: true },
+          touchRotate: true,
+        }}
+        onClick={onClick}
+        viewState={viewState}
+        onViewStateChange={handleViewState}
+      ></DeckGL>
+    </div>
   );
 };
 
