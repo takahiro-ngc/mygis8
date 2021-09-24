@@ -43,6 +43,7 @@ position absoluteのため，親に次を設定すればよい
 ・importの様々な拡張子 shape csv（ポイントのみ）
 ・標高断面図（bbox利用）ClipExtension
 ・塗分けマップ（都道府県名，市町村名オプション，数字，インポート後のオプション 線形・対数，基準値，dataTransform
+・menuとmapをflexにするとmenu閉じがカクつく
 
 〇優先度高
 ・アイコンやlineのハイライト（バグ？デプロイでも発生する）

@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <Stack sx={{ height: "100vh", width: "100vw" }}>
       <Header setLayers={setLayers} />
-      <Stack direction="row" sx={{ height: "100%", position: "relative" }}>
+      <div style={{ height: "100%", position: "relative" }}>
         <Menu
           layers={layers}
           setLayers={setLayers}
@@ -51,7 +51,7 @@ export default function Home() {
         />
         <FeatureInfo feature={feature} setFeature={setFeature} />
         <BottomInfo viewState={viewState} />
-      </Stack>
+      </div>
     </Stack>
   );
 }

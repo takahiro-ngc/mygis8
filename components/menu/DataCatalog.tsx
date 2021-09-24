@@ -14,14 +14,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Header from "./dataSelect/Header";
 import JumpButton from "./dataSelect/JumpButton";
+import Typography from "@mui/material/Typography";
 
-const DataCatalog = ({
-  addLayer,
-  deleteLayer,
-  layers,
-  setViewState,
-  setIsMenuVisible,
-}) => {
+const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
   const renderIdList = layers.map((elm) => elm.id);
   const toggleLayer = (node) =>
     renderIdList.includes(node.id) ? deleteLayer(node.id) : addLayer(node.id);
@@ -96,7 +91,9 @@ const DataCatalog = ({
         height: "100%",
       }}
     >
-      <Header setIsMenuVisible={setIsMenuVisible}></Header>
+      <Typography variant="h6" component="h2" display="inline">
+        地図の種類
+      </Typography>
 
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}

@@ -104,7 +104,7 @@ export const Map = ({
   return (
     <div
       style={{
-        border: "6px pink solid",
+        // border: "6px pink solid",
         width: "100%",
         height: "100%",
         position: "relative",

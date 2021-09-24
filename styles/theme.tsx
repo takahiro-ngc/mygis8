@@ -8,9 +8,9 @@ const theme = createTheme({
     // neutral: {
     //   main: "#5c6ac4",
     // },
-    // background: {
-    //   default: '#fff',
-    // },
+    background: {
+      default: "rgba(20, 20, 20, .8)",
+    },
     // primary: {
     //   main: "#556cd6",
     // },
