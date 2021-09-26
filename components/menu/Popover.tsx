@@ -20,9 +20,9 @@ export default function Popover({
       anchorEl={anchorEl}
       placement="right"
       style={{
-        // zIndex: 1,
+        zIndex: 1,
         padding: 16,
-        width: 420,
+        width: 440,
         maxWidth: "100vw",
         maxHeight: "100vh",
         overflow: "auto",

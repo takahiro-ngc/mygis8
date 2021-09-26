@@ -35,7 +35,7 @@ const notes = {
     <div>
       説明は，出典サイトからの引用です。
       <br />
-      特殊な設定のある一部データは，本サイト上では，正常な動作・表示とはならない場合があります。
+      特殊な設定のある一部データは，動作しなかったり，説明と異なる表示になる場合があります。
     </div>
   ),
 };
@@ -47,25 +47,22 @@ const attribution = {
 
 const isSouthpoleLayer = (id) => id === "southpole_satellite_250000_spec";
 const southpoleArea = {
-  area: {
-    lat: -73.558561,
-    lng: 38.321278,
-    zoom: 1,
-  },
+  lat: -73.558561,
+  lng: 38.321278,
+  zoom: 1,
 };
 
 const addProps = (list) =>
-  list.map((d) =>
-    Object.assign(
-      {},
-      d,
-      notes,
-      attribution,
-      d.type === "Layer" && addPropsForGsiLayer(d),
-      d.entries && { entries: addProps(d.entries) },
-      isSouthpoleLayer(d.id) && southpoleArea
-    )
-  );
+  list.map((d) => {
+    return {
+      ...d,
+      ...notes,
+      ...attribution,
+      ...(d.type === "Layer" && addPropsForGsiLayer(d)),
+      ...(isSouthpoleLayer(d.id) && { area: southpoleArea }),
+      ...(d.entries && { entries: addProps(d.entries) }),
+    };
+  });
 
 export const gsiLayers = addProps(layerList);
 

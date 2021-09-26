@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { isValidUrl, isTile } from "../utility";
+import { isValidUrl, isTile } from "../utils/utility";
 import Typography from "@mui/material/Typography";
 import ImportFile from "./ImportFile";
 

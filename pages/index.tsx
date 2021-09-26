@@ -4,9 +4,9 @@ import Header from "../components/header/Header";
 import { findLayer } from "../components/layer/layerList";
 
 import FeatureInfo from "../components/FeatureInfo";
-import Menu from "../components/menu/Menu";
+import Menu from "../components/Menu";
 import Map from "../components/map/Map";
-import BottomInfo from "../components/menu/BottomInfo";
+import BottomInfo from "../components/BottomInfo";
 import { Stack } from "@mui/material";
 
 export const initialViewState = {

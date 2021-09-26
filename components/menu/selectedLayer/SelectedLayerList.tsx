@@ -1,5 +1,5 @@
-import List from "@material-ui/core/List";
-import Collapse from "@material-ui/core/Collapse";
+import List from "@mui/material/List";
+import Collapse from "@mui/material/Collapse";
 import { TransitionGroup } from "react-transition-group";
 import { List as ListReactMovable, arrayMove } from "react-movable";
 import Title from "./Title";

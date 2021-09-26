@@ -1,7 +1,6 @@
 import { BitmapLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
-import { hex2rgb } from "../hex2rgb";
-import { isTile, getFileType, isImage } from "../utility";
+import { isTile, getFileType, isImage, hex2rgb } from "../utils/utility";
 
 // geojsonのスタイルは，以下のうち主な属性のみ実装
 // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0

@@ -7,7 +7,6 @@ import {
   TextLayer,
 } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
-import { hex2rgb } from "../../hex2rgb";
 import { CesiumIonLoader } from "@loaders.gl/3d-tiles";
 import { QuantizedMeshLoader } from "@loaders.gl/terrain";
 // import * as d3 from "d3";
@@ -19,7 +18,7 @@ import { parse } from "@loaders.gl/core";
 import { ZipLoader } from "@loaders.gl/zip";
 import GL from "@luma.gl/constants";
 import { colorBins, colorContinuous, colorCategories } from "@deck.gl/carto";
-import { addCenterPosition } from "../../utility";
+import { addCenterPosition } from "../../utils/utility";
 // import { TerrainWorkerLoader } from "../../terrainLoaderForGSI/terrain/src";
 
 // https://github.com/visgl/deck.gl/issues/3489

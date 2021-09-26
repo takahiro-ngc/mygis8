@@ -5,7 +5,7 @@ import {
   GridToolbarExport,
   useGridSlotComponentProps,
 } from "@mui/x-data-grid";
-import Pagination from '@mui/material/Pagination';
+import Pagination from "@mui/material/Pagination";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 import PopoverButton from "../PopoverButton";

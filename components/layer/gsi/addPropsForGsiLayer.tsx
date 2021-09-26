@@ -1,4 +1,4 @@
-import { isImage } from "../../utility";
+import { isImage } from "../../utils/utility";
 
 export const addPropsForGsiLayer = ({
   url,

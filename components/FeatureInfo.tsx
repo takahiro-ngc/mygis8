@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import { isImage } from "./utility";
+import { isImage } from "./utils/utility";
 
 const FeatureInfo = ({ feature, setFeature }) => {
   const lat = feature?.coordinate[1].toFixed(6);

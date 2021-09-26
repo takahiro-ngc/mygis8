@@ -1,48 +1,42 @@
-import React, { useMemo } from "react";
+import React from "react";
 
 import { layerList } from "../layer/layerList";
 import PopoverButton from "./PopoverButton";
 import LayerInfo from "./LayerInfo";
+import JumpButton from "./dataSelect/JumpButton";
 
+import { Box } from "@mui/system";
+import { Stack } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import TreeView from "@mui/lab/TreeView";
 import TreeItem from "@mui/lab/TreeItem";
 
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import InfoIcon from "@mui/icons-material/Info";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Header from "./dataSelect/Header";
-import JumpButton from "./dataSelect/JumpButton";
 import Typography from "@mui/material/Typography";
 
 const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
-  const renderIdList = layers.map((elm) => elm.id);
-  const toggleLayer = (node) =>
-    renderIdList.includes(node.id) ? deleteLayer(node.id) : addLayer(node.id);
+  const selectedLayerIds = layers.map((elm) => elm.id);
+  const toggleLayer = (id) =>
+    selectedLayerIds.includes(id) ? deleteLayer(id) : addLayer(id);
 
   const renderTree = (nodes) =>
     nodes.map((node, index) => {
       const key = node.category + node.title + index;
       return (
         <TreeItem
-          // hidden={!(node.layerType === "LayerGroup" || node.fileType === "png")} //デバッグ用
           key={key}
           nodeId={key}
           onClick={() => {
-            node.data ? toggleLayer(node) : null;
+            node.data && toggleLayer(node.id);
             console.log(node);
           }}
           label={
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <div style={{ marginRight: "auto" }}>
+            <Stack direction="row" alignItems="center">
+              <Typography sx={{ marginRight: "auto" }}>
                 {node.title}
-                {node.fileType && <Chip label={node.fileType} size="small" />}
+                {/* {node.fileType && <Chip label={node.fileType} size="small" />}
                 {node.isTile && <Chip label="タイル" size="small" />}
                 {node.minZoom && (
                   <Chip label={`min=${node.minZoom}`} size="small" />
@@ -61,8 +55,8 @@ const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
                     label={`maxN=${node.maxNativeZoomOriginal}`}
                     size="small"
                   />
-                )}
-              </div>
+                )} */}
+              </Typography>
 
               {node.area && (
                 <JumpButton
@@ -75,7 +69,7 @@ const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
               <PopoverButton icon={<InfoOutlinedIcon />}>
                 <LayerInfo node={node}></LayerInfo>
               </PopoverButton>
-            </div>
+            </Stack>
           }
         >
           {node.entries && renderTree(node.entries)}
@@ -84,10 +78,10 @@ const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
     });
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         overflowY: "scroll", //常にスクロールバーの幅が確保されることで，バーの有無でwidthが変わるのを防ぐ
-        padding: "8px 8px 8px 8px",
+        padding: "8px 0 8px 8px",
         height: "100%",
       }}
     >
@@ -101,7 +95,7 @@ const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
       >
         {renderTree(layerList)}
       </TreeView>
-    </div>
+    </Box>
   );
 };
 

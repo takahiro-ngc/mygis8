@@ -1,6 +1,6 @@
-import HistoryIcon from "@material-ui/icons/History";
+import HistoryIcon from "@mui/icons-material/History";
 import PopoverButton from "../PopoverButton";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@mui/material";
 import Histry from "./Histry";
 
 export default function Title({ layers, addLayer, storedHistry, setHistry }) {

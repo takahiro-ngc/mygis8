@@ -69,6 +69,7 @@ export const Map = ({
 
   const onClick = (info, event) => {
     setFeature(info);
+    event.preventDefault();
     console.log(info);
   };
 

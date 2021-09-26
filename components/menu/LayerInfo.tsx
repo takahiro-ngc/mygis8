@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { isImage } from "../utility";
+import { isImage } from "../utils/utility";
+import { Skeleton } from "@mui/material";
 
 export default function LayerInfo({ node }) {
   const category = node.category.map((d) => `${d} > `);
 
-  const isString = (data) => typeof data === "string";
-  const description = isString(node.html)
-    ? ReactHtmlParser(node.html)
-    : node.html;
+  const description = ReactHtmlParser(node.html);
+
+  const [loaded, setLoaded] = useState(false);
 
   const legend = (
     <Link href={node.legendUrl} target="_blank" rel="noreferrer">
       {isImage(node.legendUrl) ? (
-        <img src={node.legendUrl} alt="凡例画像" width="100%" />
+        <>
+          {loaded || (
+            <Skeleton variant="rectangular" width="100%" height={200} />
+          )}
+          <img
+            src={node.legendUrl}
+            alt="凡例画像"
+            width="100%"
+            onLoad={() => setLoaded(true)}
+            style={{ display: `${loaded || "none"}` }}
+          />
+        </>
       ) : (
         node.legendUrl
       )}
@@ -63,10 +74,8 @@ export default function LayerInfo({ node }) {
             <dt>表示設定</dt>
             <dd>
               {node.toggleall &&
-                "このカテゴリー内の全てのデータを選択すると，本来の表示に近くなります。"}
-              {isImage(node.fileType) &&
-                node.minZoom > 0 &&
-                `対象のエリアにおいて，ズームレベルが${minZoom}以上で表示されます。`}
+                "カテゴリー内の全データを表示すると，本来の動作に近くなります。"}
+              {node.minZoom > 1 && `ズームレベルが${minZoom}以上で表示`}
             </dd>
           </div>
         </dl>
