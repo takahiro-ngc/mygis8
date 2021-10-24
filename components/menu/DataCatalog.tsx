@@ -29,7 +29,7 @@ const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
           key={key}
           nodeId={key}
           onClick={() => {
-            node.data && toggleLayer(node.id);
+            (node.data || node.elevationData) && toggleLayer(node.id);
             console.log(node);
           }}
           label={

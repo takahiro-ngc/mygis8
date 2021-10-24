@@ -15,10 +15,8 @@ import {
   MVTLayer,
   Tile3DLayer,
 } from "@deck.gl/geo-layers";
-import { backgroundLayer } from "./backgroundLayer";
-import { addDefaultProps } from "./addDefaultProps";
-import { MarginTwoTone } from "@mui/icons-material";
 
+import { backgroundLayer } from "./backgroundLayer";
 export const Map = ({
   layers,
   setLayers,
@@ -32,40 +30,52 @@ export const Map = ({
   // const testLayer = reversedLayers.map((d) => addDefaultProps(d));
   const testLayer3 = reversedLayers.map((d) => ({
     ...d,
-    onDataLoad: (value) =>
-      setLoadedData((prev) => ({ ...prev, [d.id]: value?.features })),
-    onViewportLoad: (data) => {
-      const features = data.flatMap((d) => d?.content?.features || []);
-      setLoadedData((prev) => ({ ...prev, [d.id]: features }));
-    },
+    // onDataLoad: (value) => {
+    //   console.log("ondataload", value);
+    //   setLoadedData((prev) => ({ ...prev, [d.id]: value?.features }));
+    // },
+    // onViewportLoad: (data) => {
+    //   const features = data.flatMap((d) => d?.content?.features || []);
+    //   setLoadedData((prev) => ({ ...prev, [d.id]: features }));
+    //   console.log("onViewportLoad", data);
+    // },
+    // dataTransform: (d) => {
+    //   console.log("dataTransform", d);
+    //   return d;
+    // },
+
+    // pickable: true,
+    // _subLayerProps: {
+    //   "points-icon": {
+    //     pickable: true,
+    //     autoHighlight: true,
+    //     highlightColor: [255, 0, 0, 128],
+    //     // highlightedObjectIndex: 2,
+    //   },
+    //   "points-circle": {
+    //     pickable: true,
+    //     highlightColor: [255, 0, 0, 128],
+    //     // highlightedObjectIndex: 2,
+
+    //     autoHighlight: true,
+    //   },
+    // },
   }));
+
   const testLayer2 = testLayer3.map((d) =>
     d.target ? { ...d, getFillColor: d.target } : d
   );
-  const layersWithSetting = testLayer2.map((item: any, index: number) => {
-    switch (item.layerType) {
-      case "GeoJsonLayer":
-        return new GeoJsonLayer(item);
-      case "HexagonLayer":
-        return new HexagonLayer(item);
-      case "ColumnLayer":
-        return new ColumnLayer(item);
-      case "TextLayer":
-        return new TextLayer(item);
-      case "ScreenGridLayer":
-        return new ScreenGridLayer(item);
-      case "ScatterplotLayer":
-        return new ScatterplotLayer(item);
-      case "TileLayer":
-        return new TileLayer(item);
-      case "MVTLayer":
-        return new MVTLayer(item);
-      case "Tile3DLayer":
-        return new Tile3DLayer(item);
-      case "TerrainLayer":
-        return new TerrainLayer(item);
-    }
-  });
+  const data = {
+    GeoJsonLayer,
+    TileLayer,
+    HexagonLayer,
+    TerrainLayer,
+    MVTLayer,
+    ColumnLayer,
+  };
+  const layersWithSetting = testLayer2.map(
+    (item) => new data[item.layerType](item)
+  );
 
   const onClick = (info, event) => {
     setFeature(info);
@@ -104,12 +114,6 @@ export const Map = ({
   const handleViewState = ({ viewState }) => setViewState(viewState);
   return (
     <div
-      style={{
-        // border: "6px pink solid",
-        width: "100%",
-        height: "100%",
-        position: "relative",
-      }}
       key="map"
       onContextMenu={preventContextMenu} //右クリックメニューの抑止
     >

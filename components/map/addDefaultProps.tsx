@@ -1,7 +1,7 @@
 import { BitmapLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
 import { isTile, getFileType, isImage, hex2rgb } from "../utils/utility";
-
+import { TerrainLayer } from "@deck.gl/geo-layers";
 // geojsonのスタイルは，以下のうち主な属性のみ実装
 // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
 // https://github.com/gsi-cyberjapan/geojson-with-style-spec
@@ -15,16 +15,27 @@ export const addDefaultProps = (item) => {
     // fileType: fileType,
     isTile: isTile(data), //デバッグ用
 
+    //test
+    // elevationData:
+    //   "https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png",
+    // texture: "https://maps.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png?_=20201001a",
+
+    // elevationDecoder: {
+    //   rScaler: 2,
+    //   gScaler: 0,
+    //   bScaler: 0,
+    //   offset: 0,
+    // },
     // 基本
-    ID: data, //同一URLが複数登録されているため，本当はurlだけでは不可
+    id: data, //同一URLが複数登録されているため，本当はurlだけでは不可
     data: data,
     pickable: true,
     autoHighlight: true,
     parameters: {
       depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
     },
-    // ToDo loadersの設定を消さないとmvtLayerが描画できない
-    loaders: [KMLLoader],
+    // ToDo loadersの設定を消さないとmvtLayerやterrainが描画できない
+    // loaders: [KMLLoader],
 
     // 点関係
     pointRadiusUnits: "pixels",

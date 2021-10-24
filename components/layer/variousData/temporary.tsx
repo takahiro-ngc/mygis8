@@ -19,7 +19,8 @@ import { ZipLoader } from "@loaders.gl/zip";
 import GL from "@luma.gl/constants";
 import { colorBins, colorContinuous, colorCategories } from "@deck.gl/carto";
 import { addCenterPosition } from "../../utils/utility";
-// import { TerrainWorkerLoader } from "../../terrainLoaderForGSI/terrain/src";
+
+import { TerrainWorkerLoader, TerrainLoader } from "../../../terrain/src";
 
 // https://github.com/visgl/deck.gl/issues/3489
 // https://luma.gl/docs/api-reference/gltools/context
@@ -56,6 +57,25 @@ const settingForBoundary = {
 
 export const otherLayers = [
   {
+    layerType: "TerrainLayer",
+    id: "terrain",
+    title: "terrain",
+    data: "null",
+
+    elevationData:
+      "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
+    texture:
+      "https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg",
+
+    elevationDecoder: {
+      rScaler: 2,
+      gScaler: 0,
+      bScaler: 0,
+      offset: 0,
+    },
+  },
+
+  {
     layerType: "MVTLayer",
     id: "MVTLayer",
     title: "MVTLayer",
@@ -90,31 +110,48 @@ export const otherLayers = [
     // dataTransform: (d) => console.log("d", d),
   },
   {
+    // layerType: "TileLayer",
     layerType: "GeoJsonLayer",
     id: "公示地価",
     title: "公示地価",
+    // data: "https://maps.gsi.go.jp/xyz/cp/{z}/{x}/{y}.geojson",
     data: "/layer/L01-20.json",
+    // highlightedObjectIndex: 3s,
 
     pointRadiusUnits: "meters",
     pointRadiusScale: 10,
     getPointRadius: 500,
     pointRadiusMinPixels: 3,
     pointRadiusMaxPixels: 10,
-    getFillColor: colorBins({
-      attr: (d) => Math.log2(Number(d.properties.L01_006)),
-      domain: [14, 15, 16, 17, 18, 19, 20],
-      // domain: [2, 23],
-      // colors: "BluYl",
-    }),
-    target: [128, 128, 0, 128],
-    pointType: "circle+text",
-    getText: (d) =>
-      (Number(d.properties.L01_006) / 1000).toLocaleString() + "千",
-    getTextSize: 200,
-    textSizeMaxPixels: 20,
-    textSizeUnits: "meters",
-    textCharacterSet: "auto",
-    getTextPixelOffset: [0, 20],
+    // getFillColor: colorBins({
+    //   attr: (d) => Math.log2(Number(d.properties.L01_006)),
+    //   domain: [14, 15, 16, 17, 18, 19, 20],
+    //   // domain: [2, 23],
+    //   // colors: "BluYl",
+    // }),
+    // target: [128, 128, 0, 128],
+    // pointType: "circle",
+    // pointType: "circle+text+icon",
+    // getIcon: (d) => {
+    //   const src = d.properties;
+    //   return {
+    //     url: "https://maps.gsi.go.jp/portal/sys/v4/symbols/skhb.png",
+    //     width: src?._iconSize?.[0] ?? 20,
+    //     height: src?._iconSize?.[1] ?? 20,
+    //     anchorX: src?._iconAnchor?.[0] ?? 10,
+    //     anchorY: src?._iconAnchor?.[1] ?? 10,
+    //   };
+    // },
+    // getIconSize: 24, //必須
+    // pickable: true,
+    // autoHighlight: true,
+    // getText: (d) =>
+    //   (Number(d.properties.L01_006) / 1000).toLocaleString() + "千",
+    // getTextSize: 200,
+    // textSizeMaxPixels: 20,
+    // textSizeUnits: "meters",
+    // textCharacterSet: "auto",
+    // getTextPixelOffset: [0, 20],
   },
 
   {
@@ -215,18 +252,20 @@ export const otherLayers = [
       rScaler: 6553.6,
       gScaler: 25.6,
       bScaler: 0.1,
-      offset: 0,
+      offset: -8000,
     },
     // elevationDecoder: {
     //   scaler: 0.03, // 分解能, 実寸なら0.01
     //   offset: 0, // RGB値がゼロの場合の標高値
     // },
-    // loaders: [TerrainWorkerLoader],
+    loaders: [TerrainLoader],
     // loaders: [TerrainLoaderForGSI],
     elevationData:
-      "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
+      "https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png",
+    // "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
     texture:
       //  "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
       "https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg",
+    autoHighlight: false,
   },
 ];

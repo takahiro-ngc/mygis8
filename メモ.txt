@@ -36,45 +36,40 @@ position absoluteのため，親に次を設定すればよい
 
 〇難所
 ・demデータの利用→ステレオグラム
+・アイコンやlineのハイライト（バグ？デプロイでも発生する）
 ・terrainのminzoom問題
-・カスタムレイヤー
 ・合成
 ・テキストのアウトライン
 ・importの様々な拡張子 shape csv（ポイントのみ）
 ・標高断面図（bbox利用）ClipExtension
 ・塗分けマップ（都道府県名，市町村名オプション，数字，インポート後のオプション 線形・対数，基準値，dataTransform
-・menuとmapをflexにするとmenu閉じがカクつく
 
 〇優先度高
-・アイコンやlineのハイライト（バグ？デプロイでも発生する）
-。layerInfoの整理と設定機能
-・demデータの利用 loadersglのスケーラーをd=>にする？
 ・histryが再アクセスで空
-・データの充実，メタ情報
+・データの充実，メタ情報 geojsonbufの利用
 ・共有用url
 ・importのヘルパーテキスト
 ・赤色立体地図の権利処理
 ・地理院のクリックしても無反応データd.src===""?
-・geojsonbufの利用
-・カラーダークを明るく？
-・useReducer使えるか
-・boxの使用
-・スクロールバーをオンホバーライト
+
+・タイプスクリプト
+
+
 featureinfoのクリックアウェイリスナー
 ・地図の種類サーチはカテゴリー＋titleでフィルターして，単純リスト表示
 
 
 〇ソース整理関係
 ・blurの再検討
-・タイプスクリプト
 ・popoverstyleの削除
-
+・useReducer使えるか
+・useBoolean使えるか
 
 〇優先度中
 ・onDragg時にmenuを薄くする
 ・リンク集　geojson編集，ケプラー，データスタート，統計gis，RESUS，Geoshapeリポジトリ
+・カスタムレイヤー
 
-・kmlがautoHilightにならない
 ・layerPropsのisTileでimportするとローカルではくるくるが止まらないことがある
 ・緯度経度ラインレイヤー
 ・二画面時にツリー開閉でかくつく　overflowy hidden?
@@ -86,6 +81,7 @@ featureinfoのクリックアウェイリスナー
 ・ミニマップ
 ・material ui5
 ・geoloniaの逆ジオコーディングとフリガナ
+
 
 〇優先度低
 ・下メニュー
@@ -110,7 +106,7 @@ featureinfoのクリックアウェイリスナー
 ・editableLayerはメンテナンスされておらず，現行deck.glのバージョンではselectedfeature周りでバグあり。外部コンポーネント化するとコンパイルエラー
 ・featureTableにgeometryのタイプ，座標の追加
 ・setLoadedDataを使わずに→setLayerを使う方法はできなかった
-
+・スクロールバーをオンホバーライト
 
 
 〇没
@@ -125,6 +121,7 @@ featureinfoのクリックアウェイリスナー
 ・スクロールバーの透明化（tetshadowを使うHackなどしかない）
 ・メニューを閉じるボタンを耳にするのはかなり難航（slide内にボタンを配置するとボタンも消える）
 ・FeatureTabelの大きさ切替は大きくすると下がオーバーフローする
+・menuとmapをflexにするとmenu閉じがカクつく
 
 〇その他の地図
 stamen

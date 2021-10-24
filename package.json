@@ -19,6 +19,7 @@
     "@loaders.gl/loader-utils": "^3.0.9",
     "@loaders.gl/shapefile": "^3.0.11",
     "@loaders.gl/zip": "^3.0.9",
+    "@mapbox/martini": "^0.2.0",
     "@mui/icons-material": "^5.0.0",
     "@mui/lab": "^5.0.0-alpha.47",
     "@mui/material": "^5.0.0",
