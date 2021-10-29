@@ -31,6 +31,23 @@ export default function Home() {
   const [feature, setFeature] = useState(null);
   const [loadedData, setLoadedData] = useState({});
 
+  // useEffect(() => {
+  //   if ("serviceWorker" in navigator) {
+  //     window.addEventListener("load", function () {
+  //       navigator.serviceWorker.register("/sw.js").then(
+  //         function (registration) {
+  //           console.log(
+  //             "Service Worker registration successful with scope: ",
+  //             registration.scope
+  //           );
+  //         },
+  //         function (err) {
+  //           console.log("Service Worker registration failed: ", err);
+  //         }
+  //       );
+  //     });
+  //   }
+  // }, []);
   return (
     <Stack sx={{ height: "100vh", width: "100vw" }}>
       <Header setLayers={setLayers} />

@@ -4,12 +4,19 @@ import Delatin from "./delatin";
 import { addSkirt } from "./helpers/skirt";
 
 function getTerrain(imageData, width, height, elevationDecoder, tesselator) {
-  // const { rScaler, bScaler, gScaler, offset } = elevationDecoder;
+  // const { rScaler, bScaler, gScaler, offset, scaler } = elevationDecoder;
 
   // From Martini demo
   // https://observablehq.com/@mourner/martin-real-time-rtin-terrain-mesh
   const terrain = new Float32Array((width + 1) * (height + 1));
   // decode terrain values
+
+  // RGB-to-height conversion
+  const rScaler = 65536;
+  const gScaler = 256;
+  const bScaler = 1;
+
+  const scaler = 0.01;
   for (let i = 0, y = 0; y < height; y++) {
     for (let x = 0; x < width; x++, i++) {
       const k = i * 4;
@@ -27,13 +34,6 @@ function getTerrain(imageData, width, height, elevationDecoder, tesselator) {
       } else if (r >= 128) {
         gsiOffset = -16777216; // 2^24
       }
-
-      // RGB-to-height conversion
-      const rScaler = 65536;
-      const gScaler = 256;
-      const bScaler = 1;
-
-      const scaler = 0.01;
 
       terrain[i + y] =
         (r * rScaler + g * gScaler + b * bScaler + gsiOffset) * scaler;

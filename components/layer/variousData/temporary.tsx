@@ -19,7 +19,6 @@ import { ZipLoader } from "@loaders.gl/zip";
 import GL from "@luma.gl/constants";
 import { colorBins, colorContinuous, colorCategories } from "@deck.gl/carto";
 import { addCenterPosition } from "../../utils/utility";
-
 import { TerrainWorkerLoader, TerrainLoader } from "../../../terrain/src";
 
 // https://github.com/visgl/deck.gl/issues/3489
@@ -252,14 +251,15 @@ export const otherLayers = [
       rScaler: 6553.6,
       gScaler: 25.6,
       bScaler: 0.1,
-      offset: -8000,
+      offset: -10000,
+      // scaler: 0.1,
     },
     // elevationDecoder: {
     //   scaler: 0.03, // 分解能, 実寸なら0.01
     //   offset: 0, // RGB値がゼロの場合の標高値
     // },
     loaders: [TerrainLoader],
-    // loaders: [TerrainLoaderForGSI],
+
     elevationData:
       "https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png",
     // "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",

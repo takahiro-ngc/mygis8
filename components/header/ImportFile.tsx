@@ -3,9 +3,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { KMLLoader } from "@loaders.gl/kml";
 import { load } from "@loaders.gl/core";
+import { parse } from "@loaders.gl/core";
 import { registerLoaders } from "@loaders.gl/core";
 import { ZipLoader } from "@loaders.gl/zip";
-import { ShapefileLoader, DBFLoader } from "@loaders.gl/shapefile";
+import { ShapefileLoader, DBFLoader, SHPLoader } from "@loaders.gl/shapefile";
+
 // registerLoaders([KMLLoader, ShapefileLoader, DBFLoader]);
 
 // ToDo utilityへ移動
@@ -15,10 +17,16 @@ const getFileType = (fileName) => {
 };
 
 export default function ImportFile({ setLayers }) {
-  const importFile = (e) => {
+  const importFile = async (e) => {
     const fileObject = e.target.files[0];
     const fileType = getFileType(fileObject.name);
 
+    // const fileMap = await parse(fileObject, ZipLoader);
+    // for (const fileName in fileMap) {
+    //   console.log(fileName);
+    // }
+    // console.log(e.target.files[4]);
+    // load(e.target.files[4], [ShapefileLoader])
     load(fileObject, [KMLLoader])
       .then((d) => {
         console.log(d, fileType);
@@ -48,7 +56,7 @@ export default function ImportFile({ setLayers }) {
             color="primary"
           >
             ファイルを選択
-            <input type="file" hidden onChange={importFile} />
+            <input type="file" multiple hidden onChange={importFile} />
           </Button>
         </div>
       </div>

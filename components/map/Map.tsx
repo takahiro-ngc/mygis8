@@ -15,7 +15,7 @@ import {
   MVTLayer,
   Tile3DLayer,
 } from "@deck.gl/geo-layers";
-
+import { addDefaultProps } from "./addDefaultProps";
 import { backgroundLayer } from "./backgroundLayer";
 export const Map = ({
   layers,
@@ -29,7 +29,12 @@ export const Map = ({
   const reversedLayers = cloneLayers.reverse();
   // const testLayer = reversedLayers.map((d) => addDefaultProps(d));
   const testLayer3 = reversedLayers.map((d) => ({
+    // importFileのために必要
+    ...addDefaultProps(d),
     ...d,
+    // loadOptions: {
+    //   CDN: "terrain/src/workers/terrain-worker.js",
+    // },
     // onDataLoad: (value) => {
     //   console.log("ondataload", value);
     //   setLoadedData((prev) => ({ ...prev, [d.id]: value?.features }));
