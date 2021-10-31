@@ -74,7 +74,7 @@ export const Menu = ({
       <Resizable
         defaultSize={{
           width: "100%",
-          height: 200,
+          height: 180,
         }}
         minHeight={48}
         enable={{
