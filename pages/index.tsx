@@ -8,6 +8,7 @@ import Menu from "../components/Menu";
 import Map from "../components/map/Map";
 import BottomInfo from "../components/BottomInfo";
 import { Stack } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -31,6 +32,7 @@ export default function Home() {
   const [viewState, setViewState] = useState(initialViewState);
   const [feature, setFeature] = useState(null);
   const [loadedData, setLoadedData] = useState({});
+  const isMediaQuery = useMediaQuery("(max-width:600px)");
 
   return (
     <Stack sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
@@ -41,6 +43,7 @@ export default function Home() {
           setLayers={setLayers}
           setViewState={setViewState}
           loadedData={loadedData}
+          isMediaQuery={isMediaQuery}
         />
         <Map
           layers={layers}
@@ -50,7 +53,11 @@ export default function Home() {
           setFeature={setFeature}
           setLoadedData={setLoadedData}
         />
-        <FeatureInfo feature={feature} setFeature={setFeature} />
+        <FeatureInfo
+          feature={feature}
+          setFeature={setFeature}
+          isMediaQuery={isMediaQuery}
+        />
         <BottomInfo viewState={viewState} />
       </div>
     </Stack>

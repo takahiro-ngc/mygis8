@@ -8,7 +8,13 @@ import useLocalStorage from "./utils/useLocalStorage";
 import { unique } from "./utils/utility";
 
 import MenuButton from "./menu/MenuButton";
-export const Menu = ({ layers, setLayers, setViewState, loadedData }) => {
+export const Menu = ({
+  layers,
+  setLayers,
+  setViewState,
+  loadedData,
+  isMediaQuery,
+}) => {
   const [storedHistry, setHistry] = useLocalStorage("histry", []);
   const addHistry = (id) =>
     setHistry((prev) => {
@@ -36,20 +42,28 @@ export const Menu = ({ layers, setLayers, setViewState, loadedData }) => {
     <Box
       sx={{
         transform: `${isMenuVisible || "translate(-100%)"}`,
-        transition: "all 230ms ease-in-out",
+        transition: "transform 230ms ease-in-out",
         zIndex: 1,
         position: "absolute",
         height: "100%",
-        width: "30vw",
+        width: "35vw",
         maxWidth: 400,
+        minWidth: 300,
         display: "flex",
         flexDirection: "column",
         backgroundColor: "background.default",
+        ...(isMediaQuery && {
+          transform: `${isMenuVisible || "translate(0, -100%)"}`,
+          height: "50%",
+          width: "100%",
+          maxWidth: "100%",
+        }),
       }}
     >
       <MenuButton
         isMenuVisible={isMenuVisible}
         setIsMenuVisible={setIsMenuVisible}
+        isMediaQuery={isMediaQuery}
       />
       <DataCatalog
         addLayer={addLayer}
@@ -81,20 +95,6 @@ export const Menu = ({ layers, setLayers, setViewState, loadedData }) => {
           setViewState={setViewState}
         ></SelectedLayerList>
       </Resizable>
-
-      <style jsx>
-        {`
-          @media screen and (max-width: 700px) {
-            .menu {
-              width: 100%;
-              max-width: 100%;
-
-              height: 800;
-              max-height: 60vh;
-            }
-          }
-        `}
-      </style>
     </Box>
   );
 };

@@ -45,7 +45,7 @@ const Header = ({ setLayers }) => {
     <div
       style={{
         width: "100%",
-        // zIndex: 1,
+        zIndex: 2,
         padding: 8,
         display: "flex",
         alignItems: "center",

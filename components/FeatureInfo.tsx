@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import { isImage } from "./utils/utility";
 import { Box } from "@mui/system";
 
-const FeatureInfo = ({ feature, setFeature }) => {
+const FeatureInfo = ({ feature, setFeature, isMediaQuery }) => {
   const lat = feature?.coordinate[1].toFixed(6);
   const lon = feature?.coordinate[0].toFixed(6);
 
@@ -34,75 +34,62 @@ const FeatureInfo = ({ feature, setFeature }) => {
   const isUndefined = (value) => value === undefined;
   const shouldRender = (key, value) => !isStyleInfo(key) && !isUndefined(value);
   return (
-    <>
-      <Box
-        sx={{
-          backgroundColor: "background.default",
+    <Box
+      sx={{
+        backgroundColor: "background.default",
+        position: "absolute",
+        top: 0,
+        right: 0,
+        width: "35vw",
+        minWidth: "300px",
+        maxWidth: "420px",
+        minHeight: "34px", //スクロールバーの表示を防ぐ（34px=IconButtonのheight）
+        maxHeight: "100%",
+        overflowX: "hidden",
+        overflowY: "auto",
+        zIndex: 2,
+        ...(isMediaQuery && {
+          width: "100%",
+          maxWidth: "100%",
+          maxHeight: "calc(50% + 24px)",
+          backgroundColor: "rgba(30, 30, 30, 1)",
+        }),
+      }}
+      hidden={!Boolean(feature)}
+    >
+      <IconButton
+        size="small"
+        style={{
           position: "absolute",
           top: 0,
           right: 0,
-          minWidth: "320px",
-          maxWidth: "min(40vw, 420px)",
-          maxHeight: "100%",
-          overflowX: "hidden",
-          overflowY: "auto",
         }}
-        hidden={!Boolean(feature)}
+        onClick={() => setFeature(null)}
       >
-        <IconButton
-          size="small"
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-          }}
-          onClick={() => setFeature(null)}
-        >
-          <CloseIcon />
-        </IconButton>
+        <CloseIcon />
+      </IconButton>
 
-        <TableContainer>
-          <Table size="small">
-            <TableBody>
-              {entries.map(
-                (row) =>
-                  shouldRender(row[0], row[1]) && (
-                    <TableRow key={row[0]}>
-                      <TableCell style={{ width: "120px" }}>
-                        {ReactHtmlParser(row[0])}
-                      </TableCell>
-                      <TableCell style={{ wordBreak: "break-word" }}>
-                        {ReactHtmlParser(row[1])}
-                        {isImage(row[1]) && showImage(row[1])}
-                      </TableCell>
-                    </TableRow>
-                  )
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
-      <style jsx>
-        {`
-          .style {
-            position: absolute;
-            top: 0;
-            right: 0;
-            min-width: 320px;
-            max-width: min(40vw, 420px);
-            max-height: 100%;
-            overflow-x: hidden;
-            overflow-y: auto;
-          }
-          @media screen and (max-width: 700px) {
-            .style {
-              max-width: 100vw;
-              max-height: 60vh;
-            }
-          }
-        `}
-      </style>
-    </>
+      <TableContainer>
+        <Table size="small">
+          <TableBody>
+            {entries.map(
+              (row) =>
+                shouldRender(row[0], row[1]) && (
+                  <TableRow key={row[0]}>
+                    <TableCell style={{ width: "120px" }}>
+                      {ReactHtmlParser(row[0])}
+                    </TableCell>
+                    <TableCell style={{ wordBreak: "break-word" }}>
+                      {ReactHtmlParser(row[1])}
+                      {isImage(row[1]) && showImage(row[1])}
+                    </TableCell>
+                  </TableRow>
+                )
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
 
