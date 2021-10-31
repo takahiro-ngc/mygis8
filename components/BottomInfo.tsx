@@ -1,10 +1,10 @@
-import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 
 export default function BottomInfo({ viewState }) {
   return (
-    <div
-      className="acrylic-color"
-      style={{
+    <Box
+      sx={{
+        backgroundColor: "background.default",
         position: "absolute",
         bottom: 0,
         right: 0,
@@ -13,6 +13,6 @@ export default function BottomInfo({ viewState }) {
       }}
     >
       zoom={viewState.zoom.toFixed(0)}
-    </div>
+    </Box>
   );
 }

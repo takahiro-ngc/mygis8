@@ -70,7 +70,8 @@ export const Map = ({
     >
       <DeckGL
         // layers={[backgroundLayer, gsilayer]}
-        layers={[backgroundLayer, layersWithSetting]}
+        layers={[layersWithSetting]}
+        // layers={[backgroundLayer, layersWithSetting]}
         controller={{
           inertia: true,
           scrollZoom: { speed: 0.05, smooth: true },
