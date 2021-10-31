@@ -2,32 +2,19 @@
 import Switch from "@mui/material/Switch";
 import Slider from "@mui/material/Slider";
 import GL from "@luma.gl/constants";
-// import {
-//   getFileTypeCategory,
-//   isBitmap,
-// } from "../../../../mygis4/utils/utility";
 
 export default function LayerControls({ index, layers, setLayers }) {
   const changeSetting = (key, newValue) =>
     setLayers((prev) => {
       const newSettings = [...prev];
-      const oldValue = prev[index][key];
-      const canMerge =
-        typeof oldValue === "object" && typeof newValue === "object";
-      console.log("canMerge", canMerge);
-      newSettings[index][key] = canMerge
-        ? {
-            ...oldValue,
-            ...newValue,
-          }
-        : newValue;
-      console.log("newSettings", newSettings);
+      newSettings[index][key] = newValue;
       return newSettings;
     });
 
   const defaultProps = { visible: true, opacity: 1, parameters: null };
   const getCurrentValue = (propName: string) =>
     layers[index][propName] ?? defaultProps[propName];
+
   return (
     <>
       {/* 共通 */}
@@ -62,7 +49,7 @@ export default function LayerControls({ index, layers, setLayers }) {
         />
       </div>
 
-      <div className="style">
+      {/* <div className="style">
         ターゲット
         <Slider
           valueLabelDisplay="auto"
@@ -74,7 +61,7 @@ export default function LayerControls({ index, layers, setLayers }) {
             changeSetting("target", [newValue, 0, 0, 255])
           }
         />
-      </div>
+      </div> */}
 
       <style jsx>
         {`
@@ -93,42 +80,24 @@ export default function LayerControls({ index, layers, setLayers }) {
 const BlendControl = ({ index, changeSetting, layers, setLayers }) => {
   const MULTIPLY = [GL.ZERO, GL.SRC_COLOR];
   const currentValue = layers[index]?.parameters?.blendFunc;
+  const isBlend = Boolean(currentValue);
 
-  // const isBlend = currentValue === MULTIPLY;
-  // const setBlend = () => {
-  //   changeSetting("parameters", { blendFunc: MULTIPLY });
-  //   changeSetting("transparentColor", [255, 255, 255, 255]);
-  // };
-  // const removeBlend = () =>
-  //   setLayers((prev) => {
-  //     let newSetting = [...prev];
-  //     delete newSetting[index].parameters.blendFunc;
-  //     delete newSetting[index].transparentColor;
-  //     return newSetting;
-  //   });
-  // const toggle = isBlend ? removeBlend : setBlend;
-
-  const toggleBlend = () => {
-    if (currentValue === undefined) {
-      changeSetting("parameters", {
-        blendFunc: MULTIPLY,
-      });
-
-      // 合成すると火山等の一部領域データの外周の透明部分が黒くなってしまうため，透明部分を白に着色して防ぐ
-      // https://blog.chocolapod.net/momokan/entry/23
-      // ToDo バグ修正
-      changeSetting("transparentColor", [255, 255, 255, 255]);
-    } else {
-      setLayers((prev) => {
-        let newSetting = [...prev];
-        delete newSetting[index].parameters.blendFunc;
-        delete newSetting[index].transparentColor;
-        return newSetting;
-      });
-    }
+  const setBlend = () => {
+    changeSetting("transparentColor", [255, 255, 255, 255]);
+    setLayers((prev) => {
+      const newSetting = [...prev];
+      newSetting[index].parameters.blendFunc = MULTIPLY;
+      return newSetting;
+    });
   };
+  const removeBlend = () =>
+    setLayers((prev) => {
+      const newSetting = [...prev];
+      delete newSetting[index].parameters.blendFunc;
+      delete newSetting[index].transparentColor;
+      return newSetting;
+    });
+  const toggleBlend = isBlend ? removeBlend : setBlend;
 
-  return (
-    <Switch checked={Boolean(currentValue)} onChange={() => toggleBlend()} />
-  );
+  return <Switch checked={isBlend} onChange={toggleBlend} />;
 };

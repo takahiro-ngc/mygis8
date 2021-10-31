@@ -19,7 +19,8 @@ export const initialViewState = {
   maxPitch: 85,
 };
 
-const defaultLayerId1 = "disaster_lore_all";
+const defaultLayerId1 = "vbmd_colorrel";
+// const defaultLayerId1 = "disaster_lore_all";
 const defaultLayerId2 = "OpenStreetMap";
 const defaultLayer1 = findLayer(defaultLayerId1);
 const defaultLayer2 = findLayer(defaultLayerId2);
@@ -31,25 +32,8 @@ export default function Home() {
   const [feature, setFeature] = useState(null);
   const [loadedData, setLoadedData] = useState({});
 
-  // useEffect(() => {
-  //   if ("serviceWorker" in navigator) {
-  //     window.addEventListener("load", function () {
-  //       navigator.serviceWorker.register("/sw.js").then(
-  //         function (registration) {
-  //           console.log(
-  //             "Service Worker registration successful with scope: ",
-  //             registration.scope
-  //           );
-  //         },
-  //         function (err) {
-  //           console.log("Service Worker registration failed: ", err);
-  //         }
-  //       );
-  //     });
-  //   }
-  // }, []);
   return (
-    <Stack sx={{ height: "100vh", width: "100vw" }}>
+    <Stack sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
       <Header setLayers={setLayers} />
       <div style={{ height: "100%", position: "relative" }}>
         <Menu

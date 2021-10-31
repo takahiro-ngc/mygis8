@@ -31,6 +31,7 @@ export const Menu = ({ layers, setLayers, setViewState, loadedData }) => {
   );
 
   const [isMenuVisible, setIsMenuVisible] = useState(true);
+
   return (
     <Box
       sx={{

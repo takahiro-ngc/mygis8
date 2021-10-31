@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { isImage } from "./utils/utility";
+import { Box } from "@mui/system";
 
 const FeatureInfo = ({ feature, setFeature }) => {
   const lat = feature?.coordinate[1].toFixed(6);
@@ -34,11 +35,24 @@ const FeatureInfo = ({ feature, setFeature }) => {
   const shouldRender = (key, value) => !isStyleInfo(key) && !isUndefined(value);
   return (
     <>
-      <div className="style acrylic-color" hidden={!Boolean(feature)}>
+      <Box
+        sx={{
+          backgroundColor: "background.default",
+          position: "absolute",
+          top: 0,
+          right: 0,
+          minWidth: "320px",
+          maxWidth: "min(40vw, 420px)",
+          maxHeight: "100%",
+          overflowX: "hidden",
+          overflowY: "auto",
+        }}
+        hidden={!Boolean(feature)}
+      >
         <IconButton
           size="small"
           style={{
-            position: "fixed",
+            position: "absolute",
             top: 0,
             right: 0,
           }}
@@ -67,8 +81,7 @@ const FeatureInfo = ({ feature, setFeature }) => {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-
+      </Box>
       <style jsx>
         {`
           .style {

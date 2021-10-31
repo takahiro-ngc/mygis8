@@ -98,14 +98,14 @@ export default function SelectedLayerItem({
       )} */}
 
       {/* 表ボタン*/}
-      {!!loadedData[value.id]?.length && (
+      {/* {!!loadedData[value.id]?.length && (
         <PopoverButton icon={<ListAltIcon />} style={{ width: "800px" }}>
           <FeatureTable
             features={loadedData[value.id]}
             setViewState={setViewState}
           />
         </PopoverButton>
-      )}
+      )} */}
 
       {/* 設定切替ボタン */}
       <PopoverButton icon={<SettingsIcon />}>
