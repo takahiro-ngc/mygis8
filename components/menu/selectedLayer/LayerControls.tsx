@@ -19,6 +19,13 @@ export default function LayerControls({ index, layers, setLayers }) {
     <>
       {/* 共通 */}
       {/* <List dense> */}
+      {/* <div className="style" key="test">
+        test
+        <Switch
+          checked={getCurrentValue("test")}
+          onChange={() => changeSetting("test", !getCurrentValue("test"))}
+        />
+      </div> */}
       <div className="style" key="visible">
         表示/一時非表示
         <Switch

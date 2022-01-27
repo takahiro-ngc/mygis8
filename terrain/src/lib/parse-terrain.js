@@ -20,7 +20,7 @@ function getTerrain(imageData, width, height, elevationDecoder, tesselator) {
   for (let i = 0, y = 0; y < height; y++) {
     for (let x = 0; x < width; x++, i++) {
       const k = i * 4;
-      const r = imageData[k + 0];
+      let r = imageData[k + 0];
       const g = imageData[k + 1];
       const b = imageData[k + 2];
 

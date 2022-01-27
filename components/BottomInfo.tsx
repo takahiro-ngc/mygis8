@@ -9,7 +9,7 @@ export default function BottomInfo({ viewState }) {
         bottom: 0,
         right: 0,
         zIndex: 1,
-        padding: 4,
+        padding: 1,
       }}
     >
       zoom={viewState.zoom.toFixed(0)}

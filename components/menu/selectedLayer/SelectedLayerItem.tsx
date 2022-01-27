@@ -1,7 +1,6 @@
 import LayerControls from "./LayerControls";
 // import Histry from "./Histry";
 import ListItem from "@mui/material/ListItem";
-import JSONTree from "react-json-tree";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -13,7 +12,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import LayerInfo from "../LayerInfo";
 import FeatureTable from "./FeatureTable";
-// import { isBitmap } from "../utils/utility";
+import { isImage } from "../../utils/utility";
+import { TerrainLoader } from "../../../terrain/src";
 
 export default function SelectedLayerItem({
   value,
@@ -30,27 +30,19 @@ export default function SelectedLayerItem({
   loadedData,
   setViewState,
 }) {
-  const isVisible = (item) => item.visible ?? true; //undefinedの時はデフォルトのtrueにする
+  const isVisible = layers[index]?.visible ?? true; //undefinedの時はデフォルトのtrueにする
 
-  // ToDo ユーティリティ化
-  const toggle3d = (index) => {
+  const isTerrain = layers[index].layerType === "TerrainLayer";
+  const toggleTerrain = () => {
     let clone = [...layers];
-    clone[index].layerType =
-      clone[index].layerType === "GsiTerrainLayer"
-        ? "TileLayer"
-        : "GsiTerrainLayer";
-    // 描画できないエラーを防ぐため，一旦削除するHack
-    new Promise<void>((resolve, reject) => {
-      resolve();
-    })
-      .then(() => {
-        deleteLayer(layers[index].id);
-      })
-      .then(() => {
-        setLayers(clone);
-      });
+    clone[index].layerType = isTerrain ? "TileLayer" : "TerrainLayer";
+    clone[index].loaders = isTerrain ? null : [TerrainLoader];
+    clone[index].texture = clone[index].data;
+    clone[index].color = [255, 255, 255, 0];
+    // 単にlayerTypeを変えても更新されないため，idを変えることで，deck.glに別レイヤーと認識させるHack
+    clone[index].id = Math.random();
+    setLayers(clone);
   };
-  const is3d = (index) => layers[index].layerType === "GsiTerrainLayer";
 
   return (
     <ListItem
@@ -66,11 +58,11 @@ export default function SelectedLayerItem({
         size="small"
         onClick={(e) => {
           let newSetting = [...layers];
-          newSetting[index].visible = !isVisible(value);
+          newSetting[index].visible = !isVisible;
           setLayers(newSetting);
         }}
       >
-        {isVisible(value) ? <VisibilityIcon /> : <VisibilityOffIcon />}
+        {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
       </IconButton>
 
       {/* レイヤー名表示 */}
@@ -87,15 +79,11 @@ export default function SelectedLayerItem({
       </div>
 
       {/* 3D切替ボタン */}
-      {/* {isBitmap(value.data) && (
-        <IconButton
-          size="small"
-          onClick={() => toggle3d(unReversedIndex)}
-          style={{ padding: 5 }}
-        >
-          {is3d(unReversedIndex) ? "2D" : "3D"}
+      {isImage(value.data) && (
+        <IconButton size="small" onClick={toggleTerrain} style={{ padding: 5 }}>
+          {isTerrain ? "2D" : "3D"}
         </IconButton>
-      )} */}
+      )}
 
       {/* 表ボタン*/}
       {/* {!!loadedData[value.id]?.length && (

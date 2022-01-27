@@ -58,3 +58,10 @@ a:hover {
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
+/* * {
+  overflow: hidden !important;
+}
+*:hover {
+  overflow-y: auto !important;
+} */

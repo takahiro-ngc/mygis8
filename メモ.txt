@@ -1,13 +1,11 @@
 １ 機能関係
 （１）難所
-・demデータのworker
-・アイコンやlineのハイライト（バグ？デプロイでも発生する）tileのみ，polygonはok
 ・terrainのminzoom問題
-・合成
 ・importの様々な拡張子 shape csv（ポイントのみ）
 ・data grid が古いmui styleを参照しているためか，styleのバグがある
 
 （２）優先度高
+・demデータのworker
 ・ステレオグラム
 ・テキストのアウトライン
 ・レイヤー種類の変更機能　bitmap→terrain　geojson→コラム，グリッド，ヘキサゴン，ヒートマップ
@@ -18,11 +16,18 @@
 ・赤色立体地図の権利処理
 ・地理院のクリックしても無反応データd.src===""?
 ・タイプスクリプト
-・地図の種類サーチはカテゴリー＋titleでフィルターして，単純リスト表示
 ・popoverstyleの削除
-
+https://qiita.com/cheez921/items/7c5f82da375a5988a179 のトグル使える？
+もう一度nebula.glを試す
+超印刷
+parse-shapefile.tsの
+const shxPromise = fetch(replaceExtension(url, 'shx')); →fetch(context.url[0])
+load(e.target.files[4], [ShapefileLoader], option, context.url=e.target.files)　※contextは必須のkey（parse等）があり，その設定ができなかった
+workerオフにして独自ローダーを試す
+ const {url, fetch} = context;→contextは使えないので， const {fileData} = options;
 
 （４）優先度中
+・地図の種類サーチはカテゴリー＋titleでフィルターして，単純リスト表示
 ・リンク集　geojson編集，ケプラー，データスタート，統計gis，RESUS，Geoshapeリポジトリ
 ・カスタムレイヤー
 ・layerPropsのisTileでimportするとローカルではくるくるが止まらないことがある
@@ -161,6 +166,11 @@ mapbox登録が必要
 ソースの複雑化
 スケールコントロールは代用可能
 maplibreを入れるにはウェブパックの設定が必要
+（８）合成のバックグラウンドカラー
+parameters={{
+  clearColor: [1, 1, 1, 1],
+ }}
+ で下層レイヤーがない時に，透明になるのを防げるが，説明があれば十分
 
 〇その他の地図
 stamen

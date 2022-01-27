@@ -26,12 +26,17 @@ export default function ImportFile({ setLayers }) {
     //   console.log(fileName);
     // }
     // console.log(e.target.files[4]);
-    // load(e.target.files[4], [ShapefileLoader])
-    load(fileObject, [KMLLoader])
+    load(e.target.files[0], [ShapefileLoader], undefined, {
+      url: "test",
+      fetch: undefined,
+      parse: undefined,
+    })
+      // load(fileObject, [KMLLoader])
       .then((d) => {
         console.log(d, fileType);
         return {
-          data: d,
+          data: d.data,
+          // data: d,
           id: fileObject.name,
           title: fileObject.name,
         };

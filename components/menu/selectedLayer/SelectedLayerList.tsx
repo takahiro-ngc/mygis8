@@ -47,7 +47,8 @@ const SelectedLayerList = ({
         </List>
       )}
       renderItem={({ value, props, index, isDragged, isSelected }) => (
-        <Collapse key={value.id} in={true} timeout={300}>
+        // key={value.id}でないのは，3D化のHackでIDが変わることがあるため
+        <Collapse key={value.data} in={true} timeout={300}>
           <SelectedLayerItem
             value={value}
             props={props}

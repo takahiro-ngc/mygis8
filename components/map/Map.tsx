@@ -16,7 +16,8 @@ import {
   Tile3DLayer,
 } from "@deck.gl/geo-layers";
 import { addDefaultProps } from "./addDefaultProps";
-import { backgroundLayer } from "./backgroundLayer";
+import { TerrainLoader } from "../../terrain/src";
+
 export const Map = ({
   layers,
   setLayers,
@@ -41,6 +42,13 @@ export const Map = ({
       console.log("onViewportLoad_features", features);
       setLoadedData((prev) => ({ ...prev, [d.id]: features }));
     },
+
+    elevationData:
+      "https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png",
+    // "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
+
+    // ...(d.layerType === "TerrainLayer" && { loaders: [TerrainLoader] }),
+    // layerType: "TerrainLayer",
   }));
   const testLayer3 = testLayer.reverse(); //reverseは破壊的メソッドのため注意
 
@@ -69,9 +77,7 @@ export const Map = ({
       onContextMenu={(e) => e.preventDefault()} //右クリックメニューの抑止
     >
       <DeckGL
-        // layers={[backgroundLayer, gsilayer]}
-        layers={[layersWithSetting]}
-        // layers={[backgroundLayer, layersWithSetting]}
+        layers={layersWithSetting}
         controller={{
           inertia: true,
           scrollZoom: { speed: 0.05, smooth: true },

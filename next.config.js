@@ -5,5 +5,7 @@ module.exports = {
     // あなたのプロジェクトに型エラーがあったとしても、プロダクションビルドを正常に完了するために危険な許可をする。
     // !! 警告 !!
     ignoreBuildErrors: true,
+    // https://nextjs.org/docs/upgrading#swc-replacing-terser-for-minification
+    swcMinify: true,
   },
 };
