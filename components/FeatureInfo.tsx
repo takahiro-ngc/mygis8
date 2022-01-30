@@ -3,13 +3,16 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import Box from "@mui/system/Box";
 import React from "react";
 import ReactHtmlParser from "react-html-parser";
 import CloseButton from "./commonUI/CloseButton";
 import { isImage } from "./utils/utility";
+import SimpleBar from "simplebar-react";
+import "simplebar/dist/simplebar.min.css";
 
 const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
+  // const lat = clickedFeature?.object?.geometry?.coordinates[1];
+  // const lon = clickedFeature?.object?.geometry?.coordinates[0];
   const lat = clickedFeature?.coordinate[1].toFixed(6);
   const lon = clickedFeature?.coordinate[0].toFixed(6);
 
@@ -31,32 +34,33 @@ const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
   const isUndefined = (value) => value === undefined;
   const shouldRender = (key, value) => !isStyleInfo(key) && !isUndefined(value);
   return (
-    <Box
+    <SimpleBar
       hidden={!clickedFeature}
-      sx={{
-        backgroundColor: "background.default",
+      style={{
         position: "absolute",
         top: 0,
         right: 0,
-        width: "35vw",
-        minWidth: "300px",
+        width: "25vw",
+        minWidth: "320px",
         maxWidth: "420px",
-        minHeight: "34px", //スクロールバーの表示を防ぐ（34px=IconButtonのheight）
         maxHeight: "100%",
-        overflowX: "hidden",
-        overflowY: "auto",
         zIndex: 2,
         ...(isMediaQuery && {
           width: "100%",
           maxWidth: "100%",
           maxHeight: "calc(50% + 24px)",
-          backgroundColor: "rgba(50, 50, 50)",
         }),
       }}
     >
       <CloseButton onClick={() => setClickedFeature(null)} />
 
-      <TableContainer>
+      <TableContainer
+        sx={{
+          backgroundColor: isMediaQuery
+            ? "rgba(50, 50, 50)"
+            : "background.default",
+        }}
+      >
         <Table size="small">
           <TableBody>
             {Object.entries(FeatureProperties).map(
@@ -76,7 +80,7 @@ const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Box>
+    </SimpleBar>
   );
 };
 

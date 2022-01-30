@@ -3,7 +3,7 @@ import PopoverButton from "../PopoverButton";
 import { Typography } from "@mui/material";
 import Histry from "./Histry";
 
-export default function Title({ layers, addLayer, storedHistry, setHistry }) {
+export default function Title() {
   return (
     <div
       style={{
@@ -16,18 +16,6 @@ export default function Title({ layers, addLayer, storedHistry, setHistry }) {
       <Typography variant="h6" component="h2" display="inline">
         選択中のデータ
       </Typography>
-
-      <PopoverButton
-        icon={<HistoryIcon />}
-        style={{ width: "fit-content", minWidth: "200px" }}
-      >
-        <Histry
-          layers={layers}
-          storedHistry={storedHistry}
-          addLayer={addLayer}
-          setHistry={setHistry}
-        />
-      </PopoverButton>
     </div>
   );
 }

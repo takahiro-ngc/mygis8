@@ -5,29 +5,17 @@ import { TransitionGroup } from "react-transition-group";
 import { List as ListReactMovable, arrayMove } from "react-movable";
 import Title from "./Title";
 import SelectedLayerItem from "./SelectedLayerItem";
-
+import SimpleBar from "simplebar-react";
+import "simplebar/dist/simplebar.min.css";
 const SelectedLayerList = ({
-  deleteLayer,
   layers,
+  toggleLayers,
   setLayers,
-  storedHistry,
-  addLayer,
-  setHistry,
   loadedData,
   setViewState,
 }) => (
-  <div
-    style={{
-      overflowY: "scroll", //常にスクロールバーの幅が確保されることで，バーの有無でwidthが変わるのを防ぐ
-      height: "100%",
-    }}
-  >
-    <Title
-      layers={layers}
-      addLayer={addLayer}
-      storedHistry={storedHistry}
-      setHistry={setHistry}
-    />
+  <SimpleBar style={{ height: "100%" }}>
+    <Title />
 
     <ListReactMovable
       values={layers}
@@ -46,28 +34,23 @@ const SelectedLayerList = ({
           <TransitionGroup component={null}>{children}</TransitionGroup>
         </List>
       )}
-      renderItem={({ value, props, index, isDragged, isSelected }) => (
+      renderItem={({ value, props, index }) => (
         // key={value.id}でないのは，3D化のHackでIDが変わることがあるため
         <Collapse key={value.data} in={true} timeout={300}>
           <SelectedLayerItem
             value={value}
             props={props}
             index={index}
-            isDragged={isDragged}
-            isSelected={isSelected}
-            deleteLayer={deleteLayer}
+            toggleLayers={toggleLayers}
             layers={layers}
             setLayers={setLayers}
-            storedHistry={storedHistry}
-            addLayer={addLayer}
-            setHistry={setHistry}
-            loadedData={loadedData}
+            // loadedData={loadedData}
             setViewState={setViewState}
           />
         </Collapse>
       )}
     />
-  </div>
+  </SimpleBar>
 );
 
 export default React.memo(SelectedLayerList);

@@ -3,7 +3,7 @@ import { MVTLayer, TerrainLayer, TileLayer } from "@deck.gl/geo-layers";
 import { ColumnLayer, GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "deck.gl";
 import { addDefaultProps } from "./addDefaultProps";
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 export const Map = ({
   layers,
@@ -11,9 +11,9 @@ export const Map = ({
   setViewState,
   setClickedFeature,
   storeLoadedData,
+  // setHoverdFeature,
 }) => {
   const cloneLayers = [...layers];
-  // const testLayer = reversedLayers.map((d) => addDefaultProps(d));
   const testLayer = cloneLayers.map((d, index) => ({
     // importFileのために必要
     ...addDefaultProps(d),
@@ -50,7 +50,6 @@ export const Map = ({
     console.log(info);
     e.preventDefault();
   };
-
   const onViewStateChange = ({ viewState }) => setViewState(viewState);
 
   return (
@@ -66,6 +65,7 @@ export const Map = ({
           touchRotate: true,
         }}
         onClick={onClick}
+        // onHover={(info) => setHoverdFeature(info)}
         viewState={viewState}
         onViewStateChange={onViewStateChange}
       ></DeckGL>

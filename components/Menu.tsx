@@ -1,43 +1,27 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useReducer } from "react";
 import { Resizable } from "re-resizable";
-import { findLayer } from "./layer/layerList";
 import { Box } from "@mui/system";
 import DataCatalog from "./menu/DataCatalog";
 import SelectedLayerList from "./menu/selectedLayer/SelectedLayerList";
-import useLocalStorage from "./utils/useLocalStorage";
-import { unique } from "./utils/utility";
 
 import MenuButton from "./menu/MenuButton";
+
 export const Menu = ({
   layers,
-  setLayers,
+  dispatch,
   setViewState,
   loadedData,
   isMediaQuery,
 }) => {
-  const [storedHistry, setHistry] = useLocalStorage("histry", []);
-  const addHistry = (id) =>
-    setHistry((prev) => {
-      let uniqueList = unique([id, ...prev]);
-      uniqueList.length > 10 && uniqueList.pop();
-      return uniqueList;
-    });
-
-  const addLayer = useCallback(
-    (id) => {
-      setLayers([findLayer(id), ...layers]);
-      addHistry(id);
-    },
-    [layers]
+  const toggleLayers = useCallback(
+    (layerId: string) => dispatch({ type: "toggle", layer: layerId }),
+    []
   );
-
-  const deleteLayer = useCallback(
-    (id) => setLayers(layers.filter((elm) => elm.id !== id)),
-    [layers]
+  const setLayers = useCallback(
+    (layers) => dispatch({ type: "set", layer: layers }),
+    []
   );
-
-  const [isMenuVisible, setIsMenuVisible] = useState(true);
-
+  const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
   return (
     <Box
       sx={{
@@ -62,15 +46,10 @@ export const Menu = ({
     >
       <MenuButton
         isMenuVisible={isMenuVisible}
-        setIsMenuVisible={setIsMenuVisible}
+        toggleMenuVisible={toggleMenuVisible}
         isMediaQuery={isMediaQuery}
       />
-      <DataCatalog
-        addLayer={addLayer}
-        deleteLayer={deleteLayer}
-        layers={layers}
-        setViewState={setViewState}
-      />
+      <DataCatalog toggleLayers={toggleLayers} setViewState={setViewState} />
       <Resizable
         defaultSize={{
           width: "100%",
@@ -85,12 +64,9 @@ export const Menu = ({
         }}
       >
         <SelectedLayerList
-          deleteLayer={deleteLayer}
           layers={layers}
+          toggleLayers={toggleLayers}
           setLayers={setLayers}
-          storedHistry={storedHistry}
-          addLayer={addLayer}
-          setHistry={setHistry}
           loadedData={loadedData}
           setViewState={setViewState}
         ></SelectedLayerList>

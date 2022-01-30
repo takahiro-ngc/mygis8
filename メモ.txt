@@ -35,6 +35,8 @@ workerオフにして独自ローダーを試す
  ・当該関数の引数にファイルを直接指定すればよい
  ・エンコードは，shift-jis等にする，または自動で判別する
 useLayer
+add delete toggle reset
+
 useStoreData
 ・zipファイル→展開
 ・フォルダがあった場合，さらに展開（標準機能かも）

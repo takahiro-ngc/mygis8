@@ -41,24 +41,26 @@ a:hover {
 
 /* ackdrop-filter:blurはPopoverとの相性が悪いようで，文字がにじむ */
 .acrylic-color-dark {
-  /* background: rgba(30, 30, 30, 0.96); */
-  background: rgba(20, 20, 20, 0.95);
+  background: rgba(30, 30, 30, 0.96);
+  /* background: rgba(20, 20, 20, 0.95); */
 }
 
-/* スクロールバーをgooglemap風に */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 0px;
+  height: 0px;
 }
-::-webkit-scrollbar-thumb {
+
+/* ::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
   background-color: transparent;
+} */
+.simplebar-scrollbar::before {
+  background-color: white !important;
 }
-
 /* * {
   overflow: hidden !important;
 }

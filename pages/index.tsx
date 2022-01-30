@@ -8,6 +8,9 @@ import { findLayer } from "../components/layer/layerList";
 import Map from "../components/map/Map";
 import Menu from "../components/Menu";
 import { useLoadedFeatures } from "../hooks/useLoadedFeatures";
+import { useLayers } from "../hooks/useLayers";
+import { useCallback } from "react";
+import React from "react";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -26,21 +29,28 @@ const defaultLayer1 = findLayer(defaultLayerId1);
 const defaultLayer2 = findLayer(defaultLayerId2);
 const defaultLayer = [defaultLayer1, defaultLayer2];
 
-export default function Home() {
-  const [layers, setLayers] = useState(defaultLayer);
+const Home = () => {
   const [viewState, setViewState] = useState(initialViewState);
   const [clickedFeature, setClickedFeature] = useState(null);
   const [loadedData, storeLoadedData] = useLoadedFeatures();
+  const [layers, dispatch] = useLayers(defaultLayer);
+
+  // const importLayers = useCallback(
+  //   (layerProps: object) => dispatch({ type: "import", layer: layerProps }),
+  //   []
+  // );
 
   const isMediaQuery = useMediaQuery("(max-width:600px)");
 
   return (
     <Stack sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
-      <Header setLayers={setLayers} />
+      <Header dispatch={dispatch} />
       <div style={{ height: "100%", position: "relative" }}>
         <Menu
+          dispatch={dispatch}
           layers={layers}
-          setLayers={setLayers}
+          // setLayers={setLayers}
+          // toggleLayers={toggleLayers}
           setViewState={setViewState}
           loadedData={loadedData}
           isMediaQuery={isMediaQuery}
@@ -61,4 +71,6 @@ export default function Home() {
       </div>
     </Stack>
   );
-}
+};
+
+export default React.memo(Home);

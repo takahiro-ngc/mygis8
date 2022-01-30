@@ -3,11 +3,8 @@ import React from "react";
 import { layerList } from "../layer/layerList";
 import PopoverButton from "./PopoverButton";
 import LayerInfo from "./LayerInfo";
-import JumpButton from "./dataSelect/JumpButton";
 
-import { Box } from "@mui/system";
-import { Stack } from "@mui/material";
-import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 import TreeView from "@mui/lab/TreeView";
 import TreeItem from "@mui/lab/TreeItem";
 
@@ -15,12 +12,10 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Typography from "@mui/material/Typography";
+import SimpleBar from "simplebar-react";
+import "simplebar/dist/simplebar.min.css";
 
-const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
-  const selectedLayerIds = layers.map((elm) => elm.id);
-  const toggleLayer = (id) =>
-    selectedLayerIds.includes(id) ? deleteLayer(id) : addLayer(id);
-
+const DataCatalog = ({ setViewState, toggleLayers }) => {
   const renderTree = (nodes) =>
     nodes.map((node, index) => {
       const key = node.category + node.title + index;
@@ -28,46 +23,12 @@ const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
         <TreeItem
           key={key}
           nodeId={key}
-          onClick={() => {
-            (node.data || node.elevationData) && toggleLayer(node.id);
-            console.log(node);
-          }}
+          onClick={() => node.data && toggleLayers(node.id)}
           label={
             <Stack direction="row" alignItems="center">
-              <Typography sx={{ marginRight: "auto" }}>
-                {node.title}
-                {/* {node.fileType && <Chip label={node.fileType} size="small" />}
-                {node.isTile && <Chip label="タイル" size="small" />}
-                {node.minZoom && (
-                  <Chip label={`min=${node.minZoom}`} size="small" />
-                )}
-                {node.maxZoom && (
-                  <Chip label={`max=${node.maxZoom}`} size="small" />
-                )}
-                {node.minZoomOriginal && (
-                  <Chip label={`minO=${node.minZoomOriginal}`} size="small" />
-                )}
-                {node.maxZoomOriginal && (
-                  <Chip label={`maxO=${node.maxZoomOriginal}`} size="small" />
-                )}
-                {node.maxNativeZoomOriginal && (
-                  <Chip
-                    label={`maxN=${node.maxNativeZoomOriginal}`}
-                    size="small"
-                  />
-                )} */}
-              </Typography>
-
-              {node.area && (
-                <JumpButton
-                  addLayer={addLayer}
-                  setViewState={setViewState}
-                  node={node}
-                ></JumpButton>
-              )}
-
+              <Typography sx={{ marginRight: "auto" }}>{node.title}</Typography>
               <PopoverButton icon={<InfoOutlinedIcon />}>
-                <LayerInfo node={node}></LayerInfo>
+                <LayerInfo node={node} />
               </PopoverButton>
             </Stack>
           }
@@ -78,9 +39,9 @@ const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
     });
 
   return (
-    <Box
-      sx={{
-        overflowY: "scroll", //常にスクロールバーの幅が確保されることで，バーの有無でwidthが変わるのを防ぐ
+    <SimpleBar
+      style={{
+        overflow: "auto", //無いと縦に伸びすぎる
         padding: "8px 0 8px 8px",
         height: "100%",
       }}
@@ -95,7 +56,7 @@ const DataCatalog = ({ addLayer, deleteLayer, layers, setViewState }) => {
       >
         {renderTree(layerList)}
       </TreeView>
-    </Box>
+    </SimpleBar>
   );
 };
 

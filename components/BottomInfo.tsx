@@ -1,6 +1,10 @@
 import { Box } from "@mui/system";
 
 export default function BottomInfo({ viewState }) {
+  // const lat = hoverdFeature?.coordinate?.[1].toFixed(6);
+  // const lon = hoverdFeature?.coordinate?.[0].toFixed(6);
+  const zoom = viewState.zoom.toFixed(0);
+
   return (
     <Box
       sx={{
@@ -9,10 +13,11 @@ export default function BottomInfo({ viewState }) {
         bottom: 0,
         right: 0,
         zIndex: 1,
-        padding: 1,
+        padding: "2px",
       }}
     >
-      zoom={viewState.zoom.toFixed(0)}
+      {/* {lat && `緯度/経度=${lat} ${lon} `} */}
+      zoom={zoom}
     </Box>
   );
 }

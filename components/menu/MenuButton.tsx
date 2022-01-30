@@ -6,14 +6,12 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 export const MenuButton = ({
   isMenuVisible,
-  setIsMenuVisible,
+  toggleMenuVisible,
   isMediaQuery,
 }) => {
-  const handleMenuVisible = () => setIsMenuVisible(!isMenuVisible);
-
   return (
     <ButtonBase
-      onClick={handleMenuVisible}
+      onClick={toggleMenuVisible}
       sx={{
         position: "absolute",
         top: "50%",

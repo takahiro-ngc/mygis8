@@ -1,5 +1,4 @@
 import LayerControls from "./LayerControls";
-// import Histry from "./Histry";
 import ListItem from "@mui/material/ListItem";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
@@ -20,14 +19,10 @@ export default function SelectedLayerItem({
   props,
   index,
   isDragged,
-  isSelected,
-  deleteLayer,
+  toggleLayers,
   layers,
   setLayers,
-  storedHistry,
-  addLayer,
-  setHistry,
-  loadedData,
+  // loadedData,
   setViewState,
 }) {
   const isVisible = layers[index]?.visible ?? true; //undefinedの時はデフォルトのtrueにする
@@ -40,7 +35,7 @@ export default function SelectedLayerItem({
     clone[index].texture = clone[index].data;
     clone[index].color = [255, 255, 255, 0];
     // 単にlayerTypeを変えても更新されないため，idを変えることで，deck.glに別レイヤーと認識させるHack
-    clone[index].id = Math.random();
+    // clone[index].id = Math.random();
     setLayers(clone);
   };
 
@@ -106,7 +101,7 @@ export default function SelectedLayerItem({
       </PopoverButton>
 
       {/* 閉じるボタン */}
-      <IconButton size="small" onClick={() => deleteLayer(value.id)}>
+      <IconButton size="small" onClick={() => toggleLayers(value.id)}>
         <CloseIcon />
       </IconButton>
     </ListItem>

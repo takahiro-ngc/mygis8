@@ -5,7 +5,7 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "rgba(20, 20, 20, .85)",
+      default: "rgba(20, 20, 20, .9)",
     },
     // primary: {
     //   main: "#556cd6",
