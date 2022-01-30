@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/workers/dbf-worker.ts"],"names":["DBFLoader"],"mappings":";;AAAA;;AACA;;AAEA,qCAAmBA,oBAAnB","sourcesContent":["import {DBFLoader} from '../dbf-loader';\nimport {createLoaderWorker} from '@loaders.gl/loader-utils';\n\ncreateLoaderWorker(DBFLoader);\n"],"file":"dbf-worker.js"}

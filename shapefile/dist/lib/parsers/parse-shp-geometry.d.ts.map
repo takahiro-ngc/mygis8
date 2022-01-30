@@ -1,0 +1,1 @@
+{"version":3,"file":"parse-shp-geometry.d.ts","sourceRoot":"","sources":["../../../src/lib/parsers/parse-shp-geometry.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,cAAc,EAAqB,MAAM,oBAAoB,CAAC;AAItE;;;;;GAKG;AAEH,wBAAgB,WAAW,CAAC,IAAI,EAAE,QAAQ,EAAE,OAAO,CAAC,EAAE;IAAC,GAAG,CAAC,EAAE,GAAG,CAAA;CAAC,GAAG,cAAc,GAAG,IAAI,CAoDxF"}

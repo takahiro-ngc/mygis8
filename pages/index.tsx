@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
-
-import Header from "../components/header/Header";
-import { findLayer } from "../components/layer/layerList";
-
-import FeatureInfo from "../components/FeatureInfo";
-import Menu from "../components/Menu";
-import Map from "../components/map/Map";
-import BottomInfo from "../components/BottomInfo";
 import { Stack } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useState } from "react";
+import BottomInfo from "../components/BottomInfo";
+import FeatureInfo from "../components/FeatureInfo";
+import Header from "../components/header/Header";
+import { findLayer } from "../components/layer/layerList";
+import Map from "../components/map/Map";
+import Menu from "../components/Menu";
+import { useLoadedFeatures } from "../hooks/useLoadedFeatures";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -30,8 +29,9 @@ const defaultLayer = [defaultLayer1, defaultLayer2];
 export default function Home() {
   const [layers, setLayers] = useState(defaultLayer);
   const [viewState, setViewState] = useState(initialViewState);
-  const [feature, setFeature] = useState(null);
-  const [loadedData, setLoadedData] = useState({});
+  const [clickedFeature, setClickedFeature] = useState(null);
+  const [loadedData, storeLoadedData] = useLoadedFeatures();
+
   const isMediaQuery = useMediaQuery("(max-width:600px)");
 
   return (
@@ -47,15 +47,14 @@ export default function Home() {
         />
         <Map
           layers={layers}
-          setLayers={setLayers}
           viewState={viewState}
           setViewState={setViewState}
-          setFeature={setFeature}
-          setLoadedData={setLoadedData}
+          setClickedFeature={setClickedFeature}
+          storeLoadedData={storeLoadedData}
         />
         <FeatureInfo
-          feature={feature}
-          setFeature={setFeature}
+          clickedFeature={clickedFeature}
+          setClickedFeature={setClickedFeature}
           isMediaQuery={isMediaQuery}
         />
         <BottomInfo viewState={viewState} />

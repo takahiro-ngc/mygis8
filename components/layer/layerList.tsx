@@ -1,9 +1,8 @@
 import { gsiLayers } from "./gsi/gsiLayers";
 import { OSMLayers } from "./variousData/OpenStreetMap";
+import { otherLayers } from "./variousData/temporary";
 import { meshPopulationLayers } from "./variousData/メッシュ別将来推計人口";
 import { noukenLayers } from "./variousData/農研機構";
-import { otherLayers } from "./variousData/temporary";
-import { addDefaultProps } from "../map/addDefaultProps";
 
 const layers = [
   ...gsiLayers,
@@ -13,14 +12,17 @@ const layers = [
   ...otherLayers,
 ];
 
-const setCategory = (list, category = []) =>
-  list.map((d) => ({
-    // ToDo　ここにaddDefaultPropsを入れてよいかの検討
-    ...addDefaultProps(d),
+// ToDo const mergePropToTree= (tree,prop)=>
+const setCategory = (list, category = []) => {
+  // list.forEach(
+  //   (d) => d.entries && setCategory(d.entries, [...category, d.title])
+  // );
+  return list.map((d) => ({
     ...d,
     category: category,
     entries: d.entries && setCategory(d.entries, [...category, d.title]),
   }));
+};
 
 export const layerList = setCategory(layers);
 const flattenTree = (tree) =>

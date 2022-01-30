@@ -6,7 +6,9 @@ import { TerrainLayer } from "@deck.gl/geo-layers";
 // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
 // https://github.com/gsi-cyberjapan/geojson-with-style-spec
 
+// ToDo defaultPropsとaddDefaultPropsに分割
 export const addDefaultProps = (item) => {
+  // ToDo  item?.urlって必要？
   const data = item?.data || item?.url;
 
   const mainProps = {

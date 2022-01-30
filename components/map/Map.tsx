@@ -1,30 +1,16 @@
-import React, { useState } from "react";
+import { HexagonLayer } from "@deck.gl/aggregation-layers";
+import { MVTLayer, TerrainLayer, TileLayer } from "@deck.gl/geo-layers";
+import { ColumnLayer, GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "deck.gl";
-
-import {
-  GeoJsonLayer,
-  ColumnLayer,
-  TextLayer,
-  ScatterplotLayer,
-  BitmapLayer,
-} from "@deck.gl/layers";
-import { HexagonLayer, ScreenGridLayer } from "@deck.gl/aggregation-layers";
-import {
-  TileLayer,
-  TerrainLayer,
-  MVTLayer,
-  Tile3DLayer,
-} from "@deck.gl/geo-layers";
 import { addDefaultProps } from "./addDefaultProps";
-import { TerrainLoader } from "../../terrain/src";
+import React from "react";
 
 export const Map = ({
   layers,
-  setLayers,
   viewState,
   setViewState,
-  setFeature,
-  setLoadedData,
+  setClickedFeature,
+  storeLoadedData,
 }) => {
   const cloneLayers = [...layers];
   // const testLayer = reversedLayers.map((d) => addDefaultProps(d));
@@ -32,15 +18,10 @@ export const Map = ({
     // importFileのために必要
     ...addDefaultProps(d),
     ...d,
-
-    onDataLoad: (value) => {
-      console.log("ondataload_features", value?.features);
-      setLoadedData((prev) => ({ ...prev, [d.id]: value?.features }));
-    },
+    onDataLoad: (value) => storeLoadedData({ [d.id]: value?.features }),
     onViewportLoad: (data) => {
       const features = data.flatMap((d) => d?.content?.features || []);
-      console.log("onViewportLoad_features", features);
-      setLoadedData((prev) => ({ ...prev, [d.id]: features }));
+      storeLoadedData({ [d.id]: features });
     },
 
     elevationData:
@@ -65,12 +46,13 @@ export const Map = ({
   );
 
   const onClick = (info, e) => {
-    setFeature(info);
-    e.preventDefault();
+    setClickedFeature(info);
     console.log(info);
+    e.preventDefault();
   };
 
-  const handleViewState = ({ viewState }) => setViewState(viewState);
+  const onViewStateChange = ({ viewState }) => setViewState(viewState);
+
   return (
     <div
       key="map"
@@ -85,7 +67,7 @@ export const Map = ({
         }}
         onClick={onClick}
         viewState={viewState}
-        onViewStateChange={handleViewState}
+        onViewStateChange={onViewStateChange}
       ></DeckGL>
     </div>
   );

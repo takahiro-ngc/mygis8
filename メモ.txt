@@ -17,6 +17,7 @@
 ・地理院のクリックしても無反応データd.src===""?
 ・タイプスクリプト
 ・popoverstyleの削除
+・css clamp(最小値,推奨値,最大値) object-fit
 https://qiita.com/cheez921/items/7c5f82da375a5988a179 のトグル使える？
 もう一度nebula.glを試す
 超印刷
@@ -25,6 +26,36 @@ const shxPromise = fetch(replaceExtension(url, 'shx')); →fetch(context.url[0])
 load(e.target.files[4], [ShapefileLoader], option, context.url=e.target.files)　※contextは必須のkey（parse等）があり，その設定ができなかった
 workerオフにして独自ローダーを試す
  const {url, fetch} = context;→contextは使えないので， const {fileData} = options;
+
+ シェープファイルのまとめ
+ ・複数のファイルをアップロードすると，必ずしもfiles[0]がシェープファイルではない
+ ・普通にアップロードするとhttp://localhost:3000/aaa.shp等を読みに行く
+ ・loaderのファイルのworkerをfalseにする→コンソールのSourceで確認
+ ・loadShapefileSidecarFiles関数やdbfのfetchが問題
+ ・当該関数の引数にファイルを直接指定すればよい
+ ・エンコードは，shift-jis等にする，または自動で判別する
+useLayer
+useStoreData
+・zipファイル→展開
+・フォルダがあった場合，さらに展開（標準機能かも）
+・国土数値情報の独特のzip構成対応
+・geojsonファイルがある場合，それを読み込む
+・ない場合は，シェープファイルを読み込む
+・複数のshpがあるか判定する
+・複数ある場合は，全て読み込む
+[file1,file2,file3]
+file1を読み込む
+そのファイルの拡張子を判定する
+zipなら解凍する
+
+
+・search shp, shx, cpg, prj, dbf
+・{shp:  ,
+   shx:   ,
+   cpg:   ,
+   prj:   ,
+   dbf:   }
+・options.fileあたりにそれらを格納する
 
 （４）優先度中
 ・地図の種類サーチはカテゴリー＋titleでフィルターして，単純リスト表示

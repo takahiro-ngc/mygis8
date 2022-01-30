@@ -6,7 +6,7 @@ import { isImage } from "../utils/utility";
 import { Skeleton } from "@mui/material";
 
 export default function LayerInfo({ node }) {
-  const category = node.category.map((d) => `${d} > `);
+  const category = node.category?.map((d) => `${d} > `);
 
   const description = ReactHtmlParser(node.html);
 
@@ -41,7 +41,7 @@ export default function LayerInfo({ node }) {
 
   // 地理院データはminZoomが実態と１ずれるよう
   const minZoom =
-    node.category[0] === "国土地理院" ? node.minZoom - 1 : node.minZoom;
+    node.category?.[0] === "国土地理院" ? node.minZoom - 1 : node.minZoom;
 
   return (
     <div>

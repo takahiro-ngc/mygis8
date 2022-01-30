@@ -1,26 +1,23 @@
-import React from "react";
-import ReactHtmlParser from "react-html-parser";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import CloseIcon from "@mui/icons-material/Close";
-import IconButton from "@mui/material/IconButton";
+import Box from "@mui/system/Box";
+import React from "react";
+import ReactHtmlParser from "react-html-parser";
+import CloseButton from "./commonUI/CloseButton";
 import { isImage } from "./utils/utility";
-import { Box } from "@mui/system";
 
-const FeatureInfo = ({ feature, setFeature, isMediaQuery }) => {
-  const lat = feature?.coordinate[1].toFixed(6);
-  const lon = feature?.coordinate[0].toFixed(6);
+const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
+  const lat = clickedFeature?.coordinate[1].toFixed(6);
+  const lon = clickedFeature?.coordinate[0].toFixed(6);
 
-  const properties = {
+  const FeatureProperties = {
     "緯度・経度": `${lat} ${lon}`,
-    レイヤー名: feature?.layer?.props?.title,
-    ...feature?.object?.properties,
+    レイヤー名: clickedFeature?.layer?.props?.title,
+    ...clickedFeature?.object?.properties,
   };
-
-  const entries = Object.entries(properties);
 
   const showImage = (url) => (
     <div>
@@ -35,6 +32,7 @@ const FeatureInfo = ({ feature, setFeature, isMediaQuery }) => {
   const shouldRender = (key, value) => !isStyleInfo(key) && !isUndefined(value);
   return (
     <Box
+      hidden={!clickedFeature}
       sx={{
         backgroundColor: "background.default",
         position: "absolute",
@@ -52,27 +50,16 @@ const FeatureInfo = ({ feature, setFeature, isMediaQuery }) => {
           width: "100%",
           maxWidth: "100%",
           maxHeight: "calc(50% + 24px)",
-          backgroundColor: "rgba(30, 30, 30, 1)",
+          backgroundColor: "rgba(50, 50, 50)",
         }),
       }}
-      hidden={!Boolean(feature)}
     >
-      <IconButton
-        size="small"
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-        }}
-        onClick={() => setFeature(null)}
-      >
-        <CloseIcon />
-      </IconButton>
+      <CloseButton onClick={() => setClickedFeature(null)} />
 
       <TableContainer>
         <Table size="small">
           <TableBody>
-            {entries.map(
+            {Object.entries(FeatureProperties).map(
               (row) =>
                 shouldRender(row[0], row[1]) && (
                   <TableRow key={row[0]}>
