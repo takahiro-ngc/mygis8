@@ -1,50 +1,14 @@
-import { HexagonLayer } from "@deck.gl/aggregation-layers";
-import { MVTLayer, TerrainLayer, TileLayer } from "@deck.gl/geo-layers";
-import { ColumnLayer, GeoJsonLayer } from "@deck.gl/layers";
 import DeckGL from "deck.gl";
-import { addDefaultProps } from "./addDefaultProps";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 
 export const Map = ({
-  layers,
+  layerInstance,
   viewState,
   setViewState,
   setClickedFeature,
   storeLoadedData,
   // setHoverdFeature,
 }) => {
-  const cloneLayers = [...layers];
-  const testLayer = cloneLayers.map((d, index) => ({
-    // importFileのために必要
-    ...addDefaultProps(d),
-    ...d,
-    onDataLoad: (value) => storeLoadedData({ [d.id]: value?.features }),
-    onViewportLoad: (data) => {
-      const features = data.flatMap((d) => d?.content?.features || []);
-      storeLoadedData({ [d.id]: features });
-    },
-
-    elevationData:
-      "https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png",
-    // "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
-
-    // ...(d.layerType === "TerrainLayer" && { loaders: [TerrainLoader] }),
-    // layerType: "TerrainLayer",
-  }));
-  const testLayer3 = testLayer.reverse(); //reverseは破壊的メソッドのため注意
-
-  const data = {
-    GeoJsonLayer,
-    TileLayer,
-    HexagonLayer,
-    TerrainLayer,
-    MVTLayer,
-    ColumnLayer,
-  };
-  const layersWithSetting = testLayer3.map(
-    (item) => new data[item.layerType](item)
-  );
-
   const onClick = (info, e) => {
     setClickedFeature(info);
     console.log(info);
@@ -58,13 +22,17 @@ export const Map = ({
       onContextMenu={(e) => e.preventDefault()} //右クリックメニューの抑止
     >
       <DeckGL
-        layers={layersWithSetting}
+        layers={layerInstance}
         controller={{
           inertia: true,
           scrollZoom: { speed: 0.05, smooth: true },
           touchRotate: true,
         }}
-        onClick={onClick}
+        // onClick={() =>
+        //   // console.log(layerInstance[0].state?.tileset._tiles[0].bbox)
+        // }
+        onClick={() => console.log(layerInstance)}
+        // onClick={onClick}
         // onHover={(info) => setHoverdFeature(info)}
         viewState={viewState}
         onViewStateChange={onViewStateChange}

@@ -51,6 +51,9 @@ export default function ImportFile({ setLayers }) {
           data: fileType === "shp" ? d.data : d,
           id: fileObject.name,
           title: fileObject.name,
+
+          // TToDo importFileのために必要
+          // ...addDefaultProps(d),
         };
       })
       .then((newLayer) => setLayers((prev) => [newLayer, ...prev]));

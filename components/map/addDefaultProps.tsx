@@ -8,8 +8,7 @@ import { TerrainLayer } from "@deck.gl/geo-layers";
 
 // ToDo defaultPropsとaddDefaultPropsに分割
 export const addDefaultProps = (item) => {
-  // ToDo  item?.urlって必要？
-  const data = item?.data || item?.url;
+  const data = item.data;
 
   const mainProps = {
     // deck.glにない独自プロパティ
@@ -17,17 +16,10 @@ export const addDefaultProps = (item) => {
     // fileType: fileType,
     isTile: isTile(data), //デバッグ用
 
-    //test
-    // elevationData:
-    //   "https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png",
-    // texture: "https://maps.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png?_=20201001a",
+    // タイルレイヤー（GSI）用
+    elevationData: "https://tiles.gsj.jp/tiles/elev/mixed/{z}/{y}/{x}.png",
+    texture: item.data,
 
-    // elevationDecoder: {
-    //   rScaler: 2,
-    //   gScaler: 0,
-    //   bScaler: 0,
-    //   offset: 0,
-    // },
     // 基本
     id: data, //同一URLが複数登録されているため，本当はurlだけでは不可
     data: data,

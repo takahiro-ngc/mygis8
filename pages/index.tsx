@@ -4,13 +4,13 @@ import { useState } from "react";
 import BottomInfo from "../components/BottomInfo";
 import FeatureInfo from "../components/FeatureInfo";
 import Header from "../components/header/Header";
-import { findLayer } from "../components/layer/layerList";
 import Map from "../components/map/Map";
 import Menu from "../components/Menu";
 import { useLoadedFeatures } from "../hooks/useLoadedFeatures";
 import { useLayers } from "../hooks/useLayers";
 import { useCallback } from "react";
 import React from "react";
+import { createLayerInstance } from "../components/utils/utility";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -23,23 +23,32 @@ export const initialViewState = {
 };
 
 const defaultLayerId1 = "vbmd_colorrel";
-// const defaultLayerId1 = "disaster_lore_all";
 const defaultLayerId2 = "OpenStreetMap";
-const defaultLayer1 = findLayer(defaultLayerId1);
-const defaultLayer2 = findLayer(defaultLayerId2);
-const defaultLayer = [defaultLayer1, defaultLayer2];
+const defaultLayers = [defaultLayerId1, defaultLayerId2];
 
 const Home = () => {
   const [viewState, setViewState] = useState(initialViewState);
   const [clickedFeature, setClickedFeature] = useState(null);
   const [loadedData, storeLoadedData] = useLoadedFeatures();
-  const [layers, dispatch] = useLayers(defaultLayer);
+  const [layers, dispatch] = useLayers(defaultLayers);
 
   // const importLayers = useCallback(
   //   (layerProps: object) => dispatch({ type: "import", layer: layerProps }),
   //   []
   // );
 
+  const cloneLayers = [...layers];
+  const testLayer = cloneLayers.map((d, index) => ({
+    ...d,
+    onDataLoad: (value) => console.log({ [d.id]: value?.features }),
+    onViewportLoad: (data) => {
+      const features = data.flatMap((d) => d?.content?.features || []);
+      console.log({ [d.id]: features });
+    },
+  }));
+  const testLayer3 = testLayer.reverse(); //reverseは破壊的メソッドのため注意
+
+  const layerInstance = testLayer3.map((item) => createLayerInstance(item));
   const isMediaQuery = useMediaQuery("(max-width:600px)");
 
   return (
@@ -49,18 +58,17 @@ const Home = () => {
         <Menu
           dispatch={dispatch}
           layers={layers}
-          // setLayers={setLayers}
-          // toggleLayers={toggleLayers}
           setViewState={setViewState}
           loadedData={loadedData}
           isMediaQuery={isMediaQuery}
+          layerInstance={layerInstance}
         />
         <Map
-          layers={layers}
           viewState={viewState}
           setViewState={setViewState}
           setClickedFeature={setClickedFeature}
           storeLoadedData={storeLoadedData}
+          layerInstance={layerInstance}
         />
         <FeatureInfo
           clickedFeature={clickedFeature}

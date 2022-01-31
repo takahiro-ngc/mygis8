@@ -1,3 +1,6 @@
+・useLayerとstoreData，importData,changeSetting,renderLayerType
+storedataはuseRef constructor
+
 １ 機能関係
 （１）難所
 ・terrainのminzoom問題
@@ -6,10 +9,8 @@
 
 （２）優先度高
 ・demデータのworker
-・ステレオグラム
 ・テキストのアウトライン
 ・レイヤー種類の変更機能　bitmap→terrain　geojson→コラム，グリッド，ヘキサゴン，ヒートマップ
-・histryが再アクセスで空
 ・データの充実，メタ情報 geojsonbufの利用
 ・共有用url
 ・importのヘルパーテキスト
@@ -34,8 +35,7 @@ workerオフにして独自ローダーを試す
  ・loadShapefileSidecarFiles関数やdbfのfetchが問題
  ・当該関数の引数にファイルを直接指定すればよい
  ・エンコードは，shift-jis等にする，または自動で判別する
-useLayer
-add delete toggle reset
+
 
 useStoreData
 ・zipファイル→展開
@@ -60,6 +60,7 @@ zipなら解凍する
 ・options.fileあたりにそれらを格納する
 
 （４）優先度中
+・histryが再アクセスで空
 ・地図の種類サーチはカテゴリー＋titleでフィルターして，単純リスト表示
 ・リンク集　geojson編集，ケプラー，データスタート，統計gis，RESUS，Geoshapeリポジトリ
 ・カスタムレイヤー

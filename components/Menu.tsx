@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useReducer } from "react";
+import React, { useState, useCallback, useReducer, useRef } from "react";
 import { Resizable } from "re-resizable";
 import { Box } from "@mui/system";
 import DataCatalog from "./menu/DataCatalog";
@@ -12,6 +12,7 @@ export const Menu = ({
   setViewState,
   loadedData,
   isMediaQuery,
+  layerInstance,
 }) => {
   const toggleLayers = useCallback(
     (layerId: string) => dispatch({ type: "toggle", layer: layerId }),
@@ -22,6 +23,7 @@ export const Menu = ({
     []
   );
   const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
+
   return (
     <Box
       sx={{
@@ -63,6 +65,15 @@ export const Menu = ({
           borderTop: "1px solid lightgray",
         }}
       >
+        {layerInstance[0].state?.features?.pointFeatures[0].__source.object.toString()}
+        {JSON.stringify(
+          layerInstance[0].state?.features?.pointFeatures[0].__source.object
+            .geometry
+          //    layerInstance[0].state?.tileset?._selectedTiles[0].content?.features
+          // ?.geometry?.type
+          // getCircularReplacer()
+          // layerInstance[0].state?.tileset?._selectedTiles?.content?.features
+        )}
         <SelectedLayerList
           layers={layers}
           toggleLayers={toggleLayers}

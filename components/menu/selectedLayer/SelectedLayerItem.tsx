@@ -35,7 +35,7 @@ export default function SelectedLayerItem({
     clone[index].texture = clone[index].data;
     clone[index].color = [255, 255, 255, 0];
     // 単にlayerTypeを変えても更新されないため，idを変えることで，deck.glに別レイヤーと認識させるHack
-    // clone[index].id = Math.random();
+    clone[index].id = Math.random();
     setLayers(clone);
   };
 

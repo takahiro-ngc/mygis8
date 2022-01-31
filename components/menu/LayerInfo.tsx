@@ -27,6 +27,7 @@ export default function LayerInfo({ node }) {
   );
 
   // 地理院データはminZoomが実態と１ずれるよう
+  // ベクターの場合は違う？
   const minZoom =
     node.category?.[0] === "国土地理院" ? node.minZoom - 1 : node.minZoom;
   const setting = (

@@ -3,6 +3,21 @@
 import * as turf from "@turf/turf";
 // import Color from "./layerData/node_modules/color";
 import { FlyToInterpolator } from "deck.gl";
+import { MVTLayer, TerrainLayer, TileLayer } from "@deck.gl/geo-layers";
+import { ColumnLayer, GeoJsonLayer } from "@deck.gl/layers";
+
+export const createLayerInstance = (layer) => {
+  switch (layer.layerType) {
+    case "TileLayer":
+      return new TileLayer(layer);
+    case "GeoJsonLayer":
+      return new GeoJsonLayer(layer);
+    case "TerrainLayer":
+      return new TerrainLayer(layer);
+    case "MVTLayer":
+      return new MVTLayer(layer);
+  }
+};
 
 export const jumpSetting = {
   transitionDuration: "auto",
