@@ -6,6 +6,8 @@ import { List as ListReactMovable, arrayMove } from "react-movable";
 import Title from "./Title";
 import SelectedLayerItem from "./SelectedLayerItem";
 import SimpleBar from "simplebar-react";
+import { Typography } from "@mui/material";
+
 import "simplebar/dist/simplebar.min.css";
 const SelectedLayerList = ({
   layers,
@@ -14,8 +16,10 @@ const SelectedLayerList = ({
   loadedData,
   setViewState,
 }) => (
-  <SimpleBar style={{ height: "100%" }}>
-    <Title />
+  <SimpleBar style={{ height: "100%", padding: "8px 0 8px 8px" }}>
+    <Typography variant="h6" component="h2">
+      選択中の地図
+    </Typography>
 
     <ListReactMovable
       values={layers}

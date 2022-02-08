@@ -18,7 +18,7 @@ export const MenuButton = ({
         right: 0,
         width: 23,
         height: 48,
-        borderLeft: "1px rgba(200, 200, 200, .8) solid",
+        borderLeft: "1px lightgray solid",
         transform: "translate(100%, -50%)",
         borderRadius: "0 8px 8px 0",
         backgroundColor: "background.default",

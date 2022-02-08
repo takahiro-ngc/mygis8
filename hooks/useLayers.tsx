@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { findLayer } from "../components/layer/layerList";
-import { addDefaultProps } from "../components/map/addDefaultProps";
+import { addDefaultProps } from "../components/layer/addDefaultProps";
 
 type Action = {
   type: "toggle" | "import" | "set";

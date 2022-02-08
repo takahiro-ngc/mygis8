@@ -2,7 +2,7 @@ import React from "react";
 
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material/";
-import PopoverButton from "../menu/PopoverButton";
+import PopoverButton from "../commonUI/PopoverButton";
 import Faq from "./Faq";
 import Import from "./Import";
 import ShareIcon from "@mui/icons-material/Share";

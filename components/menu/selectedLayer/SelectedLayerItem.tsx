@@ -4,12 +4,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import PopoverButton from "../PopoverButton";
+import PopoverButton from "../../commonUI/PopoverButton";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import LayerInfo from "../LayerInfo";
+import LayerInfo from "../../commonUI/LayerInfo";
 import FeatureTable from "./FeatureTable";
 import { isImage } from "../../utils/utility";
 import { TerrainLoader } from "../../../terrain/src";
@@ -44,7 +44,7 @@ export default function SelectedLayerItem({
       {...props}
       style={{
         ...props.style,
-        padding: "2px 8px 2px 16px",
+        padding: "2px 8px 2px 0px",
         zIndex: 10, //ドラッグ時にitemが埋まるのを防ぐ
       }}
     >

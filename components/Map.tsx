@@ -31,8 +31,8 @@ export const Map = ({
         // onClick={() =>
         //   // console.log(layerInstance[0].state?.tileset._tiles[0].bbox)
         // }
-        onClick={() => console.log(layerInstance)}
-        // onClick={onClick}
+        // onClick={() => console.log(layerInstance)}
+        onClick={onClick}
         // onHover={(info) => setHoverdFeature(info)}
         viewState={viewState}
         onViewStateChange={onViewStateChange}

@@ -46,8 +46,7 @@ const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
         maxHeight: "100%",
         zIndex: 2,
         ...(isMediaQuery && {
-          width: "100%",
-          maxWidth: "100%",
+          minWidth: "100%",
           maxHeight: "calc(50% + 24px)",
         }),
       }}

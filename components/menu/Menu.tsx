@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useReducer, useRef } from "react";
 import { Resizable } from "re-resizable";
 import { Box } from "@mui/system";
-import DataCatalog from "./menu/DataCatalog";
-import SelectedLayerList from "./menu/selectedLayer/SelectedLayerList";
+import LayerTree from "./LayerTree";
+import SelectedLayer from "./selectedLayer/SelectedLayer";
 
-import MenuButton from "./menu/MenuButton";
+import ToggleMenuButton from "./ToggleMenuButton";
 
 export const Menu = ({
   layers,
@@ -19,7 +19,7 @@ export const Menu = ({
     []
   );
   const setLayers = useCallback(
-    (layers) => dispatch({ type: "set", layer: layers }),
+    (layer) => dispatch({ type: "set", layer: layer }),
     []
   );
   const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
@@ -46,12 +46,21 @@ export const Menu = ({
         }),
       }}
     >
-      <MenuButton
+      <ToggleMenuButton
         isMenuVisible={isMenuVisible}
         toggleMenuVisible={toggleMenuVisible}
         isMediaQuery={isMediaQuery}
       />
-      <DataCatalog toggleLayers={toggleLayers} setViewState={setViewState} />
+      {layerInstance[0].state?.features?.pointFeatures[0].__source.object.toString()}
+      {JSON.stringify(
+        layerInstance[0].state?.features?.pointFeatures[0].__source.object
+          .geometry
+        //    layerInstance[0].state?.tileset?._selectedTiles[0].content?.features
+        // ?.geometry?.type
+        // getCircularReplacer()
+        // layerInstance[0].state?.tileset?._selectedTiles?.content?.features
+      )}
+      <LayerTree toggleLayers={toggleLayers} setViewState={setViewState} />
       <Resizable
         defaultSize={{
           width: "100%",
@@ -65,22 +74,13 @@ export const Menu = ({
           borderTop: "1px solid lightgray",
         }}
       >
-        {layerInstance[0].state?.features?.pointFeatures[0].__source.object.toString()}
-        {JSON.stringify(
-          layerInstance[0].state?.features?.pointFeatures[0].__source.object
-            .geometry
-          //    layerInstance[0].state?.tileset?._selectedTiles[0].content?.features
-          // ?.geometry?.type
-          // getCircularReplacer()
-          // layerInstance[0].state?.tileset?._selectedTiles?.content?.features
-        )}
-        <SelectedLayerList
+        <SelectedLayer
           layers={layers}
           toggleLayers={toggleLayers}
           setLayers={setLayers}
           loadedData={loadedData}
           setViewState={setViewState}
-        ></SelectedLayerList>
+        />
       </Resizable>
     </Box>
   );

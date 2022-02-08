@@ -8,7 +8,7 @@ import {
 import Pagination from "@mui/material/Pagination";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
-import PopoverButton from "../PopoverButton";
+import PopoverButton from "../../commonUI/PopoverButton";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 
 export const CustomPagination = ({ jump }) => {

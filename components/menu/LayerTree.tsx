@@ -1,8 +1,8 @@
 import React from "react";
 
 import { layerList } from "../layer/layerList";
-import PopoverButton from "./PopoverButton";
-import LayerInfo from "./LayerInfo";
+import PopoverButton from "../commonUI/PopoverButton";
+import LayerInfo from "../commonUI/LayerInfo";
 
 import Stack from "@mui/material/Stack";
 import TreeView from "@mui/lab/TreeView";

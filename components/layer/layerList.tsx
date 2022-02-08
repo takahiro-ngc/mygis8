@@ -12,29 +12,20 @@ const layers = [
   ...otherLayers,
 ];
 
-// ToDo const mergePropToTree= (tree,prop)=>
-const setCategory = (list, category = []) => {
-  // list.forEach(
-  //   (d) => d.entries && setCategory(d.entries, [...category, d.title])
-  // );
-  return list.map((d) => ({
+const addCategory = (list, category = []) =>
+  list.map((d) => ({
     ...d,
     category: category,
-    entries: d.entries && setCategory(d.entries, [...category, d.title]),
+    entries: d.entries && addCategory(d.entries, [...category, d.title]),
   }));
-};
+export const layerList = addCategory(layers);
 
-export const layerList = setCategory(layers);
 const flattenTree = (tree) =>
   tree.flatMap((d) => (d.entries ? flattenTree(d.entries) : d));
 export const flatLayerList = flattenTree(layerList);
-export const findLayer = (layerId, targetList = layerList) =>
-  // targetList
-  //   ? targetList.find(
-  //       (obj) => obj.id === layerId || findLayer(layerId, obj.entries)
-  //     )
-  //   : null;
-  flattenTree(layerList).find((obj) => obj.id === layerId);
+
+export const findLayer = (layerId) =>
+  flatLayerList.find((obj) => obj.id === layerId);
 
 // 重複
 // const idList = flattenTree(layerList).map((d) => d.id);
