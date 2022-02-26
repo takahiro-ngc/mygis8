@@ -23,6 +23,7 @@ const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
   };
 
   const showImage = (url) => (
+    // ToDo display block
     <div>
       <a href={url} target="_blank" rel="noreferrer">
         <img src={url} width={"100%"} alt="サムネイル画像" />

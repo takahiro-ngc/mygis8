@@ -5,6 +5,7 @@ import LayerTree from "./LayerTree";
 import SelectedLayer from "./selectedLayer/SelectedLayer";
 
 import ToggleMenuButton from "./ToggleMenuButton";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 export const Menu = ({
   layers,

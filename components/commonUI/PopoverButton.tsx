@@ -1,51 +1,78 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material/";
 
 import IconButton from "@mui/material/IconButton";
-import Popover from "./Popover";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import CloseIcon from "@mui/icons-material/Close";
+import Popper from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
 
 const PopoverButton = ({
-  icon = null,
-  style,
-  popoverStyle,
-  buttonStyle,
+  button,
+  width = 440,
+  placement = "right",
   children,
 }) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const handleClose = () => setAnchorEl(null);
-  const onClick = (e) => {
-    e.stopPropagation();
-    setAnchorEl(anchorEl ? null : e.currentTarget);
+  const handleClick = (e) => {
+    setAnchorEl(open ? null : e.currentTarget);
+    e.stopPropagation(); //treeの開閉を防ぐ
   };
 
   return (
     <ClickAwayListener onClickAway={handleClose} mouseEvent="onMouseDown">
       <div>
-        {icon ? (
-          <IconButton size="small" onClick={onClick}>
-            {icon}
-          </IconButton>
-        ) : null}
+        <span onClick={handleClick}>{button}</span>
 
-        {buttonStyle ? (
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={onClick}
-            {...buttonStyle}
-          />
-        ) : null}
-
-        <Popover
+        <Popper
+          className="acrylic-color-dark"
+          open={open}
           anchorEl={anchorEl}
-          handleClose={handleClose}
-          style={style}
-          popoverStyle={popoverStyle}
+          placement={placement}
+          style={{
+            zIndex: 2,
+            padding: 16,
+            width: width,
+            maxWidth: "100vw",
+            maxHeight: "100vh",
+            overflow: "auto",
+            wordBreak: "break-all",
+            borderRadius: 8,
+          }}
+          transition
+          onClick={(e) => e.stopPropagation()} //treeの開閉を防ぐ
+          modifiers={[
+            {
+              name: "flip",
+              enabled: false,
+            },
+
+            {
+              name: "preventOverflow",
+              enabled: true,
+              options: {
+                altAxis: true,
+                tether: true,
+              },
+            },
+          ]}
         >
-          {children}
-        </Popover>
+          {({ TransitionProps }) => (
+            <Fade {...TransitionProps} timeout={150}>
+              <div>
+                {children}
+                <IconButton
+                  size="small"
+                  style={{ position: "absolute", top: 0, right: 0 }}
+                  onClick={handleClose}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </div>
+            </Fade>
+          )}
+        </Popper>
       </div>
     </ClickAwayListener>
   );

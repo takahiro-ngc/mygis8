@@ -13,7 +13,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Typography from "@mui/material/Typography";
 import SimpleBar from "simplebar-react";
-import "simplebar/dist/simplebar.min.css";
+// import "simplebar/dist/simplebar.min.css";
+import IconButton from "@mui/material/IconButton";
 
 const DataCatalog = ({ setViewState, toggleLayers }) => {
   const renderTree = (nodes) =>
@@ -27,7 +28,11 @@ const DataCatalog = ({ setViewState, toggleLayers }) => {
           label={
             <Stack direction="row" alignItems="center">
               <Typography sx={{ marginRight: "auto" }}>{node.title}</Typography>
-              <PopoverButton icon={<InfoOutlinedIcon />}>
+              <PopoverButton
+                button={
+                  <IconButton size="small" children={<InfoOutlinedIcon />} />
+                }
+              >
                 <LayerInfo node={node} />
               </PopoverButton>
             </Stack>

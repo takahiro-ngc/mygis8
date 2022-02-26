@@ -20,21 +20,22 @@ const Header = ({ setLayers }) => {
     <>
       {matches ? (
         <PopoverButton
-          style={{ width: 800 }}
-          popoverStyle={{ placement: "bottom" }}
-          buttonStyle={{
-            children: label,
-            startIcon: icon,
-          }}
+          width={800}
+          placement="bottom"
+          button={
+            <Button
+              variant="outlined"
+              size="small"
+              children={label}
+              startIcon={icon}
+            />
+          }
         >
           {children}
         </PopoverButton>
       ) : (
-        <PopoverButton
-          style={{ width: 800 }}
-          popoverStyle={{ placement: "bottom" }}
-          icon={icon}
-        >
+        // ToDo ボタンの処理
+        <PopoverButton width={800} placement="bottom" icon={icon}>
           {children}
         </PopoverButton>
       )}
