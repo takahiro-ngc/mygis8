@@ -1,16 +1,15 @@
 import { Stack } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import BottomInfo from "../components/BottomInfo";
 import FeatureInfo from "../components/FeatureInfo";
 import Header from "../components/header/Header";
 import Map from "../components/Map";
 import Menu from "../components/menu/Menu";
 import { useLoadedFeatures } from "../hooks/useLoadedFeatures";
-import { useLayers } from "../hooks/useLayers";
+import { useLayer } from "../hooks/useLayers";
 import { useCallback } from "react";
 import React from "react";
-import { createLayerInstance } from "../components/utils/utility";
 
 export const initialViewState = {
   longitude: 139.7673068,
@@ -29,46 +28,32 @@ const defaultLayers = [defaultLayerId1, defaultLayerId2];
 const Home = () => {
   const [viewState, setViewState] = useState(initialViewState);
   const [clickedFeature, setClickedFeature] = useState(null);
-  const [loadedData, storeLoadedData] = useLoadedFeatures();
-  const [layers, dispatch] = useLayers(defaultLayers);
+  // const [loadedData, storeLoadedData] = useLoadedFeatures();
+  const [layers, storedData, handleLayerOriginal] = useLayer(defaultLayers);
+  const handleLayer = useCallback(handleLayerOriginal, [layers]);
 
-  // const importLayers = useCallback(
-  //   (layerProps: object) => dispatch({ type: "import", layer: layerProps }),
-  //   []
-  // );
-
-  const cloneLayers = [...layers];
-  const testLayer = cloneLayers.map((d, index) => ({
-    ...d,
-    onDataLoad: (value) => console.log({ [d.id]: value?.features }),
-    onViewportLoad: (data) => {
-      const features = data.flatMap((d) => d?.content?.features || []);
-      console.log({ [d.id]: features });
-    },
-  }));
-  const testLayer3 = testLayer.reverse(); //reverseは破壊的メソッドのため注意
-
-  const layerInstance = testLayer3.map((item) => createLayerInstance(item));
   const isMediaQuery = useMediaQuery("(max-width:600px)");
+  const deckglRef = useRef();
 
   return (
     <Stack sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
-      <Header dispatch={dispatch} />
+      <Header handleLayer={handleLayer} />
+      {/* <span onClick={() => handleLayer.toggleLayer("pale")}>aaaaa</span> */}
       <div style={{ height: "100%", position: "relative" }}>
         <Menu
-          dispatch={dispatch}
+          handleLayer={handleLayer}
           layers={layers}
           setViewState={setViewState}
-          loadedData={loadedData}
+          storedData={storedData}
           isMediaQuery={isMediaQuery}
-          layerInstance={layerInstance}
+          deckglRef={deckglRef}
         />
         <Map
           viewState={viewState}
           setViewState={setViewState}
           setClickedFeature={setClickedFeature}
-          storeLoadedData={storeLoadedData}
-          layerInstance={layerInstance}
+          layers={layers}
+          deckglRef={deckglRef}
         />
         <FeatureInfo
           clickedFeature={clickedFeature}

@@ -11,10 +11,11 @@ import { Typography } from "@mui/material";
 import "simplebar/dist/simplebar.min.css";
 const SelectedLayerList = ({
   layers,
-  toggleLayers,
+  handleLayer,
   setLayers,
-  loadedData,
+  storedData,
   setViewState,
+  deckglRef,
 }) => (
   <SimpleBar style={{ height: "100%", padding: "8px 0 8px 8px" }}>
     <Typography variant="h6" component="h2">
@@ -45,11 +46,12 @@ const SelectedLayerList = ({
             value={value}
             props={props}
             index={index}
-            toggleLayers={toggleLayers}
+            handleLayer={handleLayer}
             layers={layers}
             setLayers={setLayers}
-            // loadedData={loadedData}
+            storedData={storedData}
             setViewState={setViewState}
+            deckglRef={deckglRef}
           />
         </Collapse>
       )}
@@ -57,4 +59,5 @@ const SelectedLayerList = ({
   </SimpleBar>
 );
 
+// export default SelectedLayerList;
 export default React.memo(SelectedLayerList);

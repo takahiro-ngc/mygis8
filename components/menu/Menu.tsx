@@ -9,20 +9,12 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 export const Menu = ({
   layers,
-  dispatch,
   setViewState,
-  loadedData,
+  storedData,
   isMediaQuery,
-  layerInstance,
+  deckglRef,
+  handleLayer,
 }) => {
-  const toggleLayers = useCallback(
-    (layerId: string) => dispatch({ type: "toggle", layer: layerId }),
-    []
-  );
-  const setLayers = useCallback(
-    (layer) => dispatch({ type: "set", layer: layer }),
-    []
-  );
   const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
 
   return (
@@ -52,16 +44,8 @@ export const Menu = ({
         toggleMenuVisible={toggleMenuVisible}
         isMediaQuery={isMediaQuery}
       />
-      {layerInstance[0].state?.features?.pointFeatures[0].__source.object.toString()}
-      {JSON.stringify(
-        layerInstance[0].state?.features?.pointFeatures[0].__source.object
-          .geometry
-        //    layerInstance[0].state?.tileset?._selectedTiles[0].content?.features
-        // ?.geometry?.type
-        // getCircularReplacer()
-        // layerInstance[0].state?.tileset?._selectedTiles?.content?.features
-      )}
-      <LayerTree toggleLayers={toggleLayers} setViewState={setViewState} />
+
+      <LayerTree handleLayer={handleLayer} setViewState={setViewState} />
       <Resizable
         defaultSize={{
           width: "100%",
@@ -77,10 +61,11 @@ export const Menu = ({
       >
         <SelectedLayer
           layers={layers}
-          toggleLayers={toggleLayers}
-          setLayers={setLayers}
-          loadedData={loadedData}
+          handleLayer={handleLayer}
+          // setLayers={setLayers}
+          storedData={storedData}
           setViewState={setViewState}
+          deckglRef={deckglRef}
         />
       </Resizable>
     </Box>

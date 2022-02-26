@@ -14,15 +14,18 @@ import FeatureTable from "./FeatureTable";
 import { isImage } from "../../utils/utility";
 import { TerrainLoader } from "../../../terrain/src";
 
+import { useEffect, useState } from "react";
+
 export default function SelectedLayerItem({
   value,
   props,
   index,
   isDragged,
-  toggleLayers,
+  handleLayer,
   layers,
   setLayers,
-  // loadedData,
+  deckglRef,
+  storedData,
   setViewState,
 }) {
   const isVisible = layers[index]?.visible ?? true; //undefinedの時はデフォルトのtrueにする
@@ -39,6 +42,11 @@ export default function SelectedLayerItem({
     setLayers(clone);
   };
 
+  const reversedIndex = layers.length - 1 - index;
+  let feature =
+    deckglRef?.current?.deck?.props?.layers[reversedIndex]?.state?.tileset
+      ?._selectedTiles[0]?.content?.features?.[0].properties;
+
   return (
     <ListItem
       {...props}
@@ -48,6 +56,7 @@ export default function SelectedLayerItem({
         zIndex: 10, //ドラッグ時にitemが埋まるのを防ぐ
       }}
     >
+      {/* {JSON.stringify(aaa, null, "\t")} */}
       {/* 表示切替ボタン */}
       <IconButton
         size="small"
@@ -59,9 +68,7 @@ export default function SelectedLayerItem({
       >
         {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
       </IconButton>
-
       {/* レイヤー名表示 */}
-
       <div
         style={{
           marginRight: "auto",
@@ -72,14 +79,12 @@ export default function SelectedLayerItem({
       >
         {value.title}
       </div>
-
       {/* 3D切替ボタン */}
       {isImage(value.data) && (
         <IconButton size="small" onClick={toggleTerrain} style={{ padding: 5 }}>
           {isTerrain ? "2D" : "3D"}
         </IconButton>
       )}
-
       {/* 表ボタン*/}
       {/* {!!loadedData[value.id]?.length && (
         <PopoverButton icon={<ListAltIcon />} style={{ width: "800px" }}>
@@ -89,19 +94,33 @@ export default function SelectedLayerItem({
           />
         </PopoverButton>
       )} */}
-
       {/* 設定切替ボタン */}
-      <PopoverButton icon={<SettingsIcon />}>
+      <PopoverButton
+        button={<IconButton size="small" children={<SettingsIcon />} />}
+      >
         <LayerControls index={index} layers={layers} setLayers={setLayers} />
       </PopoverButton>
-
       {/* 情報表示ボタン */}
-      <PopoverButton icon={<InfoOutlinedIcon />}>
+      <PopoverButton
+        button={<IconButton size="small" children={<InfoOutlinedIcon />} />}
+      >
         <LayerInfo node={value}></LayerInfo>
       </PopoverButton>
 
+      {/* <span onClick={() => console.log(feature)}>{reversedIndex}</span> */}
+
+      <PopoverButton
+        button={<IconButton size="small" children={<InfoOutlinedIcon />} />}
+        width={700}
+      >
+        <FeatureTable features={storedData[value.id]} />
+        {/* {JSON.stringify(storedData[value.id], null, "\t")} */}
+      </PopoverButton>
       {/* 閉じるボタン */}
-      <IconButton size="small" onClick={() => toggleLayers(value.id)}>
+      <IconButton
+        size="small"
+        onClick={() => handleLayer.toggleLayer(value.id)}
+      >
         <CloseIcon />
       </IconButton>
     </ListItem>

@@ -1,17 +1,21 @@
 import DeckGL from "deck.gl";
-import React from "react";
+import React, { useRef } from "react";
+import { createLayerInstance } from "../components/utils/utility";
 
 export const Map = ({
-  layerInstance,
   viewState,
   setViewState,
   setClickedFeature,
-  storeLoadedData,
-  // setHoverdFeature,
+  deckglRef,
+  layers,
 }) => {
+  const reversedLayer = [...layers].reverse(); //reverseは破壊的メソッドのため注意
+  const layerInstance = reversedLayer.map((item) => createLayerInstance(item));
+
   const onClick = (info, e) => {
     setClickedFeature(info);
     console.log(info);
+    console.log("ref", deckglRef.current.deck.props.layers[0]);
     e.preventDefault();
   };
   const onViewStateChange = ({ viewState }) => setViewState(viewState);
@@ -22,18 +26,14 @@ export const Map = ({
       onContextMenu={(e) => e.preventDefault()} //右クリックメニューの抑止
     >
       <DeckGL
+        ref={deckglRef}
         layers={layerInstance}
         controller={{
           inertia: true,
           scrollZoom: { speed: 0.05, smooth: true },
           touchRotate: true,
         }}
-        // onClick={() =>
-        //   // console.log(layerInstance[0].state?.tileset._tiles[0].bbox)
-        // }
-        // onClick={() => console.log(layerInstance)}
         onClick={onClick}
-        // onHover={(info) => setHoverdFeature(info)}
         viewState={viewState}
         onViewStateChange={onViewStateChange}
       ></DeckGL>
