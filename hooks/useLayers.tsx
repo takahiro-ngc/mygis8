@@ -16,42 +16,41 @@ type Action = {
 // storeDate
 // const [layers,storedDate,dispatch]=useLayer
 
-export const useLayer = (initialLayerIds = []) => {
-  const initialLayers = initialLayerIds.map((layerId) => findLayer(layerId));
-  const initialLayerswithProps = initialLayers.map((layer) =>
-    addDefaultProps(layer)
-  );
-
-  const [layerProp, setLayerProp] = useState(initialLayerswithProps);
+export const useLayer = (initialLayerIds) => {
   const [storedData, setStoredData] = useState({});
-  const toggleLayer = (layerId: string): void => {
-    const newLayer = findLayer(layerId);
-    const newLayerwithProps = addDefaultProps(newLayer);
 
-    const testProps = {
-      ...newLayerwithProps,
-      onDataLoad: (value) => {
-        setStoredData((prev) => ({ ...prev, [layerId]: value?.features }));
-        console.log({ [layerId]: value?.features });
-        // console.log("storedData", storedData);
-      },
+  const makeLayerProp = (layerId: string) => {
+    const addStoredDataProp = (original) => ({
+      ...original,
+      onDataLoad: (data) =>
+        setStoredData((prev) => ({ ...prev, [layerId]: data?.features })),
       onViewportLoad: (data) => {
         const features = data.flatMap((d) => d?.content?.features || []);
         setStoredData((prev) => ({ ...prev, [layerId]: features }));
-        console.log({ [layerId]: features });
-        // console.log("storedData", storedData);
       },
-    };
+    });
+    const layer1 = findLayer(layerId);
+    const layer2 = addDefaultProps(layer1);
+    const layer3 = addStoredDataProp(layer2);
+    return layer3;
+  };
 
-    const withNewLayer = [testProps, ...layerProp];
-    // const withNewLayer = [newLayerwithProps, ...layerProp];
+  const initialProp = initialLayerIds.map((layerId) => makeLayerProp(layerId));
+  const [layerProp, setLayerProp] = useState(initialProp || []);
 
-    // console.log("addLayer", layerId, newLayerwithProps);
-    const withoutNewLayer = layerProp.filter((elm) => elm.id !== layerId);
+  const addLayer = (layerId: string) => {
+    const newLayer = makeLayerProp(layerId);
+    setLayerProp([newLayer, ...layerProp]);
+  };
+
+  const deleteLayer = (layerId: string): void => {
+    const newLayerList = layerProp.filter((elm) => elm.id !== layerId);
+    setLayerProp(newLayerList);
+  };
+
+  const toggleLayer = (layerId: string): void => {
     const hasSameLayerInPrev = layerProp.some((elm) => elm.id === layerId);
-    setLayerProp(hasSameLayerInPrev ? withoutNewLayer : withNewLayer);
-    // console.log(layerProp);
-    // console.log(storedData);
+    hasSameLayerInPrev ? deleteLayer(layerId) : addLayer(layerId);
   };
 
   const handleLayer = { toggleLayer };

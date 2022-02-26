@@ -15,6 +15,7 @@ import { isImage } from "../../utils/utility";
 import { TerrainLoader } from "../../../terrain/src";
 
 import { useEffect, useState } from "react";
+import FeatureTableTest from "./FeatureTabelTest";
 
 export default function SelectedLayerItem({
   value,
@@ -24,7 +25,6 @@ export default function SelectedLayerItem({
   handleLayer,
   layers,
   setLayers,
-  deckglRef,
   storedData,
   setViewState,
 }) {
@@ -43,9 +43,6 @@ export default function SelectedLayerItem({
   };
 
   const reversedIndex = layers.length - 1 - index;
-  let feature =
-    deckglRef?.current?.deck?.props?.layers[reversedIndex]?.state?.tileset
-      ?._selectedTiles[0]?.content?.features?.[0].properties;
 
   return (
     <ListItem
@@ -70,6 +67,7 @@ export default function SelectedLayerItem({
       </IconButton>
       {/* レイヤー名表示 */}
       <div
+        className="aaa"
         style={{
           marginRight: "auto",
           cursor: isDragged ? "grabbing" : "grab",
@@ -111,8 +109,9 @@ export default function SelectedLayerItem({
 
       <PopoverButton
         button={<IconButton size="small" children={<InfoOutlinedIcon />} />}
-        width={700}
+        width={1000}
       >
+        {/* <FeatureTableTest /> */}
         <FeatureTable features={storedData[value.id]} />
         {/* {JSON.stringify(storedData[value.id], null, "\t")} */}
       </PopoverButton>
@@ -123,6 +122,17 @@ export default function SelectedLayerItem({
       >
         <CloseIcon />
       </IconButton>
+      <span className="ccc">nnn</span>
+      <style jsx>
+        {`
+          .aaa:hover .ccc {
+            display: none;
+          }
+          .ccc {
+            display: block;
+          }
+        `}
+      </style>
     </ListItem>
   );
 }

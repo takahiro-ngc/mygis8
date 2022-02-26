@@ -21,14 +21,14 @@ const FeatureTable = ({ features, setViewState }) => {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
   // const selectedFeature = features[selectionModel[0]];
   // const position = getCenterPosition(selectedFeature);
-  const jump = () =>
-    position.length &&
-    setViewState((prev) => ({
-      ...prev,
-      longitude: position[0],
-      latitude: position[1],
-      ...jumpSetting,
-    }));
+  // const jump = () =>
+  //   position.length &&
+  //   setViewState((prev) => ({
+  //     ...prev,
+  //     longitude: position[0],
+  //     latitude: position[1],
+  //     ...jumpSetting,
+  //   }));
 
   const Footer = () => <CustomPagination jump={jump} />;
   return (
@@ -40,13 +40,13 @@ const FeatureTable = ({ features, setViewState }) => {
           disableColumnMenu
           components={{
             Toolbar: CustomToolbar,
-            Footer: Footer,
+            // Footer: Footer,
           }}
           onSelectionModelChange={(newSelectionModel) => {
             setSelectionModel(newSelectionModel);
           }}
           selectionModel={selectionModel}
-          style={{ height: "700px", maxHeight: "40vh" }}
+          style={{ height: "700px", maxHeight: "50vh" }}
           headerHeight={32}
           rowHeight={36}
         />

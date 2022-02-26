@@ -21,7 +21,7 @@ export const initialViewState = {
   maxPitch: 85,
 };
 
-const defaultLayerId1 = "vbmd_colorrel";
+const defaultLayerId1 = "pale";
 const defaultLayerId2 = "OpenStreetMap";
 const defaultLayers = [defaultLayerId1, defaultLayerId2];
 
@@ -33,7 +33,6 @@ const Home = () => {
   const handleLayer = useCallback(handleLayerOriginal, [layers]);
 
   const isMediaQuery = useMediaQuery("(max-width:600px)");
-  const deckglRef = useRef();
 
   return (
     <Stack sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
@@ -46,14 +45,12 @@ const Home = () => {
           setViewState={setViewState}
           storedData={storedData}
           isMediaQuery={isMediaQuery}
-          deckglRef={deckglRef}
         />
         <Map
           viewState={viewState}
           setViewState={setViewState}
           setClickedFeature={setClickedFeature}
           layers={layers}
-          deckglRef={deckglRef}
         />
         <FeatureInfo
           clickedFeature={clickedFeature}

@@ -15,7 +15,6 @@ const SelectedLayerList = ({
   setLayers,
   storedData,
   setViewState,
-  deckglRef,
 }) => (
   <SimpleBar style={{ height: "100%", padding: "8px 0 8px 8px" }}>
     <Typography variant="h6" component="h2">
@@ -51,7 +50,6 @@ const SelectedLayerList = ({
             setLayers={setLayers}
             storedData={storedData}
             setViewState={setViewState}
-            deckglRef={deckglRef}
           />
         </Collapse>
       )}

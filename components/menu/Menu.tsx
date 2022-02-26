@@ -12,7 +12,6 @@ export const Menu = ({
   setViewState,
   storedData,
   isMediaQuery,
-  deckglRef,
   handleLayer,
 }) => {
   const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
@@ -44,7 +43,7 @@ export const Menu = ({
         toggleMenuVisible={toggleMenuVisible}
         isMediaQuery={isMediaQuery}
       />
-
+      <div onClick={() => handleLayer.toggleLayer("history")}>aaaa</div>
       <LayerTree handleLayer={handleLayer} setViewState={setViewState} />
       <Resizable
         defaultSize={{
@@ -65,7 +64,6 @@ export const Menu = ({
           // setLayers={setLayers}
           storedData={storedData}
           setViewState={setViewState}
-          deckglRef={deckglRef}
         />
       </Resizable>
     </Box>
