@@ -28,8 +28,12 @@ const defaultLayers = [defaultLayerId1, defaultLayerId2];
 const Home = () => {
   const [viewState, setViewState] = useState(initialViewState);
   const [clickedFeature, setClickedFeature] = useState(null);
-  const [layers, storedData, handleLayerOriginal] = useLayers(defaultLayers);
-  const handleLayer = useCallback(handleLayerOriginal, [layers]);
+  const [layers, storedData, { toggleLayer, setLayers }] =
+    useLayers(defaultLayers);
+  const handleLayer = { toggleLayer, setLayers };
+  // const [layers, storedData, handleLayer] = useLayers(defaultLayers);
+  // const [layers, storedData, handleLayerOriginal] = useLayers(defaultLayers);
+  // const handleLayer = useCallback(handleLayerOriginal, [layers]);
 
   const isMediaQuery = useMediaQuery("(max-width:600px)");
 
