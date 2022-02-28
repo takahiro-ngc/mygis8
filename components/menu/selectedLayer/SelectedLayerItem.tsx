@@ -93,7 +93,11 @@ export default function SelectedLayerItem({
       {/* 表ボタン*/}
       {!!storedData[value.id]?.length && (
         <PopoverButton
-          button={<IconButton size="small" children={<ListAltIcon />} />}
+          button={
+            <IconButton size="small">
+              <ListAltIcon />
+            </IconButton>
+          }
           width={1000}
         >
           <FeatureTable features={storedData[value.id]} />
@@ -101,7 +105,7 @@ export default function SelectedLayerItem({
       )}
 
       {/* 設定切替ボタン */}
-      <PopoverButton
+      {/* <PopoverButton
         button={<IconButton size="small" children={<SettingsIcon />} />}
       >
         <LayerControls
@@ -109,22 +113,22 @@ export default function SelectedLayerItem({
           layers={layers}
           handleLayer={handleLayer}
         />
-      </PopoverButton>
+      </PopoverButton> */}
 
       {/* 情報表示ボタン */}
-      <PopoverButton
+      {/* <PopoverButton
         button={<IconButton size="small" children={<InfoOutlinedIcon />} />}
       >
         <LayerInfo node={value} />
-      </PopoverButton>
+      </PopoverButton> */}
 
       {/* 閉じるボタン */}
-      <IconButton
+      {/* <IconButton
         size="small"
         onClick={() => handleLayer.toggleLayer(value.id)}
       >
         <CloseIcon />
-      </IconButton>
+      </IconButton> */}
     </ListItem>
   );
 }

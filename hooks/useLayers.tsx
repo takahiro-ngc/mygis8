@@ -26,21 +26,38 @@ export const useLayers = (initialLayerIds) => {
   );
   const [layers, setLayers] = useState(initialProp || []);
 
-  const addLayer = (layerId: string) => {
-    const newLayer = makeLayerProp(layerId);
-    setLayers([newLayer, ...layers]);
-  };
+  const addLayer = useCallback(
+    (layerId: string) => {
+      const newLayer = makeLayerProp(layerId);
+      setLayers([newLayer, ...layers]);
+    },
+    [layers]
+  );
 
-  const deleteLayer = (layerId: string): void => {
-    const newLayerList = layers.filter((elm) => elm.id !== layerId);
-    setLayers(newLayerList);
-  };
+  const deleteLayer = useCallback(
+    (layerId: string): void => {
+      const newLayerList = layers.filter((elm) => elm.id !== layerId);
+      setLayers(newLayerList);
+    },
+    [layers]
+  );
 
-  const toggleLayer = (layerId: string): void => {
-    const hasSameLayerInPrev = layers.some((elm) => elm.id === layerId);
-    hasSameLayerInPrev ? deleteLayer(layerId) : addLayer(layerId);
-  };
+  const toggleLayer = useCallback(
+    (layerId: string): void => {
+      const hasSameLayerInPrev = layers.some((elm) => elm.id === layerId);
+      hasSameLayerInPrev ? deleteLayer(layerId) : addLayer(layerId);
+    },
+    [layers]
+  );
+
+  // const useCallback(
+  //   () => {
+  //     first
+  //   },
+  //   [second],
+  // )
 
   const handleLayer = { toggleLayer, setLayers };
-  return [layers, storedData, handleLayer];
+  return [layers, storedData, { toggleLayer, setLayers }];
+  // return [layers, storedData, handleLayer];
 };

@@ -7,6 +7,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
+import Image from "next/image";
 
 export default function LayerInfo({ node }) {
   const category = node.category?.map((d) => `${d} > `);
@@ -14,7 +15,7 @@ export default function LayerInfo({ node }) {
   const legend = (
     <Link href={node.legendUrl} target="_blank" rel="noreferrer">
       {isImage(node.legendUrl) ? (
-        <img src={node.legendUrl} alt="凡例画像" width="100%" />
+        <Image src={node.legendUrl} alt="凡例画像" width="100%" />
       ) : (
         node.legendUrl
       )}

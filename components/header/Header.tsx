@@ -23,12 +23,9 @@ const Header = ({ setLayers }) => {
           width={800}
           placement="bottom"
           button={
-            <Button
-              variant="outlined"
-              size="small"
-              children={label}
-              startIcon={icon}
-            />
+            <Button variant="outlined" size="small" startIcon={icon}>
+              {label}
+            </Button>
           }
         >
           {children}

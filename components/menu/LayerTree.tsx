@@ -16,7 +16,10 @@ import SimpleBar from "simplebar-react";
 // import "simplebar/dist/simplebar.min.css";
 import IconButton from "@mui/material/IconButton";
 
-const DataCatalog = ({ setViewState, handleLayer }) => {
+const DataCatalog = ({
+  //  setViewState,
+  handleLayer,
+}) => {
   const renderTree = (nodes) =>
     nodes.map((node, index) => {
       const key = node.category + node.title + index;
@@ -30,7 +33,9 @@ const DataCatalog = ({ setViewState, handleLayer }) => {
               <Typography sx={{ marginRight: "auto" }}>{node.title}</Typography>
               <PopoverButton
                 button={
-                  <IconButton size="small" children={<InfoOutlinedIcon />} />
+                  <IconButton size="small">
+                    <InfoOutlinedIcon />
+                  </IconButton>
                 }
               >
                 <LayerInfo node={node} />

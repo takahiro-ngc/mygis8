@@ -8,6 +8,7 @@ import ReactHtmlParser from "react-html-parser";
 import CloseButton from "./commonUI/CloseButton";
 import { isImage } from "./utils/utility";
 import SimpleBar from "simplebar-react";
+import Image from "next/image";
 import "simplebar/dist/simplebar.min.css";
 
 const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
@@ -26,7 +27,7 @@ const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
     // ToDo display block
     <div>
       <a href={url} target="_blank" rel="noreferrer">
-        <img src={url} width={"100%"} alt="サムネイル画像" />
+        <Image src={url} width={"100%"} alt="サムネイル画像" />
       </a>
     </div>
   );
