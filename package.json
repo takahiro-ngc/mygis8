@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@danmarshall/deckgl-typings": "^4.9.3",
+    "@dnd-kit/core": "^5.0.1",
+    "@dnd-kit/sortable": "^6.0.0",
     "@emotion/react": "^11.4.1",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.3.0",

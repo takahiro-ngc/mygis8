@@ -7,7 +7,7 @@ import Header from "../components/header/Header";
 import Map from "../components/Map";
 import Menu from "../components/menu/Menu";
 import { useLoadedFeatures } from "../hooks/useLoadedFeatures";
-import { useLayer } from "../hooks/useLayers";
+import { useLayers } from "../hooks/useLayers";
 import { useCallback } from "react";
 import React from "react";
 
@@ -28,8 +28,7 @@ const defaultLayers = [defaultLayerId1, defaultLayerId2];
 const Home = () => {
   const [viewState, setViewState] = useState(initialViewState);
   const [clickedFeature, setClickedFeature] = useState(null);
-  // const [loadedData, storeLoadedData] = useLoadedFeatures();
-  const [layers, storedData, handleLayerOriginal] = useLayer(defaultLayers);
+  const [layers, storedData, handleLayerOriginal] = useLayers(defaultLayers);
   const handleLayer = useCallback(handleLayerOriginal, [layers]);
 
   const isMediaQuery = useMediaQuery("(max-width:600px)");

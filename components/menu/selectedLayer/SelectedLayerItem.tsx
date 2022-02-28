@@ -9,12 +9,12 @@ import PopoverButton from "../../commonUI/PopoverButton";
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import DragHandleIcon from "@mui/icons-material/DragHandle";
 import LayerInfo from "../../commonUI/LayerInfo";
 import FeatureTable from "./FeatureTable";
 import { isImage } from "../../utils/utility";
 import { TerrainLoader } from "../../../terrain/src";
 
-import { useEffect, useState } from "react";
 import FeatureTableTest from "./FeatureTabelTest";
 
 export default function SelectedLayerItem({
@@ -24,7 +24,6 @@ export default function SelectedLayerItem({
   isDragged,
   handleLayer,
   layers,
-  setLayers,
   storedData,
   setViewState,
 }) {
@@ -39,7 +38,7 @@ export default function SelectedLayerItem({
     clone[index].color = [255, 255, 255, 0];
     // 単にlayerTypeを変えても更新されないため，idを変えることで，deck.glに別レイヤーと認識させるHack
     clone[index].id = Math.random();
-    setLayers(clone);
+    handleLayer.setLayers(clone);
   };
 
   const reversedIndex = layers.length - 1 - index;
@@ -53,68 +52,72 @@ export default function SelectedLayerItem({
         zIndex: 10, //ドラッグ時にitemが埋まるのを防ぐ
       }}
     >
-      {/* {JSON.stringify(aaa, null, "\t")} */}
+      <IconButton
+        size="small"
+        data-movable-handle
+        style={{ cursor: isDragged ? "grabbing" : "grab" }}
+      >
+        <DragHandleIcon />
+      </IconButton>
+      {/* レイヤー名表示 */}
+      <div
+        style={{
+          marginRight: "auto",
+          // cursor: props.isDragged ? "grabbing" : "grab",
+          overflowWrap: "anywhere",
+        }}
+        // data-movable-handle
+      >
+        {value.title}
+      </div>
+
       {/* 表示切替ボタン */}
       <IconButton
         size="small"
         onClick={(e) => {
           let newSetting = [...layers];
           newSetting[index].visible = !isVisible;
-          setLayers(newSetting);
+          handleLayer.setLayers(newSetting);
         }}
       >
         {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
       </IconButton>
-      {/* レイヤー名表示 */}
-      <div
-        className="aaa"
-        style={{
-          marginRight: "auto",
-          cursor: isDragged ? "grabbing" : "grab",
-          overflowWrap: "anywhere",
-        }}
-        data-movable-handle
-      >
-        {value.title}
-      </div>
+
       {/* 3D切替ボタン */}
       {isImage(value.data) && (
         <IconButton size="small" onClick={toggleTerrain} style={{ padding: 5 }}>
           {isTerrain ? "2D" : "3D"}
         </IconButton>
       )}
+
       {/* 表ボタン*/}
-      {/* {!!loadedData[value.id]?.length && (
-        <PopoverButton icon={<ListAltIcon />} style={{ width: "800px" }}>
-          <FeatureTable
-            features={loadedData[value.id]}
-            setViewState={setViewState}
-          />
+      {!!storedData[value.id]?.length && (
+        <PopoverButton
+          button={<IconButton size="small" children={<ListAltIcon />} />}
+          width={1000}
+        >
+          <FeatureTable features={storedData[value.id]} />
         </PopoverButton>
-      )} */}
+      )}
+
       {/* 設定切替ボタン */}
       <PopoverButton
         button={<IconButton size="small" children={<SettingsIcon />} />}
       >
-        <LayerControls index={index} layers={layers} setLayers={setLayers} />
+        <LayerControls
+          index={index}
+          layers={layers}
+          handleLayer={handleLayer}
+        />
       </PopoverButton>
+
       {/* 情報表示ボタン */}
       <PopoverButton
         button={<IconButton size="small" children={<InfoOutlinedIcon />} />}
       >
-        <LayerInfo node={value}></LayerInfo>
+        <LayerInfo node={value} />
       </PopoverButton>
 
-      {/* <span onClick={() => console.log(feature)}>{reversedIndex}</span> */}
-
-      <PopoverButton
-        button={<IconButton size="small" children={<InfoOutlinedIcon />} />}
-        width={1000}
-      >
-        {/* <FeatureTableTest /> */}
-        <FeatureTable features={storedData[value.id]} />
-        {/* {JSON.stringify(storedData[value.id], null, "\t")} */}
-      </PopoverButton>
       {/* 閉じるボタン */}
       <IconButton
         size="small"
@@ -122,17 +125,6 @@ export default function SelectedLayerItem({
       >
         <CloseIcon />
       </IconButton>
-      <span className="ccc">nnn</span>
-      <style jsx>
-        {`
-          .aaa:hover .ccc {
-            display: none;
-          }
-          .ccc {
-            display: block;
-          }
-        `}
-      </style>
     </ListItem>
   );
 }

@@ -2,21 +2,7 @@ import { useCallback, useReducer, useState } from "react";
 import { findLayer } from "../components/layer/layerList";
 import { addDefaultProps } from "../components/layer/addDefaultProps";
 
-type Action = {
-  type: "toggle" | "import" | "set";
-  layer: string | object;
-};
-
-// ToDo
-// addLayer
-// deleteLayer
-// toggleLayer
-// changeProp
-// toggleProp
-// storeDate
-// const [layers,storedDate,dispatch]=useLayer
-
-export const useLayer = (initialLayerIds) => {
+export const useLayers = (initialLayerIds) => {
   const [storedData, setStoredData] = useState({});
 
   const makeLayerProp = (layerId: string) => {
@@ -35,24 +21,26 @@ export const useLayer = (initialLayerIds) => {
     return layer3;
   };
 
-  const initialProp = initialLayerIds.map((layerId) => makeLayerProp(layerId));
-  const [layerProp, setLayerProp] = useState(initialProp || []);
+  const initialProp = initialLayerIds.map((layerId: string) =>
+    makeLayerProp(layerId)
+  );
+  const [layers, setLayers] = useState(initialProp || []);
 
   const addLayer = (layerId: string) => {
     const newLayer = makeLayerProp(layerId);
-    setLayerProp([newLayer, ...layerProp]);
+    setLayers([newLayer, ...layers]);
   };
 
   const deleteLayer = (layerId: string): void => {
-    const newLayerList = layerProp.filter((elm) => elm.id !== layerId);
-    setLayerProp(newLayerList);
+    const newLayerList = layers.filter((elm) => elm.id !== layerId);
+    setLayers(newLayerList);
   };
 
   const toggleLayer = (layerId: string): void => {
-    const hasSameLayerInPrev = layerProp.some((elm) => elm.id === layerId);
+    const hasSameLayerInPrev = layers.some((elm) => elm.id === layerId);
     hasSameLayerInPrev ? deleteLayer(layerId) : addLayer(layerId);
   };
 
-  const handleLayer = { toggleLayer };
-  return [layerProp, storedData, handleLayer];
+  const handleLayer = { toggleLayer, setLayers };
+  return [layers, storedData, handleLayer];
 };

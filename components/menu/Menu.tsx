@@ -3,7 +3,7 @@ import { Resizable } from "re-resizable";
 import { Box } from "@mui/system";
 import LayerTree from "./LayerTree";
 import SelectedLayer from "./selectedLayer/SelectedLayer";
-
+import { SelectedLayerTest } from "./selectedLayer/SelectedLayerTest";
 import ToggleMenuButton from "./ToggleMenuButton";
 import SettingsIcon from "@mui/icons-material/Settings";
 
@@ -43,7 +43,6 @@ export const Menu = ({
         toggleMenuVisible={toggleMenuVisible}
         isMediaQuery={isMediaQuery}
       />
-      <div onClick={() => handleLayer.toggleLayer("history")}>aaaa</div>
       <LayerTree handleLayer={handleLayer} setViewState={setViewState} />
       <Resizable
         defaultSize={{
@@ -58,10 +57,15 @@ export const Menu = ({
           borderTop: "1px solid lightgray",
         }}
       >
-        <SelectedLayer
+        {/* <SelectedLayer
           layers={layers}
           handleLayer={handleLayer}
-          // setLayers={setLayers}
+          storedData={storedData}
+          setViewState={setViewState}
+        /> */}
+        <SelectedLayerTest
+          layers={layers}
+          handleLayer={handleLayer}
           storedData={storedData}
           setViewState={setViewState}
         />
