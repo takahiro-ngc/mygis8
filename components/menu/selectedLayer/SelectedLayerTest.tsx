@@ -46,57 +46,10 @@ export function SelectedLayerTest({
     })
   );
   const [activeId, setActiveId] = useState(null);
-  return (
-    <SimpleBar style={{ height: "100%", padding: "8px 0 8px 8px" }}>
-      <Typography variant="h6" component="h2">
-        選択中の地図
-      </Typography>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={layers} strategy={verticalListSortingStrategy}>
-          <List disablePadding>
-            <TransitionGroup>
-              {layers.map((layer, index) => (
-                <Collapse key={layer.id} id={layer.id} timeout={700}>
-                  <SortableItem
-                    key={layer.id}
-                    id={layer.id}
-                    layer={layer}
-                    index={index}
-                    activeId={activeId}
-                  />
-                </Collapse>
-              ))}
-            </TransitionGroup>
-          </List>
-        </SortableContext>
+  const activeIndex = layers.findIndex((layer) => layer.id === activeId);
+  const handleDragStart = (event) => setActiveId(event.active.id);
 
-        <DragOverlay>
-          {activeId ? (
-            <div
-              style={{
-                transform: "scale(1.05)",
-                backgroundColor: "rgba(30, 30, 30, 0.9)",
-                borderRadius: 4,
-              }}
-            >
-              <SortableItem layer={layers[0]} />
-            </div>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
-    </SimpleBar>
-  );
-
-  function handleDragStart(event) {
-    setActiveId(event.active.id);
-  }
-
-  function handleDragEnd(event) {
+  const handleDragEnd = (event) => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
@@ -108,5 +61,58 @@ export function SelectedLayerTest({
       });
     }
     setActiveId(null);
-  }
+  };
+
+  return (
+    <SimpleBar style={{ height: "100%", padding: "8px 0 8px 8px" }}>
+      <Typography variant="h6" component="h2">
+        選択中の地図
+      </Typography>
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={layers} strategy={verticalListSortingStrategy}>
+          <List disablePadding>
+            <TransitionGroup>
+              {layers.map((layer, index) => (
+                <Collapse key={layer.id} id={layer.id} timeout={500}>
+                  <SortableItem
+                    key={layer.id}
+                    id={layer.id}
+                    layer={layer}
+                    index={index}
+                    activeId={activeId}
+                    storedData={storedData}
+                    toggleLayer={toggleLayer}
+                  />
+                </Collapse>
+              ))}
+            </TransitionGroup>
+          </List>
+        </SortableContext>
+
+        <DragOverlay>
+          {activeId ? (
+            <div
+            // style={{
+            //   cursor: "grabbing",
+            //   backgroundColor: "rgba(30, 30, 30)",
+            //   borderRadius: 4,
+            // }}
+            >
+              <SortableItem
+                layer={layers[activeIndex]}
+                storedData={storedData}
+                isDragging={true}
+              />
+            </div>
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+    </SimpleBar>
+  );
 }

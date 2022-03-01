@@ -6,8 +6,28 @@ import { DriveEtaTwoTone } from "@mui/icons-material";
 import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
+import { isImage } from "../../utils/utility";
+import { TerrainLoader } from "../../../terrain/src";
+import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import PopoverButton from "../../commonUI/PopoverButton";
+import FeatureTable from "./FeatureTable";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import SettingsIcon from "@mui/icons-material/Settings";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import LayerInfo from "../../commonUI/LayerInfo";
+import { Typography } from "@mui/material";
 
-export function SortableItem({ id, activeId, index, layer }) {
+export function SortableItem({
+  id,
+  activeId,
+  index,
+  layer,
+  storedData,
+  toggleLayer,
+  isDragging,
+}) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
 
@@ -23,35 +43,76 @@ export function SortableItem({ id, activeId, index, layer }) {
         ...style,
         padding: "2px 8px 2px 0px",
         opacity: activeId === layer.id && 0.3,
+        touchAction: "none", //dnd kitで必要
+        ...(isDragging && {
+          backgroundColor: "rgba(30, 30, 30)",
+          borderRadius: 4,
+        }),
       }}
     >
-      <span className="style">
-        <IconButton
-          size="small"
-          disableTouchRipple
-          {...attributes}
-          {...listeners}
-          sx={{
-            cursor: "grab",
-            "&:active": {
-              cursor: "grabbing",
-            },
-          }}
-        >
-          <DragHandleIcon />
-        </IconButton>
-      </span>
-      {/* レイヤー名表示 */}
-      <div
-        style={{
-          marginRight: "auto",
-          overflowWrap: "anywhere",
+      <IconButton
+        size="small"
+        disableTouchRipple
+        {...attributes}
+        {...listeners}
+        sx={{
+          cursor: isDragging ? "grabbing" : "grab",
         }}
       >
-        {layer.title}
-      </div>
-      <IconButton size="small">
         <DragHandleIcon />
+      </IconButton>
+
+      <Typography sx={{ marginRight: "auto", overflowWrap: "anywhere" }}>
+        {layer.title}
+      </Typography>
+
+      {/* 3D切替ボタン */}
+      {/* {isImage(layer.data) && (
+        <IconButton size="small" onClick={toggleTerrain} style={{ padding: 5 }}>
+          {isTerrain ? "2D" : "3D"}
+        </IconButton>
+      )} */}
+
+      {/* ToDo ドラッグでエラー */}
+      {!!storedData[layer.id]?.length && (
+        <PopoverButton
+          button={
+            <IconButton size="small">
+              <ListAltIcon />
+            </IconButton>
+          }
+          width={1000}
+        >
+          <FeatureTable features={storedData[layer.id]} />
+        </PopoverButton>
+      )}
+
+      <PopoverButton
+        button={
+          <IconButton size="small">
+            <SettingsIcon />
+          </IconButton>
+        }
+      >
+        {/* <LayerControls
+          index={index}
+          layers={layers}
+          handleLayer={handleLayer}
+        /> */}
+      </PopoverButton>
+
+      <PopoverButton
+        button={
+          <IconButton size="small">
+            <InfoOutlinedIcon />
+          </IconButton>
+        }
+      >
+        <LayerInfo node={layer} />
+      </PopoverButton>
+
+      <IconButton size="small" onClick={() => toggleLayer(layer.id)}>
+        <CloseIcon />
       </IconButton>
     </ListItem>
   );
