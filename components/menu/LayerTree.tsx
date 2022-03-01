@@ -49,13 +49,13 @@ const DataCatalog = ({ toggleLayer }) => {
     <SimpleBar
       style={{
         overflow: "auto", //無いと縦に伸びすぎる
-        padding: "8px 0 8px 8px",
+        padding: 8,
         height: "100%",
       }}
     >
-      <Typography variant="h6" component="h2" display="inline">
+      {/* <Typography variant="h6" component="h2" display="inline">
         地図の種類
-      </Typography>
+      </Typography> */}
 
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}

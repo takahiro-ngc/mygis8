@@ -6,7 +6,6 @@ import FeatureInfo from "../components/FeatureInfo";
 import Header from "../components/header/Header";
 import Map from "../components/Map";
 import Menu from "../components/menu/Menu";
-import { useLoadedFeatures } from "../hooks/useLoadedFeatures";
 import { useLayers } from "../hooks/useLayers";
 import { useCallback } from "react";
 import React from "react";
@@ -28,20 +27,15 @@ const defaultLayers = [defaultLayerId1, defaultLayerId2];
 const Home = () => {
   const [viewState, setViewState] = useState(initialViewState);
   const [clickedFeature, setClickedFeature] = useState(null);
-  // const [layers, storedData, { toggleLayer, setLayers }] =
-  //   useLayers(defaultLayers);
-  // const handleLayer = { toggleLayer, setLayers };
+
   const [layers, storedData, { setLayers, toggleLayer }] =
     useLayers(defaultLayers);
-  // const [layers, storedData, handleLayerOriginal] = useLayers(defaultLayers);
-  // const handleLayer = useCallback(handleLayerOriginal, [layers]);
 
   const isMediaQuery = useMediaQuery("(max-width:600px)");
 
   return (
     <Stack sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
-      {/* <Header handleLayer={handleLayer} /> */}
-      {/* <span onClick={() => handleLayer.toggleLayer("pale")}>aaaaa</span> */}
+      <Header />
       <div style={{ height: "100%", position: "relative" }}>
         <Menu
           layers={layers}

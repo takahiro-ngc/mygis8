@@ -36,9 +36,7 @@ export function SelectedLayerTest({
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
-    // ToDo
     useSensor(TouchSensor, {
-      // Press delay of 250ms, with tolerance of 5px of movement
       activationConstraint: {
         delay: 250,
         tolerance: 5,
@@ -64,10 +62,10 @@ export function SelectedLayerTest({
   };
 
   return (
-    <SimpleBar style={{ height: "100%", padding: "8px 0 8px 8px" }}>
-      <Typography variant="h6" component="h2">
+    <SimpleBar style={{ height: "100%", padding: 8 }}>
+      {/* <Typography variant="h6" component="h2">
         選択中の地図
-      </Typography>
+      </Typography> */}
 
       <DndContext
         sensors={sensors}
@@ -96,21 +94,13 @@ export function SelectedLayerTest({
         </SortableContext>
 
         <DragOverlay>
-          {activeId ? (
-            <div
-            // style={{
-            //   cursor: "grabbing",
-            //   backgroundColor: "rgba(30, 30, 30)",
-            //   borderRadius: 4,
-            // }}
-            >
-              <SortableItem
-                layer={layers[activeIndex]}
-                storedData={storedData}
-                isDragging={true}
-              />
-            </div>
-          ) : null}
+          {activeId && (
+            <SortableItem
+              layer={layers[activeIndex]}
+              storedData={storedData}
+              isDragging={true}
+            />
+          )}
         </DragOverlay>
       </DndContext>
     </SimpleBar>
