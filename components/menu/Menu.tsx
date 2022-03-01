@@ -9,10 +9,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 export const Menu = ({
   layers,
-  setViewState,
   storedData,
+  setLayers,
+  toggleLayer,
+  setViewState,
   isMediaQuery,
-  handleLayer,
 }) => {
   const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
 
@@ -43,7 +44,7 @@ export const Menu = ({
         toggleMenuVisible={toggleMenuVisible}
         isMediaQuery={isMediaQuery}
       />
-      <LayerTree handleLayer={handleLayer} setViewState={setViewState} />
+      <LayerTree toggleLayer={toggleLayer} />
       <Resizable
         defaultSize={{
           width: "100%",
@@ -65,8 +66,9 @@ export const Menu = ({
         /> */}
         <SelectedLayerTest
           layers={layers}
-          handleLayer={handleLayer}
           storedData={storedData}
+          setLayers={setLayers}
+          toggleLayer={toggleLayer}
           setViewState={setViewState}
         />
       </Resizable>

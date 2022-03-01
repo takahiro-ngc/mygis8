@@ -16,10 +16,7 @@ import SimpleBar from "simplebar-react";
 // import "simplebar/dist/simplebar.min.css";
 import IconButton from "@mui/material/IconButton";
 
-const DataCatalog = ({
-  //  setViewState,
-  handleLayer,
-}) => {
+const DataCatalog = ({ toggleLayer }) => {
   const renderTree = (nodes) =>
     nodes.map((node, index) => {
       const key = node.category + node.title + index;
@@ -27,7 +24,7 @@ const DataCatalog = ({
         <TreeItem
           key={key}
           nodeId={key}
-          onClick={() => node.data && handleLayer.toggleLayer(node.id)}
+          onClick={() => node.data && toggleLayer(node.id)}
           label={
             <Stack direction="row" alignItems="center">
               <Typography sx={{ marginRight: "auto" }}>{node.title}</Typography>

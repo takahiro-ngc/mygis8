@@ -28,10 +28,11 @@ const defaultLayers = [defaultLayerId1, defaultLayerId2];
 const Home = () => {
   const [viewState, setViewState] = useState(initialViewState);
   const [clickedFeature, setClickedFeature] = useState(null);
-  const [layers, storedData, { toggleLayer, setLayers }] =
+  // const [layers, storedData, { toggleLayer, setLayers }] =
+  //   useLayers(defaultLayers);
+  // const handleLayer = { toggleLayer, setLayers };
+  const [layers, storedData, { setLayers, toggleLayer }] =
     useLayers(defaultLayers);
-  const handleLayer = { toggleLayer, setLayers };
-  // const [layers, storedData, handleLayer] = useLayers(defaultLayers);
   // const [layers, storedData, handleLayerOriginal] = useLayers(defaultLayers);
   // const handleLayer = useCallback(handleLayerOriginal, [layers]);
 
@@ -39,14 +40,15 @@ const Home = () => {
 
   return (
     <Stack sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
-      <Header handleLayer={handleLayer} />
+      {/* <Header handleLayer={handleLayer} /> */}
       {/* <span onClick={() => handleLayer.toggleLayer("pale")}>aaaaa</span> */}
       <div style={{ height: "100%", position: "relative" }}>
         <Menu
-          handleLayer={handleLayer}
           layers={layers}
-          setViewState={setViewState}
           storedData={storedData}
+          setLayers={setLayers}
+          toggleLayer={toggleLayer}
+          setViewState={setViewState}
           isMediaQuery={isMediaQuery}
         />
         <Map

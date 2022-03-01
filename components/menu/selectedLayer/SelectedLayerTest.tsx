@@ -26,9 +26,9 @@ import { SortableItem } from "./SortableItem";
 
 export function SelectedLayerTest({
   layers,
-  handleLayer,
-  setLayers,
   storedData,
+  setLayers,
+  toggleLayer,
   setViewState,
 }) {
   const sensors = useSensors(
@@ -100,7 +100,7 @@ export function SelectedLayerTest({
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      handleLayer.setLayers((layers) => {
+      setLayers((layers) => {
         const oldIndex = layers.findIndex((layer) => layer.id === active.id);
         const newIndex = layers.findIndex((layer) => layer.id === over.id);
         console.log(active, active.id);

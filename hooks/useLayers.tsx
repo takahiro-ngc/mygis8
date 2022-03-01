@@ -50,14 +50,5 @@ export const useLayers = (initialLayerIds) => {
     [layers]
   );
 
-  // const useCallback(
-  //   () => {
-  //     first
-  //   },
-  //   [second],
-  // )
-
-  const handleLayer = { toggleLayer, setLayers };
-  return [layers, storedData, { toggleLayer, setLayers }];
-  // return [layers, storedData, handleLayer];
+  return [layers, storedData, { setLayers, toggleLayer }];
 };
