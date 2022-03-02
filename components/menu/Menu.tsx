@@ -3,7 +3,7 @@ import { Resizable } from "re-resizable";
 import { Box } from "@mui/system";
 import LayerTree from "./LayerTree";
 import SelectedLayer from "./selectedLayer/SelectedLayer";
-import { SelectedLayerTest } from "./selectedLayer/SelectedLayerTest";
+import SelectedLayerTest from "./selectedLayer/SelectedLayerTest";
 import ToggleMenuButton from "./ToggleMenuButton";
 import SettingsIcon from "@mui/icons-material/Settings";
 
@@ -14,6 +14,7 @@ export const Menu = ({
   toggleLayer,
   setViewState,
   isMediaQuery,
+  changeLayerProps,
 }) => {
   const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
 
@@ -70,6 +71,7 @@ export const Menu = ({
           setLayers={setLayers}
           toggleLayer={toggleLayer}
           setViewState={setViewState}
+          changeLayerProps={changeLayerProps}
         />
       </Resizable>
     </Box>

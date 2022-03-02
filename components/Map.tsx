@@ -1,8 +1,16 @@
 import DeckGL from "deck.gl";
 import React, { useRef } from "react";
 import { createLayerInstance } from "../components/utils/utility";
+import { useViewState } from "../hooks/useLayers";
 
-export const Map = ({ viewState, setViewState, setClickedFeature, layers }) => {
+export const Map = ({
+  //  viewState,
+  // setViewState,
+  setClickedFeature,
+  layers,
+}) => {
+  const setViewState = useViewState((state) => state.setViewState);
+  const viewState = useViewState((state) => state);
   const reversedLayer = [...layers].reverse(); //reverseは破壊的メソッドのため注意
   const layerInstance = reversedLayer.map((item) => createLayerInstance(item));
 

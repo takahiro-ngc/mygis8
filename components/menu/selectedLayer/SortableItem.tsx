@@ -27,6 +27,8 @@ export function SortableItem({
   storedData,
   toggleLayer,
   isDragging,
+  setViewState,
+  changeLayerProps,
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
@@ -73,7 +75,6 @@ export function SortableItem({
         </IconButton>
       )} */}
 
-      {/* ToDo ドラッグでエラー */}
       {!!storedData[layer.id]?.length && (
         <PopoverButton
           button={
@@ -83,7 +84,12 @@ export function SortableItem({
           }
           width={1000}
         >
-          <FeatureTable features={storedData[layer.id]} />
+          <FeatureTable
+            features={storedData[layer.id]}
+            setViewState={setViewState}
+            index={index}
+            changeLayerProps={changeLayerProps}
+          />
         </PopoverButton>
       )}
 
@@ -117,3 +123,5 @@ export function SortableItem({
     </ListItem>
   );
 }
+
+export default React.memo(SortableItem);

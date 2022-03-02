@@ -28,7 +28,7 @@ const Home = () => {
   const [viewState, setViewState] = useState(initialViewState);
   const [clickedFeature, setClickedFeature] = useState(null);
 
-  const [layers, storedData, { setLayers, toggleLayer }] =
+  const [layers, storedData, { setLayers, toggleLayer, changeLayerProps }] =
     useLayers(defaultLayers);
 
   const isMediaQuery = useMediaQuery("(max-width:600px)");
@@ -44,6 +44,7 @@ const Home = () => {
           toggleLayer={toggleLayer}
           setViewState={setViewState}
           isMediaQuery={isMediaQuery}
+          changeLayerProps={changeLayerProps}
         />
         <Map
           viewState={viewState}

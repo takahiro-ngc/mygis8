@@ -11,13 +11,22 @@ import { Typography } from "@mui/material";
 import PopoverButton from "../../commonUI/PopoverButton";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 
-export const CustomPagination = ({ jump }) => {
+export const CustomPagination = ({ setViewState }) => {
+  const jump = (lng, lat, zoom) =>
+    setViewState((prev) => ({
+      ...prev,
+      longitude: lng,
+      latitude: lat,
+      zoom: zoom,
+      // ...jumpSetting,
+    }));
+
   const { state, apiRef } = useGridSlotComponentProps();
   return (
     <div
       style={{ display: "flex", justifyContent: "space-between", margin: 8 }}
     >
-      <Button size="small" variant="outlined" onClick={jump}>
+      <Button size="small" variant="outlined" onClick={() => jump(1, 1, 8)}>
         選択地点に移動
       </Button>
       <Pagination

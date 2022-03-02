@@ -74,6 +74,7 @@ export const addCenterPosition = (data) => {
     : (data = [...data, ...newFeatures]);
   return data;
 };
+export const roundToSix = (num) => +(Math.round(num + "e+6") + "e-6");
 
 export const imgFileType = [
   "png",

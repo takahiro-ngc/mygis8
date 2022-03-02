@@ -22,7 +22,7 @@ import Collapse from "@mui/material/Collapse";
 import { Typography } from "@mui/material";
 import SimpleBar from "simplebar-react";
 
-import { SortableItem } from "./SortableItem";
+import SortableItem from "./SortableItem";
 
 export function SelectedLayerTest({
   layers,
@@ -30,6 +30,7 @@ export function SelectedLayerTest({
   setLayers,
   toggleLayer,
   setViewState,
+  changeLayerProps,
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -86,6 +87,8 @@ export function SelectedLayerTest({
                     activeId={activeId}
                     storedData={storedData}
                     toggleLayer={toggleLayer}
+                    setViewState={setViewState}
+                    changeLayerProps={changeLayerProps}
                   />
                 </Collapse>
               ))}
@@ -106,3 +109,5 @@ export function SelectedLayerTest({
     </SimpleBar>
   );
 }
+
+export default React.memo(SelectedLayerTest);

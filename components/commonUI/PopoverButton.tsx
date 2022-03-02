@@ -77,4 +77,4 @@ const PopoverButton = ({
     </ClickAwayListener>
   );
 };
-export default PopoverButton;
+export default React.memo(PopoverButton);
