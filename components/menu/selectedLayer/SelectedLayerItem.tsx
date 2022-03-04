@@ -35,6 +35,27 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
       highlightedObjectIndex: null,
     });
 
+  const isTerrain = layer.layerType === "TerrainLayer";
+  const toggleTerrain = () => {
+    changeLayerProps(
+      index,
+      isTerrain
+        ? {
+            // hack idを変えないとレイヤーが切り替わらない
+            id: layer.id.replace("_TerrainLayer", ""),
+            layerType: "TileLayer",
+            loaders: null,
+          }
+        : {
+            id: layer.id + "_TerrainLayer",
+            layerType: "TerrainLayer",
+            loaders: [TerrainLoader],
+            texture: layer.data,
+            color: [255, 255, 255, 0],
+          }
+    );
+  };
+
   return (
     <ListItem
       ref={setNodeRef}
@@ -65,12 +86,11 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
         {layer.title}
       </Typography>
 
-      {/* 3D切替ボタン */}
-      {/* {isImage(layer.data) && (
+      {isImage(layer.data) && (
         <IconButton size="small" onClick={toggleTerrain} style={{ padding: 5 }}>
           {isTerrain ? "2D" : "3D"}
         </IconButton>
-      )} */}
+      )}
 
       {!!loadedFeature[layer.id]?.length && (
         <ClickAwayListener onClickAway={handleClickAway}>

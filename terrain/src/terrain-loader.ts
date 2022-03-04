@@ -9,8 +9,8 @@ export const TerrainLoader = {
   id: "terrain",
   module: "terrain",
   version: VERSION,
-  worker: false,
-  // worker: true,
+  // worker: false,
+  worker: true,
   extensions: ["png", "pngraw"],
   mimeTypes: ["image/png"],
   options: {
@@ -26,6 +26,7 @@ export const TerrainLoader = {
         scaler: 0.1,
       },
       skirtHeight: null,
+      workerUrl: "terrain-worker.js",
     },
   },
 };

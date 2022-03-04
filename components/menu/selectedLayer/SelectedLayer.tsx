@@ -75,9 +75,9 @@ export function SelectedLayer() {
           <List disablePadding>
             <TransitionGroup>
               {layers.map((layer, index) => (
-                <Collapse key={layer.id} id={layer.id} timeout={500}>
+                // key=layer.idにすると，toggleTerrainでidが変わったときにカクつく
+                <Collapse key={layer.title + layer.data} timeout={500}>
                   <SelectedLayerItem
-                    key={layer.id}
                     id={layer.id}
                     layer={layer}
                     index={index}
