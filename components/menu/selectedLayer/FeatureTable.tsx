@@ -16,6 +16,7 @@ import { IconButton } from "@mui/material";
 import { roundToSix } from "../../utils/utility";
 import { useViewState } from "../../../hooks/useLayers";
 import { useLayers } from "../../../hooks/useLayers";
+import { ClickAwayListener } from "@mui/material";
 
 const FeatureTable = ({ layer, index }) => {
   const jump = useViewState((state) => state.jump);
@@ -96,37 +97,45 @@ const FeatureTable = ({ layer, index }) => {
   });
 
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
-
-  const Footer = () => <CustomPagination setViewState={setViewState} />;
+  const handleClickAway = () =>
+    changeLayerProps(index, {
+      highlightedObjectIndex: null,
+    });
   return (
-    <>
-      {columns.length && (
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          disableColumnMenu
-          components={{
-            Toolbar: GridToolbar,
-            // Toolbar: CustomToolbar,
-            // Footer: Footer,
-          }}
-          hideFooterSelectedRowCount
-          onSelectionModelChange={(newSelectionModel) => {
-            setSelectionModel(newSelectionModel);
-            changeLayerProps(index, {
-              highlightedObjectIndex: newSelectionModel[0],
-            });
-          }}
-          selectionModel={selectionModel}
-          style={{ height: "700px", maxHeight: "37vh" }}
-          headerHeight={30}
-          rowHeight={30}
-        />
-      )}
+    // <ClickAwayListener onClickAway={() => console.log("tyvbuinm")}>
+    // {/* ClickAwayListenerは<>は不可 */}
+    <div>
+      {/* {columns.length && (
+        <> */}
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        disableColumnMenu
+        components={{
+          Toolbar: GridToolbar,
+        }}
+        hideFooterSelectedRowCount
+        onSelectionModelChange={(newSelectionModel) => {
+          setSelectionModel(newSelectionModel);
+          changeLayerProps(index, {
+            highlightedObjectIndex: newSelectionModel[0],
+          });
+        }}
+        selectionModel={selectionModel}
+        style={{ height: "700px", maxHeight: "37vh" }}
+        headerHeight={30}
+        rowHeight={30}
+        onCellFocusOut={() => console.log("bjnkml")}
+      />
+
       <Typography variant="caption">
         ※変換・加工処理をしているため，元データの完全な再現とは限りません。
       </Typography>
-    </>
+      {/* <button onClick={handleClickAway}>aaa</button> */}
+      {/* </>
+      )} */}
+    </div>
+    // </ClickAwayListener>
   );
 };
 

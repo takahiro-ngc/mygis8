@@ -17,6 +17,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import LayerInfo from "../../commonUI/LayerInfo";
 import { Typography } from "@mui/material";
 import { useLayers } from "../../../hooks/useLayers";
+import { ClickAwayListener } from "@mui/material";
 
 export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -28,6 +29,11 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
   };
   const toggleLayer = useLayers((state) => state.toggleLayer);
   const loadedFeature = useLayers((state) => state.loadedFeature);
+  const changeLayerProps = useLayers((state) => state.changeLayerProps);
+  const handleClickAway = () =>
+    changeLayerProps(index, {
+      highlightedObjectIndex: null,
+    });
 
   return (
     <ListItem
@@ -67,16 +73,21 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
       )} */}
 
       {!!loadedFeature[layer.id]?.length && (
-        <PopoverButton
-          button={
-            <IconButton size="small">
-              <ListAltIcon />
-            </IconButton>
-          }
-          width={1000}
-        >
-          <FeatureTable layer={layer} index={index} />
-        </PopoverButton>
+        <ClickAwayListener onClickAway={handleClickAway}>
+          {/* ClickAwayListenerは Needs to be able to hold a ref. */}
+          <div>
+            <PopoverButton
+              button={
+                <IconButton size="small">
+                  <ListAltIcon />
+                </IconButton>
+              }
+              width={1000}
+            >
+              <FeatureTable layer={layer} index={index} />
+            </PopoverButton>
+          </div>
+        </ClickAwayListener>
       )}
 
       <PopoverButton
