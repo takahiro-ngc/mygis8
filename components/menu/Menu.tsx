@@ -1,21 +1,11 @@
-import React, { useState, useCallback, useReducer, useRef } from "react";
+import React, { useReducer } from "react";
 import { Resizable } from "re-resizable";
 import { Box } from "@mui/system";
 import LayerTree from "./LayerTree";
 import SelectedLayer from "./selectedLayer/SelectedLayer";
-import SelectedLayerTest from "./selectedLayer/SelectedLayerTest";
 import ToggleMenuButton from "./ToggleMenuButton";
-import SettingsIcon from "@mui/icons-material/Settings";
 
-export const Menu = ({
-  layers,
-  storedData,
-  setLayers,
-  toggleLayer,
-  setViewState,
-  isMediaQuery,
-  changeLayerProps,
-}) => {
+export const Menu = ({ isMediaQuery }) => {
   const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
 
   return (
@@ -45,7 +35,7 @@ export const Menu = ({
         toggleMenuVisible={toggleMenuVisible}
         isMediaQuery={isMediaQuery}
       />
-      <LayerTree toggleLayer={toggleLayer} />
+      <LayerTree />
       <Resizable
         defaultSize={{
           width: "100%",
@@ -59,20 +49,7 @@ export const Menu = ({
           borderTop: "1px solid lightgray",
         }}
       >
-        {/* <SelectedLayer
-          layers={layers}
-          handleLayer={handleLayer}
-          storedData={storedData}
-          setViewState={setViewState}
-        /> */}
-        <SelectedLayerTest
-          layers={layers}
-          storedData={storedData}
-          setLayers={setLayers}
-          toggleLayer={toggleLayer}
-          setViewState={setViewState}
-          changeLayerProps={changeLayerProps}
-        />
+        <SelectedLayer />
       </Resizable>
     </Box>
   );

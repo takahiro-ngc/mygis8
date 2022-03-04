@@ -1,9 +1,10 @@
 import { Box } from "@mui/system";
+import { useViewState } from "../hooks/useLayers";
 
-export default function BottomInfo({ viewState }) {
+export default function BottomInfo() {
   // const lat = hoverdFeature?.coordinate?.[1].toFixed(6);
   // const lon = hoverdFeature?.coordinate?.[0].toFixed(6);
-  const zoom = viewState.zoom.toFixed(0);
+  const zoom = useViewState((state) => state.zoom).toFixed(0);
 
   return (
     <Box

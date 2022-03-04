@@ -8,6 +8,8 @@ storedataはuseRef constructor
 ・data grid が古いmui styleを参照しているためか，styleのバグがある
 
 （２）優先度高
+・AutoHighlightが効いてない？（FeatureTbleの後）
+・FeatureTabelは下に表示
 ・右上の×ボタンをstickyにする
 ・demデータのworker
 ・テキストのアウトライン

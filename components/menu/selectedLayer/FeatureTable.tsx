@@ -8,27 +8,19 @@ import {
 } from "@mui/x-data-grid";
 import renderCellExpand from "./renderCellExpand";
 import { getCenterPosition } from "../../utils/utility";
-import { jumpSetting } from "../../utils/utility";
 import { CustomToolbar, CustomPagination } from "./DataGridCompornent";
 import { Typography } from "@mui/material";
-import { Button } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import PlaceIcon from "@mui/icons-material/Place";
 import { IconButton } from "@mui/material";
 import { roundToSix } from "../../utils/utility";
 import { useViewState } from "../../../hooks/useLayers";
+import { useLayers } from "../../../hooks/useLayers";
 
-const FeatureTable = ({ features, setViewState, index, changeLayerProps }) => {
+const FeatureTable = ({ layer, index }) => {
   const jump = useViewState((state) => state.jump);
-  // const jump = (position) => {
-  //   console.log(position);
-  //   setViewState((prev) => ({
-  //     ...prev,
-  //     longitude: position[0],
-  //     latitude: position[1],
-  //     ...jumpSetting,
-  //   }));
-  // };
+  const features = useLayers((state) => state.loadedFeature[layer.id]);
+  const changeLayerProps = useLayers((state) => state.changeLayerProps);
 
   const keyList = features?.flatMap((d) => Object.keys(d?.properties));
   const uniqueKeyList = Array.from(new Set(keyList));
@@ -104,16 +96,6 @@ const FeatureTable = ({ features, setViewState, index, changeLayerProps }) => {
   });
 
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
-  // const selectedFeature = features[selectionModel[0]];
-  // const position = getCenterPosition(selectedFeature);
-  // const jump = () =>
-  //   position.length &&
-  //   setViewState((prev) => ({
-  //     ...prev,
-  //     longitude: position[0],
-  //     latitude: position[1],
-  //     ...jumpSetting,
-  //   }));
 
   const Footer = () => <CustomPagination setViewState={setViewState} />;
   return (
@@ -136,12 +118,12 @@ const FeatureTable = ({ features, setViewState, index, changeLayerProps }) => {
             });
           }}
           selectionModel={selectionModel}
-          style={{ height: "700px", maxHeight: "35vh" }}
-          headerHeight={32}
-          rowHeight={32}
+          style={{ height: "700px", maxHeight: "37vh" }}
+          headerHeight={30}
+          rowHeight={30}
         />
       )}
-      <Typography variant="subtitle2">
+      <Typography variant="caption">
         ※変換・加工処理をしているため，元データの完全な再現とは限りません。
       </Typography>
     </>

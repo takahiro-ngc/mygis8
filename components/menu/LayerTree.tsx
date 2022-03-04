@@ -13,10 +13,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Typography from "@mui/material/Typography";
 import SimpleBar from "simplebar-react";
-// import "simplebar/dist/simplebar.min.css";
 import IconButton from "@mui/material/IconButton";
+import { useLayers } from "../../hooks/useLayers";
 
-const DataCatalog = ({ toggleLayer }) => {
+const LayerTree = () => {
+  const toggleLayer = useLayers((state) => state.toggleLayer);
   const renderTree = (nodes) =>
     nodes.map((node, index) => {
       const key = node.category + node.title + index;
@@ -67,4 +68,4 @@ const DataCatalog = ({ toggleLayer }) => {
   );
 };
 
-export default React.memo(DataCatalog);
+export default React.memo(LayerTree);

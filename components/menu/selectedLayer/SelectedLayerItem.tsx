@@ -1,97 +1,72 @@
-import LayerControls from "./LayerControls";
+import React from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { DriveEtaTwoTone } from "@mui/icons-material";
 import ListItem from "@mui/material/ListItem";
-import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import PopoverButton from "../../commonUI/PopoverButton";
-
-import SettingsIcon from "@mui/icons-material/Settings";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import ListAltIcon from "@mui/icons-material/ListAlt";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
-import LayerInfo from "../../commonUI/LayerInfo";
-import FeatureTable from "./FeatureTable";
 import { isImage } from "../../utils/utility";
 import { TerrainLoader } from "../../../terrain/src";
+import CloseIcon from "@mui/icons-material/Close";
 
-import FeatureTableTest from "./FeatureTabelTest";
+import PopoverButton from "../../commonUI/PopoverButton";
+import FeatureTable from "./FeatureTable";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import SettingsIcon from "@mui/icons-material/Settings";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import LayerInfo from "../../commonUI/LayerInfo";
+import { Typography } from "@mui/material";
+import { useLayers } from "../../../hooks/useLayers";
 
-export default function SelectedLayerItem({
-  value,
-  props,
-  index,
-  isDragged,
-  handleLayer,
-  layers,
-  storedData,
-  setViewState,
-}) {
-  const isVisible = layers[index]?.visible ?? true; //undefinedの時はデフォルトのtrueにする
+export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: id });
 
-  const isTerrain = layers[index].layerType === "TerrainLayer";
-  const toggleTerrain = () => {
-    let clone = [...layers];
-    clone[index].layerType = isTerrain ? "TileLayer" : "TerrainLayer";
-    clone[index].loaders = isTerrain ? null : [TerrainLoader];
-    clone[index].texture = clone[index].data;
-    clone[index].color = [255, 255, 255, 0];
-    // 単にlayerTypeを変えても更新されないため，idを変えることで，deck.glに別レイヤーと認識させるHack
-    clone[index].id = Math.random();
-    handleLayer.setLayers(clone);
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
   };
-
-  const reversedIndex = layers.length - 1 - index;
+  const toggleLayer = useLayers((state) => state.toggleLayer);
+  const loadedFeature = useLayers((state) => state.loadedFeature);
 
   return (
     <ListItem
-      {...props}
+      ref={setNodeRef}
       style={{
-        ...props.style,
+        ...style,
         padding: "2px 8px 2px 0px",
-        zIndex: 10, //ドラッグ時にitemが埋まるのを防ぐ
+        opacity: activeId === layer.id && 0.3,
+        touchAction: "none", //dnd kitで必要
+        ...(isDragging && {
+          backgroundColor: "rgba(30, 30, 30)",
+          borderRadius: 4,
+        }),
       }}
     >
       <IconButton
         size="small"
-        data-movable-handle
-        style={{ cursor: isDragged ? "grabbing" : "grab" }}
+        disableTouchRipple
+        {...attributes}
+        {...listeners}
+        sx={{
+          cursor: isDragging ? "grabbing" : "grab",
+        }}
       >
         <DragHandleIcon />
       </IconButton>
-      {/* レイヤー名表示 */}
-      <div
-        style={{
-          marginRight: "auto",
-          // cursor: props.isDragged ? "grabbing" : "grab",
-          overflowWrap: "anywhere",
-        }}
-        // data-movable-handle
-      >
-        {value.title}
-      </div>
 
-      {/* 表示切替ボタン */}
-      <IconButton
-        size="small"
-        onClick={(e) => {
-          let newSetting = [...layers];
-          newSetting[index].visible = !isVisible;
-          handleLayer.setLayers(newSetting);
-        }}
-      >
-        {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
-      </IconButton>
+      <Typography sx={{ marginRight: "auto", overflowWrap: "anywhere" }}>
+        {layer.title}
+      </Typography>
 
       {/* 3D切替ボタン */}
-      {isImage(value.data) && (
+      {/* {isImage(layer.data) && (
         <IconButton size="small" onClick={toggleTerrain} style={{ padding: 5 }}>
           {isTerrain ? "2D" : "3D"}
         </IconButton>
-      )}
+      )} */}
 
-      {/* 表ボタン*/}
-      {!!storedData[value.id]?.length && (
+      {!!loadedFeature[layer.id]?.length && (
         <PopoverButton
           button={
             <IconButton size="small">
@@ -100,35 +75,39 @@ export default function SelectedLayerItem({
           }
           width={1000}
         >
-          <FeatureTable features={storedData[value.id]} />
+          <FeatureTable layer={layer} index={index} />
         </PopoverButton>
       )}
 
-      {/* 設定切替ボタン */}
-      {/* <PopoverButton
-        button={<IconButton size="small" children={<SettingsIcon />} />}
+      <PopoverButton
+        button={
+          <IconButton size="small">
+            <SettingsIcon />
+          </IconButton>
+        }
       >
-        <LayerControls
+        {/* <LayerControls
           index={index}
           layers={layers}
           handleLayer={handleLayer}
-        />
-      </PopoverButton> */}
+        /> */}
+      </PopoverButton>
 
-      {/* 情報表示ボタン */}
-      {/* <PopoverButton
-        button={<IconButton size="small" children={<InfoOutlinedIcon />} />}
+      <PopoverButton
+        button={
+          <IconButton size="small">
+            <InfoOutlinedIcon />
+          </IconButton>
+        }
       >
-        <LayerInfo node={value} />
-      </PopoverButton> */}
+        <LayerInfo node={layer} />
+      </PopoverButton>
 
-      {/* 閉じるボタン */}
-      {/* <IconButton
-        size="small"
-        onClick={() => handleLayer.toggleLayer(value.id)}
-      >
+      <IconButton size="small" onClick={() => toggleLayer(layer.id)}>
         <CloseIcon />
-      </IconButton> */}
+      </IconButton>
     </ListItem>
   );
 }
+
+export default React.memo(SelectedLayerItem);
