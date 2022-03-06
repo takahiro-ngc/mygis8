@@ -7,7 +7,7 @@ export const useViewState = create((set) => ({
   longitude: 139.7673068,
   latitude: 35.6809591,
   bearing: 0,
-  zoom: 8,
+  zoom: 15,
   minZoom: 0, //遠景
   maxZoom: 17.499, //近景 地理院地図（ラスター）は17.5未満が最大
   maxPitch: 85,
@@ -30,8 +30,13 @@ export const useLayers = create((set) => {
     set((state) => ({
       loadedFeature: { ...state.loadedFeature, ...data },
     }));
-
-  const defaultLayerId1 = "pale";
+  // const setTrigger = () =>
+  //   set((state) => ({
+  //     trigger: 0,
+  //     setTrigger: state.trigger + 1,
+  //   }));
+  const defaultLayerId1 = "experimental_anno";
+  // const defaultLayerId1 = "history";
   const defaultLayerId2 = "OpenStreetMap";
   const defaultLayers = [defaultLayerId1, defaultLayerId2];
   const makeLayerProp = (layerId: string) => {
@@ -42,7 +47,9 @@ export const useLayers = create((set) => {
         const features = data.flatMap((d) => d?.content?.features || []);
         setLoadedFeature({ [layerId]: features });
       },
+      // updateTriggers: trigger,
     });
+
     const layer1 = findLayer(layerId);
     const layer2 = addDefaultProps(layer1);
     const layer3 = addStoredDataProp(layer2);
@@ -92,5 +99,6 @@ export const useLayers = create((set) => {
     toggleLayer: toggleLayer,
     setLayers: setLayers,
     changeLayerProps: changeLayerProps,
+    // setTrigger: setTrigger,
   };
 });

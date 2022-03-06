@@ -8,6 +8,7 @@ import DragHandleIcon from "@mui/icons-material/DragHandle";
 import { isImage } from "../../utils/utility";
 import { TerrainLoader } from "../../../terrain/src";
 import CloseIcon from "@mui/icons-material/Close";
+import LayerControls from "./layerControls/LayerControls";
 
 import PopoverButton from "../../commonUI/PopoverButton";
 import FeatureTable from "./FeatureTable";
@@ -111,17 +112,14 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
       )}
 
       <PopoverButton
+        // key="hij"
         button={
           <IconButton size="small">
             <SettingsIcon />
           </IconButton>
         }
       >
-        {/* <LayerControls
-          index={index}
-          layers={layers}
-          handleLayer={handleLayer}
-        /> */}
+        <LayerControls index={index} />
       </PopoverButton>
 
       <PopoverButton

@@ -138,6 +138,18 @@ export function hex2rgb(hex: string) {
 // hex2rgb( "#f00" ) ;	// [ 255, 0, 0 ]
 // hex2rgb( "f00" ) ;	// [ 255, 0, 0 ]
 
+export function rgb2hex(rgb) {
+  return (
+    "#" +
+    rgb
+      .map(function (value) {
+        return ("0" + value.toString(16)).slice(-2);
+      })
+      .join("")
+  );
+}
+// rgb2hex( [ 255, 128, 64 ] ) ;	// #ff8040
+
 // 説明 正規化関数
 // 参考 https://zukucode.com/2017/04/javascript-object-max.html
 // 参考 https://qiita.com/ndj/items/82e9c5a4518fe16e539f

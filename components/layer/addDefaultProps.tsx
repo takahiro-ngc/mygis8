@@ -26,21 +26,26 @@ export const addDefaultProps = (item) => {
     pickable: true,
     autoHighlight: true,
     parameters: {
-      depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
+      // depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
     },
+    // updateTriggers: { getPointRadius: "all" },
     // ToDo loadersの設定を消さないとmvtLayerやterrainが描画できない
     // loaders: [KMLLoader],
 
     // 点関係
     pointRadiusUnits: "pixels",
-    pointRadiusScale: 3,
-    getPointRadius: 3,
+    pointRadiusScale: 2,
+    getPointRadius: 5,
+
+    // test
+    // extruded: true,
+    // getElevation: 500,
 
     // ライン関係
     lineWidthUnits: "pixels",
     getLineWidth: (d) => Number(d.properties?.lineWidth) || 3, //地理院のlineWidthは文字列のことがある
     getLineColor: (d) => {
-      const src = d.properties;
+      const src = d?.properties;
       const hex = src?._color || src?.lineColor || src?.stroke || "#000000";
       const opacity = src?._opacity || src?.["stroke-opacity"] || 1;
       return [...hex2rgb(hex), opacity * 255];
@@ -49,14 +54,26 @@ export const addDefaultProps = (item) => {
     // ポリゴン関係
     filled: true,
     getFillColor: (d) => {
-      const src = d.properties;
+      const src = d?.properties;
       const hex = src?._fillColor || src?.polyColor || "#0033ff";
       const opacity = src?._fillOpacity || src?._opacity || 0.5;
       return [...hex2rgb(hex), opacity * 255];
     },
 
-    // タイルレイヤー用
+    // TileLayer用
     tileSize: 256,
+
+    // GeoJsonLayer用
+    pointType: "circle",
+    // getText: (f) => Object?.values(f?.properties)?.[0],
+    getTextSize: 18,
+    textOutlineColor: [255, 255, 255, 255],
+    textOutlineWidth: 0.5,
+    textFontSettings: { sdf: true },
+    // textCharacterSet: "shift-jis",
+    // textCharacterSet: "UTF-8",
+    textCharacterSet: "auto",
+    getTextPixelOffset: [0, 20],
   };
 
   const bitmapTileProps = {

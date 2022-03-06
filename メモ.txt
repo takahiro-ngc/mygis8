@@ -1,17 +1,37 @@
-・useLayerとstoreData，importData,changeSetting,renderLayerType
-storedataはuseRef constructor
+PR
+使い勝手
+
+・オンライン・無料・登録不要
+　とにかく簡単に使えます。会社の
+・色々な地図が見れるサイトは少なかった
+・権利関係が不明瞭・探しずらい
+・ソースコードの公開
+・元データのダウンロード
+・地物の一覧表示とCSVダウンロード
+・立体表示
+　オンラインで，簡単に，任意のレイヤーを立体化はありませんでした。
+・印刷
+・ローカルファイルの編集・保存
+・シェイプファイルの読込
+・外部タイルデータの読込
+・データの共有
+　社内でのデータ共有も外部との共有も
+・営利目的にも
+　出典の表示のみで，大半のユースケースで使用できます
+
 
 １ 機能関係
 （１）難所
 ・terrainのminzoom問題
 ・importの様々な拡張子 shape csv（ポイントのみ）
-・data grid が古いmui styleを参照しているためか，styleのバグがある
+
 
 （２）優先度高
-・AutoHighlightが効いてない？（FeatureTbleの後）
+・傾けると文字埋まる
+・色の透明が効いてない
+デフォルトプロパティの精査と統一
 ・FeatureTabelは下に表示
 ・右上の×ボタンをstickyにする
-・demデータのworker
 ・テキストのアウトライン
 ・レイヤー種類の変更機能　bitmap→terrain　geojson→コラム，グリッド，ヘキサゴン，ヒートマップ
 ・データの充実，メタ情報 geojsonbufの利用
@@ -20,7 +40,6 @@ storedataはuseRef constructor
 ・赤色立体地図の権利処理
 ・地理院のクリックしても無反応データd.src===""?
 ・タイプスクリプト
-・popoverstyleの削除
 ・css clamp(最小値,推奨値,最大値) object-fit
 https://qiita.com/cheez921/items/7c5f82da375a5988a179 のトグル使える？
 もう一度nebula.glを試す

@@ -117,11 +117,11 @@ export const otherLayers = [
     data: "/layer/L01-20.json",
     // highlightedObjectIndex: 3s,
 
-    pointRadiusUnits: "meters",
-    pointRadiusScale: 10,
-    getPointRadius: 500,
-    pointRadiusMinPixels: 3,
-    pointRadiusMaxPixels: 10,
+    // pointRadiusUnits: "meters",
+    // pointRadiusScale: 10,
+    // getPointRadius: 500,
+    // pointRadiusMinPixels: 3,
+    // pointRadiusMaxPixels: 10,
     // getFillColor: colorBins({
     //   attr: (d) => Math.log2(Number(d.properties.L01_006)),
     //   domain: [14, 15, 16, 17, 18, 19, 20],

@@ -4,7 +4,7 @@ import { createLayerInstance } from "../components/utils/utility";
 import { useViewState } from "../hooks/useLayers";
 import { useLayers } from "../hooks/useLayers";
 
-export const Map = ({ setClickedFeature }) => {
+export const Map = ({ setClickedFeature, deck }) => {
   const viewState = useViewState((state) => state);
   const setViewState = useViewState((state) => state.setViewState);
   const onViewStateChange = ({ viewState }) => setViewState(viewState);
@@ -25,6 +25,7 @@ export const Map = ({ setClickedFeature }) => {
       onContextMenu={(e) => e.preventDefault()} //右クリックメニューの抑止
     >
       <DeckGL
+        ref={deck}
         layers={layerInstance}
         controller={{
           inertia: true,
