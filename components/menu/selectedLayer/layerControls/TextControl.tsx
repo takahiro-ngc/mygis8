@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { Select } from "@mui/material";
+import { Select, Typography } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import { useLayers } from "../../../../hooks/useLayers";
@@ -8,7 +8,7 @@ const TextControl = ({ layer, index }) => {
   const changeLayerProps = useLayers((state) => state.changeLayerProps);
   const features = useLayers((state) => state.loadedFeature[layer.id]);
   const textList = Object.keys(features?.[0]?.properties ?? {});
-  const textItem = layer?.TextItemName;
+  const textItem = layer?.TextItemName || "";
 
   // Hack テキストの表示項目を切替えた際，textCharacterSet:"auto"が新しい文字を認識しないため，
   // updateTriggers: "all"にしておいて，useEffectで無理矢理TextLayerを更新した後，updateTriggersをリセット
@@ -31,10 +31,24 @@ const TextControl = ({ layer, index }) => {
 
   return (
     <FormControl fullWidth variant="standard">
-      <Select value={textItem} onChange={handleText}>
+      <Select
+        renderValue={(value) => <div>{value}</div>}
+        value={textItem}
+        onChange={handleText}
+      >
         {textList.map((d) => (
           <MenuItem key={d} value={d}>
-            {d}
+            <Typography width="140px" overflow="hidden" textOverflow="ellipsis">
+              {d}
+            </Typography>
+            <Typography
+              marginLeft={2}
+              maxWidth="140px"
+              overflow="hidden"
+              textOverflow="ellipsis"
+            >
+              {features?.[0]?.properties[d]}
+            </Typography>
           </MenuItem>
         ))}
       </Select>

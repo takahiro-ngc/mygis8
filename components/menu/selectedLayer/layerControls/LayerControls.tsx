@@ -13,26 +13,22 @@ import { RadioGroup } from "@mui/material";
 import PointTypeControl from "./PointTypeControl";
 
 const Item = ({ children, label }) => (
-  <Stack spacing={2} direction="row" alignItems="center" height="34px">
+  <Stack spacing={2} direction="row" alignItems="center" minHeight="34px">
     <div style={{ width: "25%" }}>{label}</div>
     <div style={{ paddingRight: "8px", width: "75%" }}>{children}</div>
   </Stack>
 );
 
 const LayerControls = ({ index }) => {
-  const defaultProps = {
-    visible: true,
-    parameters: null,
-    getLineWidth: 3,
-  };
   const layer = useLayers((state) => state.layers[index]);
   const features = useLayers((state) => state.loadedFeature[layer.id]);
 
   const changeLayerProps = useLayers((state) => state.changeLayerProps);
-  const visible = layer?.visible ?? defaultProps.visible;
+  const visible = layer?.visible ?? true;
   const hasPoint = features?.some(
     (d) => d?.geometry?.type === "Point" || d?.geometry?.type === "MultiPoint"
   );
+  const hasfeatures = !!features.length;
 
   const pixelOffset = layer?.getTextPixelOffset[1];
   const handlePixelOffset = (e) => {
@@ -58,97 +54,113 @@ const LayerControls = ({ index }) => {
         <BlendControl index={index} layer={layer}></BlendControl>
       </Item>
 
-      <Item label="表示種類">
-        <PointTypeControl index={index} layer={layer} />
-      </Item>
+      {hasPoint && (
+        <>
+          <Item label="表示種類">
+            <PointTypeControl index={index} layer={layer} />
+          </Item>
 
-      <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
-        テキスト
-      </Typography>
+          <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
+            テキスト
+          </Typography>
 
-      <Item label="表示項目">
-        <TextControl layer={layer} index={index} />
-      </Item>
+          <Item label="表示項目">
+            <TextControl layer={layer} index={index} />
+          </Item>
 
-      <Item label="表示位置">
-        <RadioGroup row value={pixelOffset} onChange={handlePixelOffset}>
-          <FormControlLabel
-            value={0}
-            control={<Radio size="small" />}
-            label="中央"
-          />
-          <FormControlLabel
-            value={20}
-            control={<Radio size="small" />}
-            label="下"
-          />
-        </RadioGroup>
-      </Item>
+          <Item label="表示位置">
+            <RadioGroup row value={pixelOffset} onChange={handlePixelOffset}>
+              <FormControlLabel
+                value={0}
+                control={<Radio size="small" />}
+                label="中央"
+              />
+              <FormControlLabel
+                value={20}
+                control={<Radio size="small" />}
+                label="下"
+              />
+            </RadioGroup>
+          </Item>
 
-      <Item label="大きさ">
-        <Slider
-          valueLabelDisplay="auto"
-          min={0}
-          max={40}
-          step={1}
-          value={layer.getTextSize}
-          onChange={(e, newValue) => {
-            changeLayerProps(index, {
-              getTextSize: newValue,
-              updateTriggers: { getTextSize: true },
-            });
-          }}
-          size="small"
-        />
-      </Item>
+          <Item label="大きさ">
+            <Slider
+              valueLabelDisplay="auto"
+              min={0}
+              max={40}
+              step={1}
+              value={layer.getTextSize}
+              onChange={(e, newValue) => {
+                changeLayerProps(index, {
+                  getTextSize: newValue,
+                  updateTriggers: { getTextSize: true },
+                });
+              }}
+              size="small"
+            />
+          </Item>
 
-      <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
-        点
-      </Typography>
+          <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
+            点
+          </Typography>
 
-      <Item label="大きさ">
-        <Slider
-          valueLabelDisplay="auto"
-          min={0}
-          max={10}
-          step={0.1}
-          value={layer.getPointRadius}
-          onChange={(e, newValue) => {
-            changeLayerProps(index, {
-              getPointRadius: newValue,
-              updateTriggers: { getPointRadius: true },
-            });
-          }}
-          size="small"
-        />
-      </Item>
-      <Item label="色">
-        <ColorControl layer={layer} index={index} targetProp="getFillColor" />
-      </Item>
+          <Item label="大きさ">
+            <Slider
+              valueLabelDisplay="auto"
+              min={0}
+              max={10}
+              step={0.1}
+              value={layer.getPointRadius}
+              onChange={(e, newValue) => {
+                changeLayerProps(index, {
+                  getPointRadius: newValue,
+                  updateTriggers: { getPointRadius: true },
+                });
+              }}
+              size="small"
+            />
+          </Item>
+          <Item label="色">
+            <ColorControl
+              layer={layer}
+              index={index}
+              targetProp="getFillColor"
+            />
+          </Item>
+        </>
+      )}
 
-      <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
-        線
-      </Typography>
-      <Item label="大きさ">
-        <Slider
-          valueLabelDisplay="auto"
-          min={0}
-          max={10}
-          step={0.1}
-          value={layer.getLineWidth ?? defaultProps.getLineWidth}
-          onChange={(e, newValue) => {
-            changeLayerProps(index, {
-              getLineWidth: newValue,
-              updateTriggers: { getLineWidth: true },
-            });
-          }}
-          size="small"
-        />
-      </Item>
+      {hasfeatures && (
+        <>
+          <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
+            線
+          </Typography>
+          <Item label="大きさ">
+            <Slider
+              valueLabelDisplay="auto"
+              min={0}
+              max={10}
+              step={0.1}
+              value={layer.getLineWidth}
+              onChange={(e, newValue) => {
+                changeLayerProps(index, {
+                  getLineWidth: newValue,
+                  updateTriggers: { getLineWidth: true },
+                });
+              }}
+              size="small"
+            />
+          </Item>
 
-      <Item label="色">
-        <ColorControl layer={layer} index={index} targetProp="getLineColor" />
-      </Item>
+          <Item label="色">
+            <ColorControl
+              layer={layer}
+              index={index}
+              targetProp="getLineColor"
+            />
+          </Item>
+        </>
+      )}
     </>
   );
 };
