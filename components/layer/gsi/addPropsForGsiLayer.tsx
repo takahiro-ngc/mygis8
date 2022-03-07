@@ -37,7 +37,7 @@ export const addPropsForGsiLayer = ({
     getIconSize: 24, //必須
     getPointRadius: (d) => {
       const src = d.properties;
-      return src?._iconUrl || src?.icon || iconUrl ? 1 : 5; //iconがある時は点を小さくして隠す
+      return src?._iconUrl || src?.icon || iconUrl ? 0 : 5; //iconがある時は点を小さくして隠す
     },
   };
 };

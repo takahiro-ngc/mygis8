@@ -42,7 +42,6 @@ export function SelectedLayer() {
     })
   );
   const [activeId, setActiveId] = useState(null);
-  console.log(layers);
   const activeIndex = layers.findIndex((layer) => layer.id === activeId);
   const handleDragStart = (event) => setActiveId(event.active.id);
 

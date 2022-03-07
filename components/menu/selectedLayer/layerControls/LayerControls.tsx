@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import Switch from "@mui/material/Switch";
 import Slider from "@mui/material/Slider";
-import { Button, ButtonBase, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { useLayers } from "../../../../hooks/useLayers";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { FormGroup } from "@mui/material";
-import { Checkbox } from "@mui/material";
+
 import BlendControl from "./BlendControl";
 import TextControl from "./TextControl";
 import ColorControl from "./ColorControl";
+import { Radio } from "@mui/material";
+import { RadioGroup } from "@mui/material";
+import PointTypeControl from "./PointTypeControl";
 
 const Item = ({ children, label }) => (
   <Stack spacing={2} direction="row" alignItems="center" height="34px">
@@ -28,25 +30,17 @@ const LayerControls = ({ index }) => {
 
   const changeLayerProps = useLayers((state) => state.changeLayerProps);
   const visible = layer?.visible ?? defaultProps.visible;
-  const hasPoint = features?.some((d) => d?.geometry?.type === "Point");
-
-  const style = { width: "20%" };
-
-  const [pointTypeArray, setPointTypeArray] = useState(
-    layer.pointType.split("+")
+  const hasPoint = features?.some(
+    (d) => d?.geometry?.type === "Point" || d?.geometry?.type === "MultiPoint"
   );
 
-  const togglePointType = (type: string) => {
-    const addedType = [...pointTypeArray, type];
-    const filtered = pointTypeArray.filter((d) => d !== type);
-    const removedType = filtered;
-    const toggledType = pointTypeArray.includes(type) ? removedType : addedType;
+  const pixelOffset = layer?.getTextPixelOffset[1];
+  const handlePixelOffset = (e) => {
     changeLayerProps(index, {
-      pointType: toggledType.join("+"),
-      updateTriggers: { pointType: true },
+      getTextPixelOffset: [0, Number(e.target.value)],
     });
-    setPointTypeArray(toggledType);
   };
+
   return (
     <>
       <Typography variant="subtitle2" color="primary">
@@ -60,43 +54,52 @@ const LayerControls = ({ index }) => {
         />
       </Item>
 
-      <Item label="合成">
+      <Item label="合成（透過）">
         <BlendControl index={index} layer={layer}></BlendControl>
       </Item>
 
-      <Item label="タイプ">
-        <FormGroup row>
+      <Item label="表示種類">
+        <PointTypeControl index={index} layer={layer} />
+      </Item>
+
+      <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
+        テキスト
+      </Typography>
+
+      <Item label="表示項目">
+        <TextControl layer={layer} index={index} />
+      </Item>
+
+      <Item label="表示位置">
+        <RadioGroup row value={pixelOffset} onChange={handlePixelOffset}>
           <FormControlLabel
-            control={
-              <Checkbox
-                checked={pointTypeArray.includes("circle")}
-                onChange={() => togglePointType("circle")}
-                size="small"
-              />
-            }
-            label="点"
+            value={0}
+            control={<Radio size="small" />}
+            label="中央"
           />
           <FormControlLabel
-            control={
-              <Checkbox
-                checked={pointTypeArray.includes("icon")}
-                onChange={() => togglePointType("icon")}
-                size="small"
-              />
-            }
-            label="アイコン"
+            value={20}
+            control={<Radio size="small" />}
+            label="下"
           />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={pointTypeArray.includes("text")}
-                onChange={() => togglePointType("text")}
-                size="small"
-              />
-            }
-            label="テキスト"
-          />
-        </FormGroup>
+        </RadioGroup>
+      </Item>
+
+      <Item label="大きさ">
+        <Slider
+          valueLabelDisplay="auto"
+          min={0}
+          max={40}
+          step={1}
+          value={layer.getTextSize}
+          onChange={(e, newValue) => {
+            changeLayerProps(index, {
+              getTextSize: newValue,
+              updateTriggers: { getTextSize: true },
+            });
+          }}
+          size="small"
+        />
       </Item>
 
       <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
@@ -121,33 +124,6 @@ const LayerControls = ({ index }) => {
       </Item>
       <Item label="色">
         <ColorControl layer={layer} index={index} targetProp="getFillColor" />
-      </Item>
-
-      <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
-        テキスト
-      </Typography>
-
-      <Item label="表示項目">
-        <TextControl layer={layer} index={index} />
-      </Item>
-
-      <Item label="位置"></Item>
-
-      <Item label="大きさ">
-        <Slider
-          valueLabelDisplay="auto"
-          min={0}
-          max={40}
-          step={1}
-          value={layer.getTextSize}
-          onChange={(e, newValue) => {
-            changeLayerProps(index, {
-              getTextSize: newValue,
-              updateTriggers: { getTextSize: true },
-            });
-          }}
-          size="small"
-        />
       </Item>
 
       <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>

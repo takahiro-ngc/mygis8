@@ -65,13 +65,11 @@ export const addDefaultProps = (item) => {
 
     // GeoJsonLayer用
     pointType: "circle",
-    // getText: (f) => Object?.values(f?.properties)?.[0],
+    getText: (f) => Object?.values(f?.properties)?.[0],
     getTextSize: 18,
     textOutlineColor: [255, 255, 255, 255],
     textOutlineWidth: 0.5,
     textFontSettings: { sdf: true },
-    // textCharacterSet: "shift-jis",
-    // textCharacterSet: "UTF-8",
     textCharacterSet: "auto",
     getTextPixelOffset: [0, 20],
   };

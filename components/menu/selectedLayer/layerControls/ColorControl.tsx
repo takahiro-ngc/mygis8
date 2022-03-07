@@ -23,7 +23,7 @@ const ColorControl = ({ layer, index, targetProp }) => {
   };
   return (
     <PopoverButton button={<ColorSwatch color={color} />} width="fit-content">
-      <SketchPicker color={color} onChange={handleColor} />
+      <SketchPicker color={color} onChange={handleColor} disableAlpha />
     </PopoverButton>
   );
 };

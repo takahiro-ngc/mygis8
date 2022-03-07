@@ -30,13 +30,8 @@ export const useLayers = create((set) => {
     set((state) => ({
       loadedFeature: { ...state.loadedFeature, ...data },
     }));
-  // const setTrigger = () =>
-  //   set((state) => ({
-  //     trigger: 0,
-  //     setTrigger: state.trigger + 1,
-  //   }));
+
   const defaultLayerId1 = "experimental_anno";
-  // const defaultLayerId1 = "history";
   const defaultLayerId2 = "OpenStreetMap";
   const defaultLayers = [defaultLayerId1, defaultLayerId2];
   const makeLayerProp = (layerId: string) => {
@@ -47,7 +42,6 @@ export const useLayers = create((set) => {
         const features = data.flatMap((d) => d?.content?.features || []);
         setLoadedFeature({ [layerId]: features });
       },
-      // updateTriggers: trigger,
     });
 
     const layer1 = findLayer(layerId);
