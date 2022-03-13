@@ -1,7 +1,6 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { DriveEtaTwoTone } from "@mui/icons-material";
 import ListItem from "@mui/material/ListItem";
 import IconButton from "@mui/material/IconButton";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
@@ -19,15 +18,18 @@ import LayerInfo from "../../commonUI/LayerInfo";
 import { Typography } from "@mui/material";
 import { useLayers } from "../../../hooks/useLayers";
 import { ClickAwayListener } from "@mui/material";
+import { TerrainButton } from "./TerrainButton";
 
 export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
+  // dnd-kitの設定
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
-
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  // const layer = useLayers((state) => state.layers[index]);
   const toggleLayer = useLayers((state) => state.toggleLayer);
   const loadedFeature = useLayers((state) => state.loadedFeature);
   const changeLayerProps = useLayers((state) => state.changeLayerProps);
@@ -87,32 +89,42 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
         {layer.title}
       </Typography>
 
-      {isImage(layer.data) && (
-        <IconButton size="small" onClick={toggleTerrain} style={{ padding: 5 }}>
-          {isTerrain ? "2D" : "3D"}
+      {isImage(layer.data) && <TerrainButton index={index} />}
+
+      {/* ToDo localGeojson対応 */}
+      {/* {!!loadedFeature[layer.id]?.length && ( */}
+      <ClickAwayListener onClickAway={handleClickAway}>
+        {/* ClickAwayListenerは Needs to be able to hold a ref. */}
+        <div>
+          <PopoverButton
+            button={
+              <IconButton size="small">
+                <ListAltIcon />
+              </IconButton>
+            }
+            width={1000}
+          >
+            <FeatureTable layer={layer} index={index} />
+          </PopoverButton>
+        </div>
+      </ClickAwayListener>
+      {/* )} */}
+
+      {layer.layerType === "EditableGeoJsonLayer" && (
+        <IconButton
+          size="small"
+          onClick={() =>
+            changeLayerProps(index, {
+              onEdit: ({ updatedData }) =>
+                changeLayerProps(index, { data: updatedData }),
+            })
+          }
+        >
+          <SettingsIcon />
         </IconButton>
       )}
 
-      {!!loadedFeature[layer.id]?.length && (
-        <ClickAwayListener onClickAway={handleClickAway}>
-          {/* ClickAwayListenerは Needs to be able to hold a ref. */}
-          <div>
-            <PopoverButton
-              button={
-                <IconButton size="small">
-                  <ListAltIcon />
-                </IconButton>
-              }
-              width={1000}
-            >
-              <FeatureTable layer={layer} index={index} />
-            </PopoverButton>
-          </div>
-        </ClickAwayListener>
-      )}
-
       <PopoverButton
-        // key="hij"
         button={
           <IconButton size="small">
             <SettingsIcon />

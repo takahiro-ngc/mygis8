@@ -46,6 +46,7 @@ const TextControl = ({ layer, index }) => {
               maxWidth="140px"
               overflow="hidden"
               textOverflow="ellipsis"
+              color="text.secondary"
             >
               {features?.[0]?.properties[d]}
             </Typography>

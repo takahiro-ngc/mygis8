@@ -27,13 +27,10 @@ export default function LayerInfo({ node }) {
     </Link>
   );
 
-  // 地理院データはminZoomが実態と１ずれるよう
-  // ベクターの場合は違う？
+  // 地理院データはminZoomが１ずれるよう
   const minZoom =
     node.category?.[0] === "国土地理院" ? node.minZoom - 1 : node.minZoom;
-  const setting = (
-    <>{minZoom > 1 && `ズームレベルが${minZoom}以上で表示されます。`}</>
-  );
+  const setting = <>{minZoom > 1 && `ズーム${minZoom}以上で表示されます。`}</>;
   const table = {
     出典: attribution,
     凡例: legend,

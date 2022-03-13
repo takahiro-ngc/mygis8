@@ -1,38 +1,81 @@
 import { findLayer } from "../components/layer/layerList";
 import { addDefaultProps } from "../components/layer/addDefaultProps";
 import create from "zustand";
-import { jumpSetting } from "../components/utils/utility";
+import { makeLayerInstance } from "../components/utils/utility";
+import { isEditingCondition } from "../components/utils/utility";
+import {
+  EditableGeoJsonLayer,
+  SelectionLayer,
+  ModifyMode,
+  ResizeCircleMode,
+  TranslateMode,
+  TransformMode,
+  ScaleMode,
+  RotateMode,
+  DuplicateMode,
+  ExtendLineStringMode,
+  SplitPolygonMode,
+  ExtrudeMode,
+  ElevationMode,
+  DrawPointMode,
+  DrawLineStringMode,
+  DrawPolygonMode,
+  DrawRectangleMode,
+  DrawSquareMode,
+  DrawRectangleFromCenterMode,
+  DrawSquareFromCenterMode,
+  DrawCircleByDiameterMode,
+  DrawCircleFromCenterMode,
+  DrawEllipseByBoundingBoxMode,
+  DrawEllipseUsingThreePointsMode,
+  DrawRectangleUsingThreePointsMode,
+  Draw90DegreePolygonMode,
+  DrawPolygonByDraggingMode,
+  MeasureDistanceMode,
+  MeasureAreaMode,
+  MeasureAngleMode,
+  ViewMode,
+  CompositeMode,
+  SnappableMode,
+  ElevatedEditHandleLayer,
+  PathMarkerLayer,
+  SELECTION_TYPE,
+  GeoJsonEditMode,
+} from "nebula.gl";
 
-export const useViewState = create((set) => ({
-  longitude: 139.7673068,
-  latitude: 35.6809591,
-  bearing: 0,
-  zoom: 15,
-  minZoom: 0, //遠景
-  maxZoom: 17.499, //近景 地理院地図（ラスター）は17.5未満が最大
-  maxPitch: 85,
-  setViewState: (newState) =>
-    set((state) => ({
-      ...state,
-      ...newState,
-    })),
-  jump: (position) =>
-    set((state) => ({
-      ...state,
-      longitude: position[0],
-      latitude: position[1],
-      ...jumpSetting,
-    })),
-}));
-
-export const useLayers = create((set) => {
+const mode = {
+  ModifyMode,
+  ResizeCircleMode,
+  TranslateMode,
+  TransformMode,
+  ScaleMode,
+  RotateMode,
+  DuplicateMode,
+  ExtendLineStringMode,
+  SplitPolygonMode,
+  ExtrudeMode,
+  ElevationMode,
+  DrawPointMode,
+  DrawLineStringMode,
+  DrawPolygonMode,
+  MeasureDistanceMode,
+  MeasureAreaMode,
+  MeasureAngleMode,
+  ViewMode,
+  CompositeMode,
+  SnappableMode,
+  ElevatedEditHandleLayer,
+  PathMarkerLayer,
+  GeoJsonEditMode,
+};
+export const useLayers = create((set, get) => {
   const setLoadedFeature = (data) =>
     set((state) => ({
       loadedFeature: { ...state.loadedFeature, ...data },
     }));
 
   const defaultLayerId1 = "experimental_anno";
-  const defaultLayerId2 = "OpenStreetMap";
+  const defaultLayerId2 = "pale";
   const defaultLayers = [defaultLayerId1, defaultLayerId2];
   const makeLayerProp = (layerId: string) => {
     const addStoredDataProp = (original) => ({
@@ -49,9 +92,7 @@ export const useLayers = create((set) => {
     const layer3 = addStoredDataProp(layer2);
     return layer3;
   };
-  const initialProp = defaultLayers.map((layerId: string) =>
-    makeLayerProp(layerId)
-  );
+  const layers = defaultLayers.map((layerId: string) => makeLayerProp(layerId));
 
   const addLayer = (layerId: string) => {
     const newLayer = makeLayerProp(layerId);
@@ -70,29 +111,103 @@ export const useLayers = create((set) => {
       hasSameLayerInPrev ? deleteLayer(layerId) : addLayer(layerId);
     });
 
-  const setLayers = (newState) =>
-    set((state) => {
-      console.log("n", newState);
-      return { layers: newState };
-    });
+  const setLayers = (newState) => set({ layers: newState });
 
-  const changeLayerProps = (index, newProps) =>
+  const changeLayerProps = (indexOrId, newProps) =>
     set((state) => {
+      const findLayerIndex = (layerId) =>
+        state.layers.findIndex((layer) => layer.id === layerId);
+      const index =
+        typeof indexOrId === "string" ? findLayerIndex(indexOrId) : indexOrId;
       const newLayer = { ...state.layers[index], ...newProps };
       let newLayers = [...state.layers];
       newLayers[index] = newLayer;
       return { layers: newLayers };
     });
 
+  // const changeLayerProps = (index, newProps) =>
+  // set((state) => {
+  //   const newLayer = { ...state.layers[index], ...newProps };
+  //   let newLayers = [...state.layers];
+  //   newLayers[index] = newLayer;
+  //   return { layers: newLayers };
+  // });
+
+  const editableLayer = addDefaultProps({
+    layerType: "EditableGeoJsonLayer",
+    id: new Date().toLocaleString(),
+    data: {
+      type: "FeatureCollection",
+      features: [],
+    },
+    mode: DrawPolygonMode,
+    selectedFeatureIndexes: [],
+    title: new Date().toLocaleString(),
+    onEdit: ({ updatedData }) => {
+      changeLayerProps(0, {
+        data: updatedData,
+      });
+    },
+    autoHighlight: false, //falseにすればあのバグなし
+    // updateTriggers: { mode: true },
+  });
+  const addEditableLayer = () => {
+    const id = new Date().toLocaleTimeString() + "の計測・作図";
+    set((state) => ({
+      layers: [
+        {
+          ...editableLayer,
+          id: id,
+          title: id,
+          onEdit: ({ updatedData }) =>
+            changeLayerProps(id, {
+              data: updatedData,
+            }),
+        },
+        ...state.layers,
+      ],
+    }));
+  };
+  const ableEdit = (index) => {
+    changeLayerProps(index, { mode: DrawPolygonMode, autoHighlight: false });
+    // set({ isEditing: true });
+  };
+  const disableEdit = () => {
+    const disableEditProps = (layer) =>
+      layer.layerType === "EditableGeoJsonLayer"
+        ? {
+            ...layer,
+            mode: ViewMode,
+            autoHighlight: true,
+          }
+        : layer;
+
+    set((state) => ({
+      layers: state.layers.map((layer) => disableEditProps(layer)),
+      // isEditing: false,
+    }));
+  };
+
+  const currentEditLayerIndex = layers.findIndex(
+    (layer) =>
+      layer.layerType === "EditableGeoJsonLayer" && layer.mode !== ViewMode
+  );
+
+  const getIsEditing = () => get().layers.some(isEditingCondition);
+
   return {
-    layers: initialProp,
-    addLayer: addLayer,
+    layers,
+    getIsEditing,
+
+    ableEdit,
+    disableEdit,
+    addLayer,
     loadedFeature: {},
-    setLoadedFeature: setLoadedFeature,
-    deleteLayer: deleteLayer,
-    toggleLayer: toggleLayer,
-    setLayers: setLayers,
-    changeLayerProps: changeLayerProps,
-    // setTrigger: setTrigger,
+    setLoadedFeature,
+    deleteLayer,
+    toggleLayer,
+    setLayers,
+    changeLayerProps,
+    addEditableLayer,
   };
 });

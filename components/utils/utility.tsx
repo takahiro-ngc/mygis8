@@ -2,11 +2,12 @@
 // import * as d3 from "d3";
 import * as turf from "@turf/turf";
 // import Color from "./layerData/node_modules/color";
-import { FlyToInterpolator } from "deck.gl";
 import { MVTLayer, TerrainLayer, TileLayer } from "@deck.gl/geo-layers";
 import { ColumnLayer, GeoJsonLayer } from "@deck.gl/layers";
+import { EditableGeoJsonLayer } from "nebula.gl";
+import { ViewMode } from "nebula.gl";
 
-export const createLayerInstance = (layer) => {
+export const makeLayerInstance = (layer) => {
   switch (layer.layerType) {
     case "TileLayer":
       return new TileLayer(layer);
@@ -16,16 +17,12 @@ export const createLayerInstance = (layer) => {
       return new TerrainLayer(layer);
     case "MVTLayer":
       return new MVTLayer(layer);
+    case "EditableGeoJsonLayer":
+      return new EditableGeoJsonLayer(layer);
   }
 };
 
-export const jumpSetting = {
-  transitionDuration: "auto",
-  transitionInterpolator: new FlyToInterpolator(),
-  transitionEasing: (x) =>
-    x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2, //easeInOutQuad
-};
-
+export const mediaQuery = "(max-width:600px)";
 // 中心座標を求める方法は，https://observablehq.com/@pessimistress/deck-gl-custom-layer-tutorial
 // のgetLabelAnchorsを参考にし，さらにcase "LineString"を追加
 export const getCenterPosition = (feature) => {
@@ -75,6 +72,9 @@ export const addCenterPosition = (data) => {
   return data;
 };
 export const roundToSix = (num) => +(Math.round(num + "e+6") + "e-6");
+
+export const isEditingCondition = (layer) =>
+  layer.layerType === "EditableGeoJsonLayer" && layer.mode !== ViewMode;
 
 export const imgFileType = [
   "png",

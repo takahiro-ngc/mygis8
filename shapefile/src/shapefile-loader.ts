@@ -27,7 +27,7 @@ export const ShapefileLoader = {
     shp: {
       _maxDimensions: 4,
     },
-    testaaaa: "bhjnkml",
+    // testaaaa: "bhjnkml",
   },
   parse: parseShapefile,
   parseInBatches: parseShapefileInBatches,

@@ -1,6 +1,4 @@
-PR
-使い勝手
-
+〇PR
 ・オンライン・無料・登録不要
 　とにかく簡単に使えます。会社の
 ・色々な地図が見れるサイトは少なかった
@@ -20,38 +18,41 @@ PR
 　出典の表示のみで，大半のユースケースで使用できます
 
 
-１ 機能関係
-（１）難所
+〇難所
 ・terrainのminzoom問題
+
+〇ToDo
 ・importの様々な拡張子 shape csv（ポイントのみ）
-
-
-（２）優先度高
-・テキストが0の時falseになる
-・傾けると文字埋まる
-・色の透明が効いてない
-デフォルトプロパティの精査と統一
-・FeatureTabelは下に表示
-・右上の×ボタンをstickyにする
-・テキストのアウトライン
-・レイヤー種類の変更機能　bitmap→terrain　geojson→コラム，グリッド，ヘキサゴン，ヒートマップ
-・データの充実，メタ情報 geojsonbufの利用
+・ソースの整理
+　デフォルトプロパティの精査と統一
+　タイプスクリプト
+・データの充実，メタ情報 
 ・共有用url
-・importのヘルパーテキスト
 ・赤色立体地図の権利処理
-・地理院のクリックしても無反応データd.src===""?
-・タイプスクリプト
-・css clamp(最小値,推奨値,最大値) object-fit
-https://qiita.com/cheez921/items/7c5f82da375a5988a179 のトグル使える？
-もう一度nebula.glを試す
-超印刷
+・usegeolocation
+・マスク
+・テキスト選択でカクつき
+・背景色
+・importデータのlayercontrol
+
+〇リンク集
+・地理院地図
+・ひなたＧＩＳ
+・ＲＥＳＡＳ
+・ケプラーgeojson
+・プラトー
+・統計GIS
+・Geoshapeリポジトリ
+・mapshaper
+
+
+〇シェープファイルのまとめ
 parse-shapefile.tsの
 const shxPromise = fetch(replaceExtension(url, 'shx')); →fetch(context.url[0])
 load(e.target.files[4], [ShapefileLoader], option, context.url=e.target.files)　※contextは必須のkey（parse等）があり，その設定ができなかった
 workerオフにして独自ローダーを試す
  const {url, fetch} = context;→contextは使えないので， const {fileData} = options;
 
- シェープファイルのまとめ
  ・複数のファイルをアップロードすると，必ずしもfiles[0]がシェープファイルではない
  ・普通にアップロードするとhttp://localhost:3000/aaa.shp等を読みに行く
  ・loaderのファイルのworkerをfalseにする→コンソールのSourceで確認
@@ -59,8 +60,7 @@ workerオフにして独自ローダーを試す
  ・当該関数の引数にファイルを直接指定すればよい
  ・エンコードは，shift-jis等にする，または自動で判別する
 
-
-useStoreData
+〇インポート
 ・zipファイル→展開
 ・フォルダがあった場合，さらに展開（標準機能かも）
 ・国土数値情報の独特のzip構成対応
@@ -68,12 +68,6 @@ useStoreData
 ・ない場合は，シェープファイルを読み込む
 ・複数のshpがあるか判定する
 ・複数ある場合は，全て読み込む
-[file1,file2,file3]
-file1を読み込む
-そのファイルの拡張子を判定する
-zipなら解凍する
-
-
 ・search shp, shx, cpg, prj, dbf
 ・{shp:  ,
    shx:   ,
@@ -83,55 +77,48 @@ zipなら解凍する
 ・options.fileあたりにそれらを格納する
 
 （４）優先度中
-・histryが再アクセスで空
+・地理院のクリックしても無反応データd.src===""?
+
+・FeatureTabelは下に表示
+geojsonbufの利用
+・クリップによる断面図
+
 ・地図の種類サーチはカテゴリー＋titleでフィルターして，単純リスト表示
-・リンク集　geojson編集，ケプラー，データスタート，統計gis，RESUS，Geoshapeリポジトリ
-・カスタムレイヤー
+・標高を2倍に誇張
+・editableLayerをcontrolで編集してもすぐに反映されない
+
+・超印刷
 ・layerPropsのisTileでimportするとローカルではくるくるが止まらないことがある
 ・緯度経度ラインレイヤー
 ・二画面時にツリー開閉でかくつく　overflowy hidden?
 ・ホバーで凡例を表示　デフォルトはオフ
 ・ツールチップの位置
-・headerの垂直のずれ（* borderで分かる）
 ・gsiベクターを一種類ずつ掲載
-・ラベルドgeojson
-・material ui5
 ・geoloniaの逆ジオコーディングとフリガナ
-・useReducer使えるか
-・useBoolean使えるか
 
 （５）優先度低
-・下メニュー
+・histry
+・nebula.gl
+・レイヤー種類の変更機能　bitmap→terrain　geojson→コラム，グリッド，ヘキサゴン，ヒートマップ
 ・地価マップの見やすい表示 色，大きさ，高さ，形，太さ
-・ラベル表示項目のカスタマイズ→新規テキストレイヤー
 ・データサマリー，グラフの表示
 ・e-stat連携
 ・RESAS連携
 ・アイソクローンマップ
 ・くるくる
 ・ジオコーディング，逆ジオコーディング
-・印刷
-・作図・計測
 ・popoverの画像が読み込まれた後，画面外になる
-・表示範囲の明示（ズームレベルとエリア）
-・ストレージキャッシュと履歴
-・データ検索20210905 expandの設定が難しい
 ・スケールの表示
 ・現在地を表示
-・火山基本図データ（基図）を合成するとデータの無い場所が黒くなる
 ・3Dかつ合成にすると外周部が黒くなる
-・editableLayerはメンテナンスされておらず，現行deck.glのバージョンではselectedfeature周りでバグあり。外部コンポーネント化するとコンパイルエラー
-・featureTableにgeometryのタイプ，座標の追加
-・setLoadedDataを使わずに→setLayerを使う方法はできなかった
-・スクロールバーをオンホバーライト
 ・塗分け機能　変数が多くてかなり面倒
 →単色・塗分け
 →→何の項目に基づくか
 →→→色　絶対数・対数　最大・最小　カテゴリ・段階・無段階
 ・塗分けマップ（都道府県名，市町村名オプション，数字，インポート後のオプション 線形・対数，基準値，dataTransform/
+・propsConverter fillTerget:aaa → getFillColor:d=>d.properties.["aaa"]
+
 ・フィルター機能
-・ラベル機能　面倒で
-・featureをもう一度押すと閉じる　技術的にはできるが，コスパ悪い
 
 〇道路などのカテゴリごとのオンオフ
 道路
@@ -173,12 +160,6 @@ zipなら解凍する
 
 
 ２ 試行錯誤メモ
-（１）shapeファイル
-・shapeファイルは.dataで読込できるが，propertyがない，layerControlがエラー
-・二つのファイルを同時に読み込む必要あり
-・同一フォルダから関連ファイルを読みに行こうとするがhttp:.../aaa.dbfを読もうとする
-・zipで試してもだめ
-
 （２）カラム検討結果メモ
 ・グリッドは狭めたときの挙動が悪い，右カラムの調整が難しい
 ポップアップはabsoluteにすれば重ねさせることはできるが右下が合わない
@@ -239,6 +220,7 @@ here
 google
 mielune
 nasa 夜間光
+geojson編集
 
 
 〇地理院特有
@@ -262,8 +244,6 @@ nasa 夜間光
 ・自分で作る陰影さいだん図
 ・地形分類ベクトルタイルが色分けされない，クリックインフォがない
 https://maps.gsi.go.jp/layers_txt/layers_tochibunrui.txt
-
-
 
 
 〇メモ
@@ -295,8 +275,6 @@ https://maps.gsi.go.jp/layers_txt/layers_tochibunrui.txt
 ・色分けは，価格帯・変動率・公示or基準
 ・地点をクリックで，詳細→広域図，掲示変化，グラフ
 ・用途地域で表示・非表示を選択
-・textlayerに日本語表示ができない
 ・家賃マップ
 ・地震マップ可視化　→　動画
 ・地震速報マップ
-・propsConverter fillTerget:aaa → getFillColor:d=>d.properties.["aaa"]

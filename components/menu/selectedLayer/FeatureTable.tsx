@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 
+import PlaceIcon from "@mui/icons-material/Place";
+import { IconButton, Typography } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
-  GridToolbar,
   GridSelectionModel,
+  GridToolbar,
 } from "@mui/x-data-grid";
-import renderCellExpand from "./renderCellExpand";
-import { getCenterPosition } from "../../utils/utility";
-import { CustomToolbar, CustomPagination } from "./DataGridCompornent";
-import { Typography } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import PlaceIcon from "@mui/icons-material/Place";
-import { IconButton } from "@mui/material";
-import { roundToSix } from "../../utils/utility";
-import { useViewState } from "../../../hooks/useLayers";
+
 import { useLayers } from "../../../hooks/useLayers";
-import { ClickAwayListener } from "@mui/material";
+import useViewState from "../../../hooks/useViewState";
+import { getCenterPosition, roundToSix } from "../../utils/utility";
+import { CustomPagination, CustomToolbar } from "./DataGridCompornent";
+import renderCellExpand from "./renderCellExpand";
 
 const FeatureTable = ({ layer, index }) => {
   const jump = useViewState((state) => state.jump);
-  const features = useLayers((state) => state.loadedFeature[layer.id]);
+
+  const isLocalGeojson = layer.data?.type === "FeatureCollection";
+  // const test = layer.data?.type.resolve(result);
+  const loadedFeature = useLayers((state) => state.loadedFeature[layer.id]);
+  // const features = test;
+  const features = isLocalGeojson ? layer.data.features : loadedFeature;
+  // const features = useLayers((state) => state.loadedFeature[layer.id]);
   const changeLayerProps = useLayers((state) => state.changeLayerProps);
 
   const keyList = features?.flatMap((d) => Object.keys(d?.properties));
@@ -40,12 +43,12 @@ const FeatureTable = ({ layer, index }) => {
     },
     {
       field: "longitude",
-      headerName: "経度",
+      headerName: "中心の経度",
       renderCell: renderCellExpand,
     },
     {
       field: "latitude",
-      headerName: "緯度",
+      headerName: "中心の緯度",
       renderCell: renderCellExpand,
     },
   ];
@@ -81,11 +84,9 @@ const FeatureTable = ({ layer, index }) => {
   const rows = features?.map((d, index) => {
     const geometryType = d.geometry.type;
     const centerPosition = getCenterPosition(d);
-    const coordinates = d.geometry.coordinates;
+    // const coordinates = d.geometry.coordinates;
     const longitude = roundToSix(centerPosition[0]);
-    // geometryType === "Point" ? coordinates[0] : coordinates[0][0];
     const latitude = roundToSix(centerPosition[1]);
-    // geometryType === "Point" ? coordinates[1] : coordinates[0][1];
 
     return {
       id: index,
@@ -97,16 +98,9 @@ const FeatureTable = ({ layer, index }) => {
   });
 
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
-  const handleClickAway = () =>
-    changeLayerProps(index, {
-      highlightedObjectIndex: null,
-    });
+
   return (
-    // <ClickAwayListener onClickAway={() => console.log("tyvbuinm")}>
-    // {/* ClickAwayListenerは<>は不可 */}
     <div>
-      {/* {columns.length && (
-        <> */}
       <DataGrid
         rows={rows}
         columns={columns}
@@ -129,13 +123,9 @@ const FeatureTable = ({ layer, index }) => {
       />
 
       <Typography variant="caption">
-        ※変換・加工処理をしているため，元データの完全な再現とは限りません。
+        ※変換・加工処理をしているため，元データと同一とは限りません。
       </Typography>
-      {/* <button onClick={handleClickAway}>aaa</button> */}
-      {/* </>
-      )} */}
     </div>
-    // </ClickAwayListener>
   );
 };
 

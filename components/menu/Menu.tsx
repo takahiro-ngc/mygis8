@@ -1,12 +1,17 @@
-import React, { useReducer } from "react";
 import { Resizable } from "re-resizable";
+import React, { useReducer } from "react";
+
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Box } from "@mui/system";
+
+import { mediaQuery } from "../utils/utility";
 import LayerTree from "./LayerTree";
 import SelectedLayer from "./selectedLayer/SelectedLayer";
 import ToggleMenuButton from "./ToggleMenuButton";
 
-export const Menu = ({ isMediaQuery }) => {
+export const Menu = () => {
   const [isMenuVisible, toggleMenuVisible] = useReducer((prev) => !prev, true);
+  const isMediaQuery = useMediaQuery(mediaQuery);
 
   return (
     <Box
@@ -16,9 +21,7 @@ export const Menu = ({ isMediaQuery }) => {
         zIndex: 1,
         position: "absolute",
         height: "100%",
-        width: "35vw",
-        maxWidth: 400,
-        minWidth: 300,
+        width: "clamp(300px, 35vw, 400px)",
         display: "flex",
         flexDirection: "column",
         backgroundColor: "background.default",

@@ -1,23 +1,23 @@
-import React from "react";
-
-import { layerList } from "../layer/layerList";
-import PopoverButton from "../commonUI/PopoverButton";
-import LayerInfo from "../commonUI/LayerInfo";
-
-import Stack from "@mui/material/Stack";
-import TreeView from "@mui/lab/TreeView";
-import TreeItem from "@mui/lab/TreeItem";
-
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Typography from "@mui/material/Typography";
+import React, { useCallback } from "react";
 import SimpleBar from "simplebar-react";
+
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import TreeItem from "@mui/lab/TreeItem";
+import TreeView from "@mui/lab/TreeView";
 import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+
 import { useLayers } from "../../hooks/useLayers";
+import LayerInfo from "../commonUI/LayerInfo";
+import PopoverButton from "../commonUI/PopoverButton";
+import { layerList } from "../layer/layerList";
+import "simplebar/dist/simplebar.min.css";
 
 const LayerTree = () => {
-  const toggleLayer = useLayers((state) => state.toggleLayer);
+  const toggleLayer = useLayers(useCallback((state) => state.toggleLayer, []));
   const renderTree = (nodes) =>
     nodes.map((node, index) => {
       const key = node.category + node.title + index;
@@ -54,10 +54,6 @@ const LayerTree = () => {
         height: "100%",
       }}
     >
-      {/* <Typography variant="h6" component="h2" display="inline">
-        地図の種類
-      </Typography> */}
-
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}

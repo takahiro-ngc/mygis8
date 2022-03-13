@@ -1,17 +1,24 @@
+import Image from "next/image";
+import React from "react";
+import ReactHtmlParser from "react-html-parser";
+import SimpleBar from "simplebar-react";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import React from "react";
-import ReactHtmlParser from "react-html-parser";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
+import { mediaQuery } from "./utils/utility";
 import CloseButton from "./commonUI/CloseButton";
 import { isImage } from "./utils/utility";
-import SimpleBar from "simplebar-react";
-import Image from "next/image";
 import "simplebar/dist/simplebar.min.css";
+import { useLayers } from "../hooks/useLayers";
 
-const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
+const FeatureInfo = ({ clickedFeature, setClickedFeature }) => {
+  const isMediaQuery = useMediaQuery(mediaQuery);
+
   // const lat = clickedFeature?.object?.geometry?.coordinates[1];
   // const lon = clickedFeature?.object?.geometry?.coordinates[0];
   const lat = clickedFeature?.coordinate[1].toFixed(6);
@@ -35,16 +42,17 @@ const FeatureInfo = ({ clickedFeature, setClickedFeature, isMediaQuery }) => {
   const isStyleInfo = (key) => key.startsWith("_"); //_colorや_opacityなどのプロパティが地理院レイヤーにある
   const isUndefined = (value) => value === undefined;
   const shouldRender = (key, value) => !isStyleInfo(key) && !isUndefined(value);
+
+  const isEditing = useLayers((state) => state.isEditing);
+  const hidden = !clickedFeature || isEditing;
   return (
     <SimpleBar
-      hidden={!clickedFeature}
+      hidden={hidden}
       style={{
         position: "absolute",
-        top: 0,
+        // top: 0,
         right: 0,
-        width: "25vw",
-        minWidth: "320px",
-        maxWidth: "420px",
+        width: "clamp(320px, 25vw, 420px)",
         maxHeight: "100%",
         zIndex: 2,
         ...(isMediaQuery && {

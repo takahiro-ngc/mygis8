@@ -1,90 +1,64 @@
 import React from "react";
 
-import { Typography } from "@mui/material";
-import { Button } from "@mui/material/";
-import PopoverButton from "../commonUI/PopoverButton";
-import Faq from "./Faq";
-import Import from "./Import";
-import ShareIcon from "@mui/icons-material/Share";
-import ImportExportIcon from "@mui/icons-material/ImportExport";
-import { defaultMode, drawMode } from "../EditMode";
-
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
+import ShareIcon from "@mui/icons-material/Share";
+import { Box, IconButton, Typography } from "@mui/material";
+import { Button } from "@mui/material/";
+// import { defaultMode, drawMode } from "../EditMode";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import Import from "./Import";
+import PopoverButton from "../commonUI/PopoverButton";
+import { mediaQuery } from "../utils/utility";
+import Edit from "../Edit";
+import Faq from "./Faq";
+import { useLayers } from "../../hooks/useLayers";
+import { ViewMode } from "nebula.gl";
+import { isEditingCondition } from "../utils/utility";
 
-import LooksTwoOutlinedIcon from "@mui/icons-material/LooksTwoOutlined";
+const Header = () => {
+  const isMediaQuery = useMediaQuery(mediaQuery);
 
-const Header = ({ setLayers }) => {
-  const matches = useMediaQuery("(min-width:500px)");
   const Item = ({ label, icon, children }) => (
-    <>
-      {matches ? (
-        <PopoverButton
-          width={800}
-          placement="bottom"
-          button={
-            <Button variant="outlined" size="small" startIcon={icon}>
-              {label}
-            </Button>
-          }
-        >
-          {children}
-        </PopoverButton>
-      ) : (
-        // ToDo ボタンの処理
-        <PopoverButton width={800} placement="bottom" icon={icon}>
-          {children}
-        </PopoverButton>
-      )}
-    </>
+    <PopoverButton
+      width={800}
+      placement="bottom"
+      button={
+        isMediaQuery ? (
+          <IconButton size="small">{icon}</IconButton>
+        ) : (
+          <Button variant="outlined" size="small" startIcon={icon}>
+            {label}
+          </Button>
+        )
+      }
+    >
+      {children}
+    </PopoverButton>
   );
 
   return (
-    <div
-      style={{
-        width: "100%",
-        zIndex: 2,
-        padding: 8,
-        display: "flex",
-        alignItems: "center",
-        background: "rgba(50, 50, 50)",
-      }}
-    >
+    <Box padding={1} display="flex" zIndex={2}>
       <Typography variant="h5" component="h1">
         色々な地図。
       </Typography>
 
-      <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
+      <Box display="flex" gap={1} marginLeft="auto">
         <>
           <Item label="共有" icon={<ShareIcon />}>
             {/* <Import setLayers={setLayers} /> */}
           </Item>
 
           <Item label="インポート" icon={<ImportExportIcon />}>
-            <Import setLayers={setLayers} />
+            <Import />
           </Item>
-
-          {/* <Button
-            size="small"
-            variant="outlined"
-            onClick={() =>
-              setModeOfEdit((prev) =>
-                prev.id === "ViewMode"
-                  ? drawMode.find((d) => d.id === "DrawPolygonMode")
-                  : defaultMode.find((d) => d.id === "ViewMode")
-              )
-            }
-            // startIcon={<LooksTwoOutlinedIcon />}
-          >
-            計測・作図
-          </Button> */}
 
           <Item label="FAQ" icon={<HelpOutlineIcon />}>
             <Faq />
           </Item>
         </>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

@@ -11,6 +11,7 @@ import ColorControl from "./ColorControl";
 import { Radio } from "@mui/material";
 import { RadioGroup } from "@mui/material";
 import PointTypeControl from "./PointTypeControl";
+import { ViewMode } from "nebula.gl";
 
 const Item = ({ children, label }) => (
   <Stack spacing={2} direction="row" alignItems="center" minHeight="34px">
@@ -21,16 +22,19 @@ const Item = ({ children, label }) => (
 
 const LayerControls = ({ index }) => {
   const layer = useLayers((state) => state.layers[index]);
-  const features = useLayers((state) => state.loadedFeature[layer.id]);
+
+  const isLocalGeojson = layer.data?.type === "FeatureCollection";
+  const loadedFeature = useLayers((state) => state.loadedFeature[layer.id]);
+  const features = isLocalGeojson ? layer.data.features : loadedFeature;
 
   const changeLayerProps = useLayers((state) => state.changeLayerProps);
   const visible = layer?.visible ?? true;
   const hasPoint = features?.some(
     (d) => d?.geometry?.type === "Point" || d?.geometry?.type === "MultiPoint"
   );
-  const hasfeatures = !!features.length;
+  const hasfeatures = !!features?.length;
 
-  const pixelOffset = layer?.getTextPixelOffset[1];
+  const pixelOffset = layer?.getTextPixelOffset?.[1];
   const handlePixelOffset = (e) => {
     changeLayerProps(index, {
       getTextPixelOffset: [0, Number(e.target.value)],
@@ -135,7 +139,7 @@ const LayerControls = ({ index }) => {
           <Typography variant="subtitle2" color="primary" sx={{ marginTop: 2 }}>
             線
           </Typography>
-          <Item label="大きさ">
+          <Item label="太さ">
             <Slider
               valueLabelDisplay="auto"
               min={0}
@@ -146,6 +150,7 @@ const LayerControls = ({ index }) => {
                 changeLayerProps(index, {
                   getLineWidth: newValue,
                   updateTriggers: { getLineWidth: true },
+                  // mode: ViewMode,
                 });
               }}
               size="small"

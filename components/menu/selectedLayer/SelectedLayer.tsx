@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import List from "@mui/material/List";
+import React, { useState, useCallback } from "react";
 import { TransitionGroup } from "react-transition-group";
+import SimpleBar from "simplebar-react";
+import "simplebar/dist/simplebar.min.css";
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  DragOverlay,
   KeyboardSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
   useSensors,
-  DragOverlay,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -17,13 +18,11 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-
 import Collapse from "@mui/material/Collapse";
-import { Typography } from "@mui/material";
-import SimpleBar from "simplebar-react";
+import List from "@mui/material/List";
 
-import SelectedLayerItem from "./SelectedLayerItem";
 import { useLayers } from "../../../hooks/useLayers";
+import SelectedLayerItem from "./SelectedLayerItem";
 
 export function SelectedLayer() {
   const layers = useLayers((state) => state.layers);
@@ -54,16 +53,11 @@ export function SelectedLayer() {
       const newlayers = arrayMove(layers, oldIndex, newIndex);
       setLayers(newlayers);
     }
-
     setActiveId(null);
   };
 
   return (
     <SimpleBar style={{ height: "100%", padding: 8 }}>
-      {/* <Typography variant="h6" component="h2">
-        選択中の地図
-      </Typography> */}
-
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -75,12 +69,13 @@ export function SelectedLayer() {
             <TransitionGroup>
               {layers.map((layer, index) => (
                 // key=layer.idにすると，toggleTerrainでidが変わったときにカクつく
-                <Collapse key={layer.title + layer.data} timeout={500}>
+                <Collapse key={layer.data + layer.title} timeout={500}>
                   <SelectedLayerItem
                     id={layer.id}
                     layer={layer}
                     index={index}
                     activeId={activeId}
+                    isDragging={false}
                   />
                 </Collapse>
               ))}

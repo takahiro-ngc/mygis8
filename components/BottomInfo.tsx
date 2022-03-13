@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import { useViewState } from "../hooks/useLayers";
+import useViewState from "../hooks/useViewState";
 
 export default function BottomInfo() {
   // const lat = hoverdFeature?.coordinate?.[1].toFixed(6);

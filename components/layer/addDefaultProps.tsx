@@ -16,7 +16,8 @@ export const addDefaultProps = (item) => {
     // fileType: fileType,
     isTile: isTile(data), //デバッグ用
 
-    // タイルレイヤー（GSI）用
+    // TerrainLayer用
+    // https://gbank.gsj.jp/seamless/elev/tile.html
     elevationData: "https://tiles.gsj.jp/tiles/elev/mixed/{z}/{y}/{x}.png",
     texture: item.data,
 
@@ -26,7 +27,7 @@ export const addDefaultProps = (item) => {
     pickable: true,
     autoHighlight: true,
     parameters: {
-      // depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
+      depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
     },
     // updateTriggers: { getPointRadius: "all" },
     // ToDo loadersの設定を消さないとmvtLayerやterrainが描画できない
