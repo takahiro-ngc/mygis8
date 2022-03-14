@@ -15,11 +15,12 @@ import * as turf from "@turf/turf";
 // import { characterSet } from "../characterSet";
 // import { DataFilterExtension } from "@deck.gl/extensions";
 import { parse } from "@loaders.gl/core";
-import { ZipLoader } from "@loaders.gl/zip";
+// import { ZipLoader } from "@loaders.gl/zip";
 import GL from "@luma.gl/constants";
 import { colorBins, colorContinuous, colorCategories } from "@deck.gl/carto";
 import { addCenterPosition } from "../../utils/utility";
 import { TerrainWorkerLoader, TerrainLoader } from "../../../terrain/src";
+import { FlatGeobufLoader } from "@loaders.gl/flatgeobuf";
 
 // https://github.com/visgl/deck.gl/issues/3489
 // https://luma.gl/docs/api-reference/gltools/context
@@ -153,35 +154,35 @@ export const otherLayers = [
     // getTextPixelOffset: [0, 20],
   },
 
-  {
-    layerType: "GeoJsonLayer",
-    id: "公示地価zip",
-    title: "公示地価zip",
-    data: "/layer/L01-20.zip",
-    loaders: [ZipLoader],
-    dataTransform: (d) =>
-      JSON.parse(new TextDecoder().decode(d["L01-20.json"])),
-    pointRadiusUnits: "meters",
-    pointRadiusScale: 10,
-    getPointRadius: 500,
-    pointRadiusMinPixels: 3,
-    pointRadiusMaxPixels: 10,
-    getFillColor: colorBins({
-      attr: (d) => Math.log2(Number(d.properties.L01_006)),
-      domain: [14, 15, 16, 17, 18, 19, 20],
-      // domain: [2, 23],
-      // colors: "BluYl",
-    }),
+  // {
+  //   layerType: "GeoJsonLayer",
+  //   id: "公示地価zip",
+  //   title: "公示地価zip",
+  //   data: "/layer/L01-20.zip",
+  //   loaders: [ZipLoader],
+  //   dataTransform: (d) =>
+  //     JSON.parse(new TextDecoder().decode(d["L01-20.json"])),
+  //   pointRadiusUnits: "meters",
+  //   pointRadiusScale: 10,
+  //   getPointRadius: 500,
+  //   pointRadiusMinPixels: 3,
+  //   pointRadiusMaxPixels: 10,
+  //   getFillColor: colorBins({
+  //     attr: (d) => Math.log2(Number(d.properties.L01_006)),
+  //     domain: [14, 15, 16, 17, 18, 19, 20],
+  //     // domain: [2, 23],
+  //     // colors: "BluYl",
+  //   }),
 
-    pointType: "circle+text",
-    getText: (d) =>
-      (Number(d.properties.L01_006) / 1000).toLocaleString() + "千",
-    getTextSize: 200,
-    textSizeMaxPixels: 20,
-    textSizeUnits: "meters",
-    textCharacterSet: "auto",
-    getTextPixelOffset: [0, 20],
-  },
+  //   pointType: "circle+text",
+  //   getText: (d) =>
+  //     (Number(d.properties.L01_006) / 1000).toLocaleString() + "千",
+  //   getTextSize: 200,
+  //   textSizeMaxPixels: 20,
+  //   textSizeUnits: "meters",
+  //   textCharacterSet: "auto",
+  //   getTextPixelOffset: [0, 20],
+  // },
   {
     layerType: "GeoJsonLayer",
     id: "境界_都道府県",
@@ -267,5 +268,13 @@ export const otherLayers = [
       //  "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
       "https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg",
     autoHighlight: false,
+  },
+  {
+    layerType: "GeoJsonLayer",
+    id: "フラットgeobuf",
+    title: "フラットgeobuf",
+    data: "/layer/qシンプル.fgb",
+    ...settingForBoundary,
+    loaders: [FlatGeobufLoader],
   },
 ];

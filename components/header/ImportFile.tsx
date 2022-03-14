@@ -8,6 +8,7 @@ import { load } from "@loaders.gl/core";
 import { useLayers } from "../../hooks/useLayers";
 import { addDefaultProps } from "../layer/addDefaultProps";
 import shp from "shpjs";
+// import { FlatGeobufLoader } from "@loaders.gl/flatgeobuf";
 
 const getFileType = (fileName) => {
   const pos = fileName.lastIndexOf(".");
@@ -30,10 +31,12 @@ export default function ImportFile() {
       const fileType = getFileType(file.name);
       const data =
         fileType === "zip" ? shpToGeojson(file) : load(file, [KMLLoader]);
+      // : load(file, [KMLLoader, FlatGeobufLoader]);
       const newLayerProps = {
         data: data,
         id: file.name,
         title: file.name,
+        loaders: [FlatGeobufLoader],
       };
       const newLayer = addDefaultProps(newLayerProps);
       setLayers([newLayer, ...layers]);
