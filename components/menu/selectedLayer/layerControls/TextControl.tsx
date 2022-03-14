@@ -19,7 +19,7 @@ const TextControl = ({ layer, index }) => {
       });
     }, 500);
     return () => clearInterval(interval);
-  }, []);
+  }, [changeLayerProps, index]);
 
   const handleText = (e) => {
     changeLayerProps(index, {
