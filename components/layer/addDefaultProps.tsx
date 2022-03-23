@@ -1,7 +1,6 @@
 import { BitmapLayer } from "@deck.gl/layers";
 import { KMLLoader } from "@loaders.gl/kml";
 import { isTile, getFileType, isImage, hex2rgb } from "../utils/utility";
-import { TerrainLayer } from "@deck.gl/geo-layers";
 // geojsonのスタイルは，以下のうち主な属性のみ実装
 // https://github.com/mapbox/simplestyle-spec/tree/master/1.1.0
 // https://github.com/gsi-cyberjapan/geojson-with-style-spec
@@ -9,10 +8,17 @@ import { TerrainLayer } from "@deck.gl/geo-layers";
 // ToDo defaultPropsとaddDefaultPropsに分割
 export const addDefaultProps = (item) => {
   const data = item.data;
+  const fileType = getFileType(item.data);
+  const isMapboxFile = fileType === "pbf" || fileType === "mvt";
+  const isKml = fileType === "kml";
+  const isBitmapTile = isTile(data) && isImage(data);
 
   const mainProps = {
-    // deck.glにない独自プロパティ
-    layerType: isTile(data) ? "TileLayer" : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
+    layerType: isTile(data)
+      ? isMapboxFile
+        ? "MVTLayer"
+        : "TileLayer"
+      : "GeoJsonLayer", //使用するdeck.glレイヤーの種類。
     // fileType: fileType,
     isTile: isTile(data), //デバッグ用
 
@@ -29,22 +35,16 @@ export const addDefaultProps = (item) => {
     parameters: {
       depthTest: false, //傾けたときチラつくのを防ぐ。ただし3D的な描画が不可？
     },
-    // updateTriggers: { getPointRadius: "all" },
-    // ToDo loadersの設定を消さないとmvtLayerやterrainが描画できない
-    // loaders: [KMLLoader],
+    highlightColor: [255, 0, 0, 128],
 
     // 点関係
     pointRadiusUnits: "pixels",
     pointRadiusScale: 2,
     getPointRadius: 5,
 
-    // test
-    // extruded: true,
-    // getElevation: 500,
-
     // ライン関係
     lineWidthUnits: "pixels",
-    getLineWidth: (d) => Number(d.properties?.lineWidth) || 3, //地理院のlineWidthは文字列のことがある
+    getLineWidth: (d) => Number(d.properties?.lineWidth) || 2, //地理院のlineWidthは文字列のことがある
     getLineColor: (d) => {
       const src = d?.properties;
       const hex = src?._color || src?.lineColor || src?.stroke || "#000000";
@@ -90,8 +90,13 @@ export const addDefaultProps = (item) => {
     pickable: false,
   };
 
-  // ToDo imageとbitmapの用語
-  const isBitmapTile = isTile(data) && isImage(data);
+  const kmlProps = { loaders: [KMLLoader] };
 
-  return Object.assign({}, mainProps, isBitmapTile && bitmapTileProps, item);
+  return Object.assign(
+    {},
+    mainProps,
+    isBitmapTile && bitmapTileProps,
+    isKml && kmlProps,
+    item
+  );
 };

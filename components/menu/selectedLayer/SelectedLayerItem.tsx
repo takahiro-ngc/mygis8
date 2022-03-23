@@ -1,24 +1,23 @@
 import React from "react";
+
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import ListItem from "@mui/material/ListItem";
-import IconButton from "@mui/material/IconButton";
-import DragHandleIcon from "@mui/icons-material/DragHandle";
-import { isImage } from "../../utils/utility";
-import { TerrainLoader } from "../../../terrain/src";
 import CloseIcon from "@mui/icons-material/Close";
-import LayerControls from "./layerControls/LayerControls";
-
-import PopoverButton from "../../commonUI/PopoverButton";
-import FeatureTable from "./FeatureTable";
+import DragHandleIcon from "@mui/icons-material/DragHandle";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import SettingsIcon from "@mui/icons-material/Settings";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import LayerInfo from "../../commonUI/LayerInfo";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
+
 import { useLayers } from "../../../hooks/useLayers";
-import { ClickAwayListener } from "@mui/material";
-import { TerrainButton } from "./TerrainButton";
+import LayerInfo from "../../commonUI/LayerInfo";
+import PopoverButton from "../../commonUI/PopoverButton";
+import { isImage } from "../../utils/utility";
+import FeatureTable from "./FeatureTable";
+import LayerControls from "./layerControls/LayerControls";
+import TerrainButton from "./TerrainButton";
 
 export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
   // dnd-kitの設定
@@ -30,34 +29,7 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
   };
 
   // const layer = useLayers((state) => state.layers[index]);
-  const toggleLayer = useLayers((state) => state.toggleLayer);
-  const loadedFeature = useLayers((state) => state.loadedFeature);
-  const changeLayerProps = useLayers((state) => state.changeLayerProps);
-  const handleClickAway = () =>
-    changeLayerProps(index, {
-      highlightedObjectIndex: null,
-    });
-
-  const isTerrain = layer.layerType === "TerrainLayer";
-  const toggleTerrain = () => {
-    changeLayerProps(
-      index,
-      isTerrain
-        ? {
-            // hack idを変えないとレイヤーが切り替わらない
-            id: layer.id.replace("_TerrainLayer", ""),
-            layerType: "TileLayer",
-            loaders: null,
-          }
-        : {
-            id: layer.id + "_TerrainLayer",
-            layerType: "TerrainLayer",
-            loaders: [TerrainLoader],
-            texture: layer.data,
-            color: [255, 255, 255, 0],
-          }
-    );
-  };
+  const { deleteLayer, loadedFeature } = useLayers();
 
   return (
     <ListItem
@@ -85,43 +57,23 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
         <DragHandleIcon />
       </IconButton>
 
-      <Typography sx={{ marginRight: "auto", overflowWrap: "anywhere" }}>
+      <Typography sx={{ marginRight: "auto", wordBreak: "break-all" }}>
         {layer.title}
       </Typography>
 
       {isImage(layer.data) && <TerrainButton index={index} />}
 
-      {/* ToDo localGeojson対応 */}
-      {/* {!!loadedFeature[layer.id]?.length && ( */}
-      <ClickAwayListener onClickAway={handleClickAway}>
-        {/* ClickAwayListenerは Needs to be able to hold a ref. */}
-        <div>
-          <PopoverButton
-            button={
-              <IconButton size="small">
-                <ListAltIcon />
-              </IconButton>
-            }
-            width={1000}
-          >
-            <FeatureTable layer={layer} index={index} />
-          </PopoverButton>
-        </div>
-      </ClickAwayListener>
-      {/* )} */}
-
-      {layer.layerType === "EditableGeoJsonLayer" && (
-        <IconButton
-          size="small"
-          onClick={() =>
-            changeLayerProps(index, {
-              onEdit: ({ updatedData }) =>
-                changeLayerProps(index, { data: updatedData }),
-            })
+      {!!loadedFeature[layer.id]?.length && (
+        <PopoverButton
+          button={
+            <IconButton size="small">
+              <ListAltIcon />
+            </IconButton>
           }
+          width={1000}
         >
-          <SettingsIcon />
-        </IconButton>
+          <FeatureTable layer={layer} index={index} />
+        </PopoverButton>
       )}
 
       <PopoverButton
@@ -144,7 +96,7 @@ export function SelectedLayerItem({ id, activeId, index, layer, isDragging }) {
         <LayerInfo node={layer} />
       </PopoverButton>
 
-      <IconButton size="small" onClick={() => toggleLayer(layer.id)}>
+      <IconButton size="small" onClick={() => deleteLayer(layer.id)}>
         <CloseIcon />
       </IconButton>
     </ListItem>

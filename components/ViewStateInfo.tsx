@@ -1,10 +1,13 @@
+import React from "react";
+
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+
 import useViewState from "../hooks/useViewState";
 
-export default function BottomInfo() {
-  // const lat = hoverdFeature?.coordinate?.[1].toFixed(6);
-  // const lon = hoverdFeature?.coordinate?.[0].toFixed(6);
-  const zoom = useViewState((state) => state.zoom).toFixed(0);
+const ViewStateInfo = () => {
+  const { zoom } = useViewState();
+  const formattedZoom = zoom.toFixed(0);
 
   return (
     <Box
@@ -17,8 +20,9 @@ export default function BottomInfo() {
         padding: "2px",
       }}
     >
-      {/* {lat && `緯度/経度=${lat} ${lon} `} */}
-      zoom={zoom}
+      <Typography>zoom={formattedZoom}</Typography>
     </Box>
   );
-}
+};
+
+export default React.memo(ViewStateInfo);

@@ -14,10 +14,9 @@ import { useLayers } from "../../hooks/useLayers";
 import LayerInfo from "../commonUI/LayerInfo";
 import PopoverButton from "../commonUI/PopoverButton";
 import { layerList } from "../layer/layerList";
-import "simplebar/dist/simplebar.min.css";
 
 const LayerTree = () => {
-  const toggleLayer = useLayers(useCallback((state) => state.toggleLayer, []));
+  const { toggleLayer } = useLayers();
   const renderTree = (nodes) =>
     nodes.map((node, index) => {
       const key = node.category + node.title + index;

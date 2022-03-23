@@ -22,18 +22,19 @@
 ・terrainのminzoom問題
 
 〇ToDo
-・importの様々な拡張子 shape csv（ポイントのみ）
 ・ソースの整理
 　デフォルトプロパティの精査と統一
+　メソッドチェーン
 　タイプスクリプト
 ・データの充実，メタ情報 
 ・共有用url
+　viewState,layerid,terrain,色等
 ・赤色立体地図の権利処理
 ・usegeolocation
-・マスク
 ・テキスト選択でカクつき
-・背景色
 ・importデータのlayercontrol
+dnd
+コンソールエラー
 
 〇リンク集
 ・地理院地図
@@ -61,6 +62,7 @@ workerオフにして独自ローダーを試す
  ・エンコードは，shift-jis等にする，または自動で判別する
 
 〇インポート
+・flatgeobufのインポート
 ・zipファイル→展開
 ・フォルダがあった場合，さらに展開（標準機能かも）
 ・国土数値情報の独特のzip構成対応
@@ -78,6 +80,8 @@ workerオフにして独自ローダーを試す
 
 （４）優先度中
 ・地理院のクリックしても無反応データd.src===""?
+・背景色
+・マスク
 
 ・FeatureTabelは下に表示
 geojsonbufの利用

@@ -2436,7 +2436,7 @@
   resolved "https://registry.yarnpkg.com/@types/flatbuffers/-/flatbuffers-1.10.0.tgz#aa74e30ffdc86445f2f060e1808fc9d56b5603ba"
   integrity sha512-7btbphLrKvo5yl/5CC2OCxUSMx1wV1wvGT1qDXkSt7yi00/YW7E8k6qzXqJHsp+WU0eoG7r6MTQQXI9lIvd0qA==
 
-"@types/geojson@7946.0.8", "@types/geojson@^7946.0.7":
+"@types/geojson@*", "@types/geojson@7946.0.8", "@types/geojson@^7946.0.7":
   version "7946.0.8"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
   integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
@@ -2544,6 +2544,14 @@
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
+
+"@types/shpjs@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@types/shpjs/-/shpjs-3.4.1.tgz#191d7584c867ddfaa0896fe71dc46192a0e78b68"
+  integrity sha512-xdJ65Zp2wslzyKKAid+PPl7Hxz5+eFS7W5G42RfryoJRk2u0CA+5jtX3wBgZhmz1s/mGX0PWzmKCBYTYgRsELg==
+  dependencies:
+    "@types/geojson" "*"
+    "@types/node" "*"
 
 "@types/text-encoding-utf-8@^1.0.1":
   version "1.0.2"
@@ -3673,6 +3681,11 @@ geojson-types@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/geojson-types/-/geojson-types-2.0.1.tgz#91040649b7ad39b2904643bd9ad51e5e86d524e3"
   integrity sha1-kQQGSbetObKQRkO9mtUeXobVJOM=
+
+geojson-vt@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/geojson-vt/-/geojson-vt-3.2.1.tgz#f8adb614d2c1d3f6ee7c4265cad4bbf3ad60c8b7"
+  integrity sha512-EvGQQi/zPrDA6zr6BnJD/YhwAkBP8nnJ9emh3EnHQKVMfg/MRVtPbMYdgVy/IaEmn4UfagD2a6fafPDL5hbtwg==
 
 geojson@0.5.0:
   version "0.5.0"

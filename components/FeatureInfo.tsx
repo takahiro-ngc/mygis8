@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 import ReactHtmlParser from "react-html-parser";
 import SimpleBar from "simplebar-react";
@@ -13,50 +12,42 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { mediaQuery } from "./utils/utility";
 import CloseButton from "./commonUI/CloseButton";
 import { isImage } from "./utils/utility";
-import "simplebar/dist/simplebar.min.css";
-import { useLayers } from "../hooks/useLayers";
 
 const FeatureInfo = ({ clickedFeature, setClickedFeature }) => {
   const isMediaQuery = useMediaQuery(mediaQuery);
 
-  // const lat = clickedFeature?.object?.geometry?.coordinates[1];
-  // const lon = clickedFeature?.object?.geometry?.coordinates[0];
-  const lat = clickedFeature?.coordinate[1].toFixed(6);
-  const lon = clickedFeature?.coordinate[0].toFixed(6);
+  const lat = clickedFeature?.coordinate?.[1].toFixed(6);
+  const lon = clickedFeature?.coordinate?.[0].toFixed(6);
 
   const FeatureProperties = {
-    "緯度・経度": `${lat} ${lon}`,
+    "緯度・経度": `${lat}　${lon}`,
     レイヤー名: clickedFeature?.layer?.props?.title,
     ...clickedFeature?.object?.properties,
   };
 
   const showImage = (url) => (
-    // ToDo display block
     <div>
       <a href={url} target="_blank" rel="noreferrer">
-        <Image src={url} width={"100%"} alt="サムネイル画像" />
+        <img src={url} width="100%" alt="サムネイル画像" />
       </a>
     </div>
   );
 
-  const isStyleInfo = (key) => key.startsWith("_"); //_colorや_opacityなどのプロパティが地理院レイヤーにある
+  const isStyleInfo = (key) => key.startsWith("_"); //地理院レイヤーの_colorや_opacityなど
   const isUndefined = (value) => value === undefined;
   const shouldRender = (key, value) => !isStyleInfo(key) && !isUndefined(value);
 
-  const isEditing = useLayers((state) => state.isEditing);
-  const hidden = !clickedFeature || isEditing;
   return (
     <SimpleBar
-      hidden={hidden}
+      hidden={!clickedFeature}
       style={{
         position: "absolute",
-        // top: 0,
         right: 0,
         width: "clamp(320px, 25vw, 420px)",
         maxHeight: "100%",
         zIndex: 2,
         ...(isMediaQuery && {
-          minWidth: "100%",
+          width: "100%",
           maxHeight: "calc(50% + 24px)",
         }),
       }}

@@ -26,7 +26,7 @@ const PopoverButton = ({
         <span onClick={handleClick}>{button}</span>
 
         <Popper
-          className="acrylic-color-dark"
+          className="color-dark"
           open={open}
           anchorEl={anchorEl}
           placement={placement}
@@ -39,6 +39,7 @@ const PopoverButton = ({
             overflow: "auto",
             wordBreak: "break-all",
             borderRadius: 8,
+            backgroundColor: "background.default",
           }}
           transition
           onClick={(e) => e.stopPropagation()} //treeの開閉を防ぐ

@@ -1,25 +1,27 @@
 import DeckGL from "deck.gl";
 import React from "react";
 
-import { makeLayerInstance } from "../components/utils/utility";
+import { createLayerInstance } from "../components/utils/utility";
+import useClickedFeature from "../hooks/useFeature";
+import useFeature from "../hooks/useFeature";
 import { useLayers } from "../hooks/useLayers";
 import useViewState from "../hooks/useViewState";
 
 export const Map = ({ setClickedFeature }) => {
-  const viewState = useViewState((state) => state);
-  const setViewState = useViewState((state) => state.setViewState);
+  const viewState = useViewState();
+  const { setViewState } = useViewState();
   const onViewStateChange = ({ viewState }) => setViewState(viewState);
 
-  const layers = useLayers((state) => state.layers);
-  const reversedLayer = [...layers].reverse(); //reverseは破壊的メソッドのため注意
-  const layerInstance = reversedLayer.map((item) => makeLayerInstance(item));
-  const changeLayerProps = useLayers((state) => state.changeLayerProps);
+  const { layers, loadedFeature } = useLayers();
+  const reversedLayer = [...layers].reverse();
+  const layerInstance = reversedLayer.map((item) => createLayerInstance(item));
+
   const onClick = (info, e) => {
     setClickedFeature(info);
 
-    // changeLayerProps(0, { selectedFeatureIndexes: [info.index] });
     console.log(info);
     console.log(layers);
+    console.log(loadedFeature);
     e.preventDefault();
   };
 
@@ -29,15 +31,15 @@ export const Map = ({ setClickedFeature }) => {
       onContextMenu={(e) => e.preventDefault()} //右クリックメニューの抑止
     >
       <DeckGL
-        controller={{
-          doubleClickZoom: false,
-        }}
         layers={layerInstance}
-        // controller={{
-        //   inertia: true,
-        //   scrollZoom: { speed: 0.05, smooth: true },
-        //   touchRotate: true,
-        // }}
+        getCursor={({ isDragging, isHovering }) =>
+          isDragging ? "grabbing" : isHovering ? "pointer" : "grab"
+        }
+        controller={{
+          inertia: true,
+          scrollZoom: { speed: 0.05, smooth: true },
+          touchRotate: true,
+        }}
         onClick={onClick}
         viewState={viewState}
         onViewStateChange={onViewStateChange}

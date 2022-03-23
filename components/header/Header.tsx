@@ -10,11 +10,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Import from "./Import";
 import PopoverButton from "../commonUI/PopoverButton";
 import { mediaQuery } from "../utils/utility";
-import Edit from "../Edit";
 import Faq from "./Faq";
 import { useLayers } from "../../hooks/useLayers";
-import { ViewMode } from "nebula.gl";
-import { isEditingCondition } from "../utils/utility";
 
 const Header = () => {
   const isMediaQuery = useMediaQuery(mediaQuery);

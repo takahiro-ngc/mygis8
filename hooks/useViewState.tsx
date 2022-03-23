@@ -12,6 +12,7 @@ const defaultViewState = {
   longitude: 139.7673068,
   latitude: 35.6809591,
   bearing: 0,
+  pitch: 0,
   zoom: 15,
   minZoom: 0, //遠景
   maxZoom: 17.499, //近景 地理院地図（ラスター）は17.5未満が最大
@@ -30,6 +31,7 @@ const useViewState = create((set) => ({
   jump: (position) =>
     set((viewState) => ({
       ...viewState,
+      ...jumpSetting,
       longitude: position[0],
       latitude: position[1],
     })),

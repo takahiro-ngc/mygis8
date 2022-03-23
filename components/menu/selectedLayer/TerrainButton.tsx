@@ -1,39 +1,42 @@
 import React from "react";
+
+import { Stack, Switch, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import { TerrainLoader } from "../../../terrain/src";
+
+import { findLayer } from "../../../components/layer/layerList";
 import { useLayers } from "../../../hooks/useLayers";
-import { Typography } from "@mui/material";
+import { TerrainLoader } from "../../../terrain/src";
 import PopoverButton from "../../commonUI/PopoverButton";
-import { Switch } from "@mui/material";
-import { Stack } from "@mui/material";
-export function TerrainButton({ index }) {
+
+const TerrainButton = ({ index }) => {
   const layer = useLayers((state) => state.layers[index]);
-  const changeLayerProps = useLayers((state) => state.changeLayerProps);
+  const { changeLayerProps } = useLayers();
 
   const isTerrain = layer?.layerType === "TerrainLayer";
-  const toggleTerrain = () => {
-    const currentMaxZoom = layer.maxZoom;
-    const originalMaxZoom = layer.originalMaxZoom;
-    changeLayerProps(
-      index,
-      isTerrain
-        ? {
-            // hack idを変えないとレイヤーが切り替わらない
-            id: layer.id.replace("_TerrainLayer", ""),
-            layerType: "TileLayer",
-            loaders: null,
-            maxZoom: originalMaxZoom,
-          }
-        : {
-            id: layer.id + "_TerrainLayer",
-            layerType: "TerrainLayer",
-            loaders: [TerrainLoader],
-            texture: layer.data,
-            maxZoom: 15, //標高データの対象は15まで
-            originalMaxZoom: currentMaxZoom,
-          }
-    );
+  const originalMaxZoom = findLayer(layer.id)?.maxZoom;
+
+  const setTerrain = () => {
+    changeLayerProps(index, {
+      // Hack idを変えないとDeck.glがlayerTypeの変更を検知しない
+      id: layer.id + Math.random(),
+      layerType: "TerrainLayer",
+      loaders: [TerrainLoader],
+      texture: layer.data,
+      //標高データの対象は15まで。Math.minは、nullが0に暗黙の型変換が行われるので注意。
+      maxZoom: Math.min(15, originalMaxZoom) || 15,
+    });
+    // 変更したidを元に戻す
+    setTimeout(changeLayerProps, 1, index, { id: layer.id });
   };
+
+  const returnTerrain = () =>
+    changeLayerProps(index, {
+      layerType: "TileLayer",
+      loaders: null,
+      maxZoom: originalMaxZoom,
+    });
+
+  const toggleTerrain = isTerrain ? returnTerrain : setTerrain;
 
   return (
     <PopoverButton
@@ -43,25 +46,28 @@ export function TerrainButton({ index }) {
         </IconButton>
       }
     >
-      <Stack spacing={2} direction="row" alignItems="center">
-        <Typography>3D化</Typography>
+      <Stack spacing={1} direction="row" alignItems="center">
+        <Typography>3D</Typography>
         <Switch checked={isTerrain} onChange={toggleTerrain} />
       </Stack>
 
-      <Typography marginTop={1}>地図の傾け方</Typography>
-      <Typography>
-        PC：右ドラッグ（またはShiftキーを押しながらドラッグ）
-        <Typography>スマホ：三本指で上下にスワイプ</Typography>
+      <Typography>地図の傾け方</Typography>
+      <Typography marginBottom={1}>
+        ・右ドラッグ（またはCtrlキーを押しながらドラッグ）
+        <br />
+        ・三本指で上下にスワイプ
       </Typography>
 
-      <Typography marginTop={1}>
-        2Dの方が詳細を表示できることがあります。
+      <Typography>備考</Typography>
+      <Typography marginBottom={1}>
+        ・2Dの方が詳細を表示できることがあります。
+        <br />
+        ・日本陸域のみ表示されます。
       </Typography>
-      <Typography>日本陸域のみ表示されます。</Typography>
-      <Typography variant="body2" marginTop={1}>
-        標高データの出典
-      </Typography>
-      <Typography variant="body2">
+
+      <Typography>標高データの出典</Typography>
+
+      <Typography>
         産業技術総合研究所の
         <a
           href="https://gbank.gsj.jp/seamless/elev/"
@@ -81,6 +87,6 @@ export function TerrainButton({ index }) {
       </Typography>
     </PopoverButton>
   );
-}
+};
 
 export default React.memo(TerrainButton);

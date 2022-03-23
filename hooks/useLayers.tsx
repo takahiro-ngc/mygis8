@@ -1,101 +1,36 @@
 import { findLayer } from "../components/layer/layerList";
 import { addDefaultProps } from "../components/layer/addDefaultProps";
 import create from "zustand";
-import { makeLayerInstance } from "../components/utils/utility";
-import { isEditingCondition } from "../components/utils/utility";
-import {
-  EditableGeoJsonLayer,
-  SelectionLayer,
-  ModifyMode,
-  ResizeCircleMode,
-  TranslateMode,
-  TransformMode,
-  ScaleMode,
-  RotateMode,
-  DuplicateMode,
-  ExtendLineStringMode,
-  SplitPolygonMode,
-  ExtrudeMode,
-  ElevationMode,
-  DrawPointMode,
-  DrawLineStringMode,
-  DrawPolygonMode,
-  DrawRectangleMode,
-  DrawSquareMode,
-  DrawRectangleFromCenterMode,
-  DrawSquareFromCenterMode,
-  DrawCircleByDiameterMode,
-  DrawCircleFromCenterMode,
-  DrawEllipseByBoundingBoxMode,
-  DrawEllipseUsingThreePointsMode,
-  DrawRectangleUsingThreePointsMode,
-  Draw90DegreePolygonMode,
-  DrawPolygonByDraggingMode,
-  MeasureDistanceMode,
-  MeasureAreaMode,
-  MeasureAngleMode,
-  ViewMode,
-  CompositeMode,
-  SnappableMode,
-  ElevatedEditHandleLayer,
-  PathMarkerLayer,
-  SELECTION_TYPE,
-  GeoJsonEditMode,
-} from "nebula.gl";
 
-const mode = {
-  ModifyMode,
-  ResizeCircleMode,
-  TranslateMode,
-  TransformMode,
-  ScaleMode,
-  RotateMode,
-  DuplicateMode,
-  ExtendLineStringMode,
-  SplitPolygonMode,
-  ExtrudeMode,
-  ElevationMode,
-  DrawPointMode,
-  DrawLineStringMode,
-  DrawPolygonMode,
-  MeasureDistanceMode,
-  MeasureAreaMode,
-  MeasureAngleMode,
-  ViewMode,
-  CompositeMode,
-  SnappableMode,
-  ElevatedEditHandleLayer,
-  PathMarkerLayer,
-  GeoJsonEditMode,
-};
 export const useLayers = create((set, get) => {
   const setLoadedFeature = (data) =>
     set((state) => ({
       loadedFeature: { ...state.loadedFeature, ...data },
     }));
 
-  const defaultLayerId1 = "experimental_anno";
-  const defaultLayerId2 = "pale";
-  const defaultLayers = [defaultLayerId1, defaultLayerId2];
-  const makeLayerProp = (layerId: string) => {
-    const addStoredDataProp = (original) => ({
-      ...original,
-      onDataLoad: (data) => setLoadedFeature({ [layerId]: data?.features }),
-      onViewportLoad: (data) => {
-        const features = data.flatMap((d) => d?.content?.features || []);
-        setLoadedFeature({ [layerId]: features });
-      },
-    });
-
-    const layer1 = findLayer(layerId);
-    const layer2 = addDefaultProps(layer1);
-    const layer3 = addStoredDataProp(layer2);
-    return layer3;
+  const addStoredDataProp = (currentProps) => ({
+    ...currentProps,
+    onDataLoad: (data) => {
+      console.log(data);
+      setLoadedFeature({ [currentProps.id]: data?.features });
+    },
+    onViewportLoad: (data) => {
+      console.log(data);
+      const features = data.flatMap(
+        (d) => d?.content?.features || d?.content || []
+        // (d) => d?.content?.features || d?.content || []
+      );
+      setLoadedFeature({ [currentProps.id]: features });
+    },
+  });
+  const addLayerProps = (layer) => {
+    const layer1 = addDefaultProps(layer);
+    const layer2 = addStoredDataProp(layer1);
+    return layer2;
   };
-  const layers = defaultLayers.map((layerId: string) => makeLayerProp(layerId));
 
   const addLayer = (layerId: string) => {
-    const newLayer = makeLayerProp(layerId);
+    const newLayer = addLayerProps(findLayer(layerId));
     set((state) => ({ layers: [newLayer, ...state.layers] }));
   };
 
@@ -111,7 +46,10 @@ export const useLayers = create((set, get) => {
       hasSameLayerInPrev ? deleteLayer(layerId) : addLayer(layerId);
     });
 
-  const setLayers = (newState) => set({ layers: newState });
+  const setLayers = (layers) => {
+    const newLayers = layers.map((layer) => addLayerProps(layer));
+    set({ layers: newLayers });
+  };
 
   const changeLayerProps = (indexOrId, newProps) =>
     set((state) => {
@@ -124,7 +62,11 @@ export const useLayers = create((set, get) => {
       newLayers[index] = newLayer;
       return { layers: newLayers };
     });
-
+  const defaultLayerId1 = "experimental_anno";
+  const defaultLayerId2 = "pale";
+  const defaultLayerIds = [defaultLayerId1, defaultLayerId2];
+  const defaultLayers = defaultLayerIds.map((layerId) => findLayer(layerId));
+  const layers = defaultLayers.map((layer) => addLayerProps(layer));
   // const changeLayerProps = (index, newProps) =>
   // set((state) => {
   //   const newLayer = { ...state.layers[index], ...newProps };
@@ -133,74 +75,8 @@ export const useLayers = create((set, get) => {
   //   return { layers: newLayers };
   // });
 
-  const editableLayer = addDefaultProps({
-    layerType: "EditableGeoJsonLayer",
-    id: new Date().toLocaleString(),
-    data: {
-      type: "FeatureCollection",
-      features: [],
-    },
-    mode: DrawPolygonMode,
-    selectedFeatureIndexes: [],
-    title: new Date().toLocaleString(),
-    onEdit: ({ updatedData }) => {
-      changeLayerProps(0, {
-        data: updatedData,
-      });
-    },
-    autoHighlight: false, //falseにすればあのバグなし
-    // updateTriggers: { mode: true },
-  });
-  const addEditableLayer = () => {
-    const id = new Date().toLocaleTimeString() + "の計測・作図";
-    set((state) => ({
-      layers: [
-        {
-          ...editableLayer,
-          id: id,
-          title: id,
-          onEdit: ({ updatedData }) =>
-            changeLayerProps(id, {
-              data: updatedData,
-            }),
-        },
-        ...state.layers,
-      ],
-    }));
-  };
-  const ableEdit = (index) => {
-    changeLayerProps(index, { mode: DrawPolygonMode, autoHighlight: false });
-    // set({ isEditing: true });
-  };
-  const disableEdit = () => {
-    const disableEditProps = (layer) =>
-      layer.layerType === "EditableGeoJsonLayer"
-        ? {
-            ...layer,
-            mode: ViewMode,
-            autoHighlight: true,
-          }
-        : layer;
-
-    set((state) => ({
-      layers: state.layers.map((layer) => disableEditProps(layer)),
-      // isEditing: false,
-    }));
-  };
-
-  const currentEditLayerIndex = layers.findIndex(
-    (layer) =>
-      layer.layerType === "EditableGeoJsonLayer" && layer.mode !== ViewMode
-  );
-
-  const getIsEditing = () => get().layers.some(isEditingCondition);
-
   return {
     layers,
-    getIsEditing,
-
-    ableEdit,
-    disableEdit,
     addLayer,
     loadedFeature: {},
     setLoadedFeature,
@@ -208,6 +84,5 @@ export const useLayers = create((set, get) => {
     toggleLayer,
     setLayers,
     changeLayerProps,
-    addEditableLayer,
   };
 });

@@ -1,13 +1,8 @@
-// ユーティリティ
-// import * as d3 from "d3";
 import * as turf from "@turf/turf";
-// import Color from "./layerData/node_modules/color";
 import { MVTLayer, TerrainLayer, TileLayer } from "@deck.gl/geo-layers";
-import { ColumnLayer, GeoJsonLayer } from "@deck.gl/layers";
-import { EditableGeoJsonLayer } from "nebula.gl";
-import { ViewMode } from "nebula.gl";
+import { GeoJsonLayer } from "@deck.gl/layers";
 
-export const makeLayerInstance = (layer) => {
+export const createLayerInstance = (layer) => {
   switch (layer.layerType) {
     case "TileLayer":
       return new TileLayer(layer);
@@ -17,12 +12,11 @@ export const makeLayerInstance = (layer) => {
       return new TerrainLayer(layer);
     case "MVTLayer":
       return new MVTLayer(layer);
-    case "EditableGeoJsonLayer":
-      return new EditableGeoJsonLayer(layer);
   }
 };
 
 export const mediaQuery = "(max-width:600px)";
+
 // 中心座標を求める方法は，https://observablehq.com/@pessimistress/deck-gl-custom-layer-tutorial
 // のgetLabelAnchorsを参考にし，さらにcase "LineString"を追加
 export const getCenterPosition = (feature) => {
@@ -73,9 +67,6 @@ export const addCenterPosition = (data) => {
 };
 export const roundToSix = (num) => +(Math.round(num + "e+6") + "e-6");
 
-export const isEditingCondition = (layer) =>
-  layer.layerType === "EditableGeoJsonLayer" && layer.mode !== ViewMode;
-
 export const imgFileType = [
   "png",
   "jpg",
@@ -97,11 +88,6 @@ export const isImage = (value) => imgFileType.includes(getFileType(value));
 export const getFileTypeCategory = (value) =>
   isImage(value) ? "bitmap" : getFileType(value);
 
-//   export const getLayerType=(url)=>{
-// const isTile=isTile(url)
-
-//   }
-
 export const unique = (array) => [...new Set(array)];
 
 export const isValidUrl = (url) => {
@@ -116,8 +102,10 @@ export const isTile = (url) => {
   return d.includes("{x}") && d.includes("{y}") && d.includes("{z}");
 };
 
-// https://lab.syncer.jp/Web/JavaScript/Snippet/61/
 export function hex2rgb(hex: string) {
+  // hex2rgb( "#ff8040" ) > [ 255, 128, 64 ]
+  // hex2rgb( "#f00" ) > [ 255, 0, 0 ]
+  // hex2rgb( "f00" ) > [ 255, 0, 0 ]
   if (hex.slice(0, 1) == "#") hex = hex.slice(1);
   if (hex.length == 3)
     hex =
@@ -134,11 +122,9 @@ export function hex2rgb(hex: string) {
     return parseInt(str, 16);
   });
 }
-// hex2rgb( "#ff8040" ) ;	// [ 255, 128, 64 ]
-// hex2rgb( "#f00" ) ;	// [ 255, 0, 0 ]
-// hex2rgb( "f00" ) ;	// [ 255, 0, 0 ]
 
 export function rgb2hex(rgb) {
+  // rgb2hex( [ 255, 128, 64 ] ) > #ff8040
   return (
     "#" +
     rgb
@@ -148,47 +134,3 @@ export function rgb2hex(rgb) {
       .join("")
   );
 }
-// rgb2hex( [ 255, 128, 64 ] ) ;	// #ff8040
-
-// 説明 正規化関数
-// 参考 https://zukucode.com/2017/04/javascript-object-max.html
-// 参考 https://qiita.com/ndj/items/82e9c5a4518fe16e539f
-
-// const calcMax = (source, index) => {
-//   const aryMax = (a, b) => Math.max(a, b);
-//   const numberAry = source.features.map((p) => p.properties[index]);
-//   let max = numberAry.reduce(aryMax);
-//   return max;
-// };
-// const calcMin = (source, index) => {
-//   const aryMin = (a, b) => Math.min(a, b);
-//   const numberAry = source.features.map((p) => p.properties[index]);
-//   let min = numberAry.reduce(aryMin);
-//   return min;
-// };
-
-// export const normarize = (data, source, index) => {
-//   let max = calcMax(source, index);
-//   let min = calcMin(source, index);
-//   // 補足 線形 scaleLinear 対数 scaleLog
-//   // 参考 https://www.d3indepth.com/scales/
-//   const normarizeFunc = d3.scaleLog().domain([min, max]).range([0, 1]); // 関数の定義
-//   const norm = normarizeFunc(data);
-//   const rgb = d3.interpolateRainbow(norm); // rgb(x,y,z)
-//   return Color.rgb(rgb).array(); // [x,y,z];
-// };
-
-// export const centroidLonLat = (data) => {
-//   const centroid = turf.centroid(data);
-//   const longitude = centroid.geometry.coordinates[0];
-//   const latitude = centroid.geometry.coordinates[1];
-//   return { longitude: longitude, latitude: latitude };
-// };
-
-// キャラクターセットの取得
-// const getData = () => {
-// fetch("h27ka_snap_clean_prevrem_1p.json")
-// .then((response) => response.json())
-// .then((d) => getCharacterSet(d, "S_NAME"))
-// .then((d) => JSON.stringify(d))
-// .then((d) => console.log(d));

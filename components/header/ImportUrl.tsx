@@ -1,17 +1,17 @@
 import React, { useState } from "react";
+
+import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { isValidUrl, isTile } from "../utils/utility";
 import Typography from "@mui/material/Typography";
-import ImportFile from "./ImportFile";
+
 import { useLayers } from "../../hooks/useLayers";
-import { Box } from "@mui/material";
-import { addDefaultProps } from "../layer/addDefaultProps";
+import { isTile, isValidUrl } from "../utils/utility";
 
 export default function ImportUrl() {
-  const setLayers = useLayers((state) => state.setLayers);
+  const { layers, setLayers } = useLayers();
   const [url, setUrl] = useState();
-  const [helperText, setHelperText] = useState("");
+  const [helperText, setHelperText] = useState();
   const isValid = (url) => isValidUrl(url) && isTile(url);
 
   const errorMsg = (url) =>
@@ -23,8 +23,11 @@ export default function ImportUrl() {
     setUrl(e.target.value);
     setHelperText(errorMsg(e.target.value));
   };
-  const layers = useLayers((state) => state.layers);
-
+  const newLayer = {
+    data: url,
+    id: url,
+    title: url,
+  };
   return (
     <>
       <Typography variant="h5" component="h1" style={{ marginBottom: 8 }}>
@@ -74,11 +77,6 @@ export default function ImportUrl() {
             disabled={!isValid(url)}
             style={{ marginTop: 4 }}
             onClick={() => {
-              const newLayer = addDefaultProps({
-                data: url,
-                id: url,
-                title: url,
-              });
               setLayers([newLayer, ...layers]);
               setHelperText("読み込みました。");
               setUrl("");

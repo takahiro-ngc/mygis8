@@ -3,20 +3,18 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
-import BottomInfo from "../components/BottomInfo";
+import ViewStateInfo from "../components/ViewStateInfo";
 import FeatureInfo from "../components/FeatureInfo";
 import Header from "../components/header/Header";
 import Map from "../components/Map";
 import Menu from "../components/menu/Menu";
-import { useLayers } from "../hooks/useLayers";
 
 const Home = () => {
   const [clickedFeature, setClickedFeature] = useState(null);
 
   return (
-    <Stack sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
+    <Stack sx={{ height: "100vh", width: "100vw" }}>
       <Header />
-
       <Box height="100%" position="relative">
         <Menu />
         <Map setClickedFeature={setClickedFeature} />
@@ -24,8 +22,7 @@ const Home = () => {
           clickedFeature={clickedFeature}
           setClickedFeature={setClickedFeature}
         />
-
-        <BottomInfo />
+        <ViewStateInfo />
       </Box>
     </Stack>
   );

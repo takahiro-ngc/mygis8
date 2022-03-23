@@ -11,23 +11,20 @@ import {
 
 import { useLayers } from "../../../hooks/useLayers";
 import useViewState from "../../../hooks/useViewState";
-import { getCenterPosition, roundToSix } from "../../utils/utility";
-import { CustomPagination, CustomToolbar } from "./DataGridCompornent";
+import { getCenterPosition, unique, getFileType } from "../../utils/utility";
 import renderCellExpand from "./renderCellExpand";
 
 const FeatureTable = ({ layer, index }) => {
-  const jump = useViewState((state) => state.jump);
+  const { jump } = useViewState();
+  const isMapboxFile =
+    getFileType(layer.data) === "pbf" || getFileType(layer.data) === "mvt";
 
-  const isLocalGeojson = layer.data?.type === "FeatureCollection";
-  // const test = layer.data?.type.resolve(result);
   const loadedFeature = useLayers((state) => state.loadedFeature[layer.id]);
-  // const features = test;
-  const features = isLocalGeojson ? layer.data.features : loadedFeature;
-  // const features = useLayers((state) => state.loadedFeature[layer.id]);
-  const changeLayerProps = useLayers((state) => state.changeLayerProps);
+  const features = loadedFeature;
+  // const features = isDirectData ? layer.data.features : loadedFeature;
 
   const keyList = features?.flatMap((d) => Object.keys(d?.properties));
-  const uniqueKeyList = Array.from(new Set(keyList));
+  const uniqueKeyList = unique(keyList);
   const mainColumns: GridColDef[] = uniqueKeyList.map((d) => ({
     field: d,
     headerName: d,
@@ -35,23 +32,6 @@ const FeatureTable = ({ layer, index }) => {
     renderCell: renderCellExpand,
   }));
 
-  const geometryColumns = [
-    {
-      field: "geometryType",
-      headerName: "geometry type",
-      renderCell: renderCellExpand,
-    },
-    {
-      field: "longitude",
-      headerName: "中心の経度",
-      renderCell: renderCellExpand,
-    },
-    {
-      field: "latitude",
-      headerName: "中心の緯度",
-      renderCell: renderCellExpand,
-    },
-  ];
   const indexColumns = {
     field: "id",
     headerName: "Index",
@@ -67,37 +47,28 @@ const FeatureTable = ({ layer, index }) => {
       <IconButton
         size="small"
         onClick={(e) => {
-          jump([params.row.longitude, params.row.latitude]);
+          const centerPosition = getCenterPosition(features[params.id]);
+          jump(centerPosition);
+          console.log(params);
+          console.log(centerPosition);
         }}
       >
         <PlaceIcon />
       </IconButton>
     ),
   };
-  const columns = [
-    moveColumns,
-    indexColumns,
-    ...geometryColumns,
-    ...mainColumns,
-  ];
+
+  // pbfファイルから取得する座標は、基準座標からの相対座標になるようで、絶対座標への変換方法が不明のため、一部項目を除外
+  const columns = isMapboxFile
+    ? [indexColumns, ...mainColumns]
+    : [moveColumns, indexColumns, ...mainColumns];
 
   const rows = features?.map((d, index) => {
-    const geometryType = d.geometry.type;
-    const centerPosition = getCenterPosition(d);
-    // const coordinates = d.geometry.coordinates;
-    const longitude = roundToSix(centerPosition[0]);
-    const latitude = roundToSix(centerPosition[1]);
-
     return {
       id: index,
-      geometryType,
-      longitude,
-      latitude,
       ...d?.properties,
     };
   });
-
-  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
   return (
     <div>
@@ -109,17 +80,9 @@ const FeatureTable = ({ layer, index }) => {
           Toolbar: GridToolbar,
         }}
         hideFooterSelectedRowCount
-        onSelectionModelChange={(newSelectionModel) => {
-          setSelectionModel(newSelectionModel);
-          changeLayerProps(index, {
-            highlightedObjectIndex: newSelectionModel[0],
-          });
-        }}
-        selectionModel={selectionModel}
         style={{ height: "700px", maxHeight: "37vh" }}
         headerHeight={30}
         rowHeight={30}
-        onCellFocusOut={() => console.log("bjnkml")}
       />
 
       <Typography variant="caption">
