@@ -13,7 +13,7 @@ const TerrainButton = ({ index }) => {
   const { changeLayerProps } = useLayers();
 
   const isTerrain = layer?.layerType === "TerrainLayer";
-  const originalMaxZoom = findLayer(layer.id)?.maxZoom;
+  const originalMaxZoom = findLayer(layer?.id)?.maxZoom;
 
   const setTerrain = () => {
     changeLayerProps(index, {
@@ -26,7 +26,7 @@ const TerrainButton = ({ index }) => {
       maxZoom: Math.min(15, originalMaxZoom) || 15,
     });
     // 変更したidを元に戻す
-    setTimeout(changeLayerProps, 1, index, { id: layer.id });
+    setTimeout(changeLayerProps, 1000, index, { id: layer.id });
   };
 
   const returnTerrain = () =>
