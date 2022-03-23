@@ -46,7 +46,7 @@ const TerrainButton = ({ index }) => {
         </IconButton>
       }
     >
-      <Stack spacing={1} direction="row" alignItems="center">
+      <Stack spacing={1} direction="row" alignItems="center" marginBottom={1}>
         <Typography>3D</Typography>
         <Switch checked={isTerrain} onChange={toggleTerrain} />
       </Stack>

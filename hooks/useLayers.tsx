@@ -1,8 +1,9 @@
 import { findLayer } from "../components/layer/layerList";
 import { addDefaultProps } from "../components/layer/addDefaultProps";
 import create from "zustand";
+import { isImage } from "../components/utils/utility";
 
-export const useLayers = create((set, get) => {
+export const useLayers = create((set) => {
   const setLoadedFeature = (data) =>
     set((state) => ({
       loadedFeature: { ...state.loadedFeature, ...data },
@@ -16,11 +17,11 @@ export const useLayers = create((set, get) => {
     },
     onViewportLoad: (data) => {
       console.log(data);
+      const isImageData = isImage(currentProps.data);
       const features = data.flatMap(
         (d) => d?.content?.features || d?.content || []
-        // (d) => d?.content?.features || d?.content || []
       );
-      setLoadedFeature({ [currentProps.id]: features });
+      !isImageData && setLoadedFeature({ [currentProps.id]: features });
     },
   });
   const addLayerProps = (layer) => {

@@ -31,7 +31,7 @@
 　viewState,layerid,terrain,色等
 ・赤色立体地図の権利処理
 ・usegeolocation
-・テキスト選択でカクつき
+・テキスト選択でカクつき settimeout terrainbuttonの応用
 ・importデータのlayercontrol
 dnd
 コンソールエラー
