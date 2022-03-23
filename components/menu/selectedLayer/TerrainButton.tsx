@@ -26,7 +26,7 @@ const TerrainButton = ({ index }) => {
       maxZoom: Math.min(15, originalMaxZoom) || 15,
     });
     // 変更したidを元に戻す
-    setTimeout(changeLayerProps, 1000, index, { id: layer.id });
+    // setTimeout(changeLayerProps, 1000, index, { id: layer.id });
   };
 
   const returnTerrain = () =>
